@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,800;0,900;1,100;1,600;1,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+
+    <div class="wrapper">
+        <!-----------Side Bar Start----------->
+        <div class="sidebar">
+            <div class="sidebar-head">
+                <img src="~/images/admin.jpg" alt="Alternate Text" />
+                <p>Admin@gmail.com</p>
+            </div>
+            <div class="sidebar-body">
+                <ul>
+                    <li>
+                        <a href="#" class="dropdown2"><i class="fas fa-users"></i><span>CRM</span><i class="fas fa-caret-down"></i></a>
+                        <ul class="dropdown-menu2">
+                            <li><a href="#">Vendor</a></li>
+                            <li><a href="#">Customer</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#" class="dropdown3"><i class="fas fa-user-tie"></i><span>HRM</span><i class="fas fa-caret-down"></i></a>
+                        <ul class="dropdown-menu3">
+                            <li><a href="#">Employee</a></li>
+                            <li><a href="#">Designation</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#" class="dropdown0"><i class="fas fa-boxes"></i><span>INVENTORY</span><i class="fas fa-caret-down"></i></a>
+                        <ul class="dropdown-menu0">
+                            <li><a asp-action="Index" asp-controller="Categories" asp-area="Admin">Category</a></li>
+                            <li><a href="#">Sub Category</a></li>
+                            <li><a href="#">Product</a></li>
+                            <li><a href="#">Brand</a></li>
+                            <li><a href="#">Tax Rate</a></li>
+                            <li><a href="#">Quotation</a></li>
+                            <li><a href="#">Purchase</a></li>
+                            <li><a href="#">Stock</a></li>
+                            <li><a href="#">Orders</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#" class="dropdown4"><i class="fas fa-file-invoice-dollar"></i><span>Accounts</span><i class="fas fa-caret-down"></i></a>
+                        <ul class="dropdown-menu4">
+                            <li><a href="#">Sale</a></li>
+                            <li><a href="#">Cash</a></li>
+                            <li><a href="#">Bank</a></li>
+                            <li><a href="#">Branch</a></li>
+                            <li><a href="#">Vendor Bill</a></li>
+                        </ul>
+                    </li>
+                    <li class="bottom-menue">
+                        <a href="#" class="dropdown5"><i class="fas fa-cog"></i><span>Settings</span><i class="fas fa-caret-down"></i></a>
+                        <ul class="dropdown-menu5">
+                            <li><a href="#">Sale</a></li>
+                            <li><a href="#">Cash</a></li>
+                            <li><a href="#">Bank</a></li>
+                            <li><a href="#">Branch</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-----------Side Bar End----------->
+        <!-----------Main Start----------->
+        <div class="main">
+            <!-----------NavBar Start----------->
+            <nav class="navbar navbar-expand-lg  navbar-custom">
+                <label class="bar" for="check"><i class="fas fa-bars" id="sidebar-btn"></i></label>
+                <a class="navbar-brand" href="#">Page Tittle</a>
+                <button class="ml-auto logoutbtn"><i class="fas fa-power-off"></i></button>
+            </nav>
+            <!-----------NavBar End----------->
+            <div>
+                @RenderBody()
+            </div>
+        </div>
+        <!-----------Main End----------->
+    </div>
+
+    <!--Small Modal -->
+    <div class="modal fade" id="small-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Large modal -->
+    <div class="modal fade bd-example-modal-lg " id="large-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</body>
+</html>

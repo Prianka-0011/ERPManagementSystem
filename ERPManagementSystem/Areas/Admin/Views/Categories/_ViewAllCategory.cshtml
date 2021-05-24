@@ -1,0 +1,28 @@
+﻿@model IEnumerable<ERPManagementSystem.Models.Category>
+@{
+    var i = 1;
+}
+
+@if (Model != null)
+{
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr onclick="ShowInSmallPopup('@Url.Action("AddOrEdit","Categories",new { id=item.Id},Context.Request.Scheme)','Update Category' )" >
+                    <td scope="row">@i</td>
+                    <td>@item.Name</td>
+                    <td>@item.Status</td>
+                </tr>
+                i++;
+            }
+            </tbody>
+    </table>
+}
