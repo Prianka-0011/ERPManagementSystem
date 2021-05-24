@@ -91,15 +91,15 @@ select {
 .sidebar {
     height: 100%;
     width: 260px;
-    padding:40px 0 0 0;
-    overflow: hidden;
+    padding: 40px 0 0 0;
     top: 0;
+    overflow:hidden;
     position: fixed;
     background-color: #fff;
     left: 0;
     -webkit-box-shadow: inset -5px 0 5px -5px #DCDCDC;
     box-shadow: inset -5px 0 5px -5px #DCDCDC;
-    transition:.5s;
+    transition: .5s;
 }
 .sidebar-head {
     padding: 0 12px 10px 40px;
@@ -136,7 +136,11 @@ select {
     width:100%;
     padding-left:40px;
     box-sizing:border-box;
+    
 }
+    .sidebar-body ul li a:hover {
+        cursor: pointer;
+    }
     .sidebar-body ul li a i {
         padding-right: 40px;
         font-size:18px;
@@ -203,7 +207,9 @@ select {
 label #sidebar-btn{
     cursor:pointer;
 }
-
+.current{
+    color:#003cff;
+}
 /****toggler class start****/
 .sidebar.toggle {
     left: -190px;
@@ -232,6 +238,17 @@ label #sidebar-btn{
 .main.toggle{
     margin-left:90px;
 }
+.element::-webkit-scrollbar {
+    width: 0 !important
+}
+
+.bottom-menue {
+    position: absolute;
+    bottom: 0;
+    width:100%;
+    overflow:no-display;
+}
+
 /****toggler class start****/
 /**Sidebar CSS End**/
 /**Main CSS Start**/
