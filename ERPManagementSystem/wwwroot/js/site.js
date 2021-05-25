@@ -23,6 +23,10 @@ $('.bar').click(function () {
     $('.main').toggleClass("toggle");
     $('.sidebar a').toggleClass("toggle");
 });
+//selected menue highlight
+$('.sidebar-body ul ul li a').click(function () {
+    url = $(this).attr("href"); 
+});
 //Jquery end//
 
 // crud operation start

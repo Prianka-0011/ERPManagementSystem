@@ -1,6 +1,5 @@
 ﻿@{
-    var CategoryUrl="";
-    var DynamicUrl="";
+    var DynamicUrl = "/Admin/Dashboard/Index";
 }
 <!DOCTYPE html>
 
@@ -25,10 +24,20 @@
         <!-----------Side Bar Start----------->
         <div class="sidebar">
             <div class="sidebar-head">
-                <img src="~/images/admin.jpg" alt="Alternate Text" />
-                <p>Admin@gmail.com</p>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="head-img">
+                            <img src="~/images/admin.jpg" alt="Alternate Text" />
+                        </div>
+                    </div>
+                    <div class="col-md-9 nopadding">
+                        <span>UserName</span>
+                        <p>Admin@gmail.com</p>
+                    </div>
+                </div>
             </div>
             <div class="sidebar-body">
+
                 <ul>
                     <li>
                         <a class="dropdown2"><i class="fas fa-users"></i><span>CRM</span><i class="fas fa-caret-down"></i></a>
@@ -44,19 +53,26 @@
                             <li><a href="#">Designation</a></li>
                         </ul>
                     </li>
-                    @{if ((Context.Request.Path.StartsWithSegments("/Admin/Categories") == true))
+                    @{if ((Context.Request.Path.StartsWithSegments("/Admin/Categories/Index") == true))
                         {
-                            DynamicUrl = "/Admin/Categories";
+                            DynamicUrl = "/Admin/Categories/Index";
 
                         }
+                        else if ((Context.Request.Path.StartsWithSegments("/Admin/Products/Index") == true))
+                        {
+                            DynamicUrl = "/Admin/Products/Index";
+
+                        }
+
                     }
-                    <li class="@(Context.Request.Path.StartsWithSegments(DynamicUrl) ? "open":null)">
-                        <a class="dropdown0"><i class="fas fa-boxes"></i><span>INVENTORY</span><i class="fas fa-caret-down"></i></a>
-                        <ul class="dropdown-menu0">
-                            @{ CategoryUrl = "/Admin/Categories/Index";}
-                            <li class="@(Context.Request.Path.StartsWithSegments(CategoryUrl) ? "active":null)"><a href="@CategoryUrl">Category</a></li>
-                            <li><a href="#">Sub Category</a></li>
-                            <li><a href="#">Product</a></li>
+                    <li>
+                        <a class="@(Context.Request.Path.StartsWithSegments(DynamicUrl) ? "parentMenu":null) dropdown0"><i class="fas fa-boxes"></i><span>Inventory</span><i class="fas fa-caret-down"></i></a>
+                        <ul class="@(Context.Request.Path.StartsWithSegments(DynamicUrl) ? "show":null) dropdown-menu0">
+                            @{ DynamicUrl = "/Admin/Categories/Index";}
+                            <li><a class="@(Context.Request.Path.StartsWithSegments(DynamicUrl) ? "active":null)" href="@DynamicUrl">Category</a></li>
+                            <li><a>Sub Category</a></li>
+                            @{ DynamicUrl = "/Admin/Products/Index";}
+                            <li><a class="@(Context.Request.Path.StartsWithSegments(DynamicUrl) ? "active":null)" href="@DynamicUrl">Product</a></li>
                             <li><a href="#">Brand</a></li>
                             <li><a href="#">Tax Rate</a></li>
                             <li><a href="#">Quotation</a></li>
@@ -84,6 +100,9 @@
                             <li><a href="#">Branch</a></li>
                         </ul>
                     </li>
+                    <li>
+                        <a class="logoutbtn"><i class="fas fa-power-off"></i><span>Log Out</span></a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -94,7 +113,6 @@
             <nav class="navbar navbar-expand-lg  navbar-custom">
                 <label class="bar" for="check"><i class="fas fa-bars" id="sidebar-btn"></i></label>
                 <a class="navbar-brand" href="#">Page Tittle</a>
-                <button class="ml-auto logoutbtn"><i class="fas fa-power-off"></i></button>
             </nav>
             <!-----------NavBar End----------->
             <div>
