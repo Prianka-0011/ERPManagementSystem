@@ -17,5 +17,6 @@ namespace ERPManagementSystem.Data
         public virtual DbSet<SubCategory> SubCategories { get; set; }
         public virtual DbSet<Brand> Brands { get; set; }
         public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<Gallery>Galleries { get; set; }
     }
 }
