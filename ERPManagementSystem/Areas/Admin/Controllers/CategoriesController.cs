@@ -21,10 +21,20 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pg)
         {
             var category = _context.Categories.Where(c => c.Status == "Enable");
-            return View(await category.ToListAsync());
+            const int pageSize = 10;
+            if (pg < 1)
+            {
+                pg = 1;
+            }
+            var resCount = category.Count();
+            var pager = new Pager(resCount, pg, pageSize);
+            int resSkip = (pg - 1) * pageSize;
+            var data = category.Skip(resSkip).Take(pager.PageSize);
+            ViewBag.Pager = pager;
+            return View(await data.ToListAsync());
         }
 
         //AddOrEdit
@@ -79,7 +89,19 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                         
                     }
                 }
-                return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllCategory", _context.Categories.Where(c => c.Status == "Enable").ToList()) });
+                var categoryData = _context.Categories.Where(c => c.Status == "Enable");
+                int pg=1;
+                const int pageSize = 10;
+                if (pg < 1)
+                {
+                    pg = 1;
+                }
+                var resCount = categoryData.Count();
+                var pager = new Pager(resCount, pg, pageSize);
+                int resSkip = (pg - 1) * pageSize;
+                var data = categoryData.Skip(resSkip).Take(pager.PageSize);
+                ViewBag.Pager = pager;
+                return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllCategory", data) });
             }
             return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEdit", category) });
 

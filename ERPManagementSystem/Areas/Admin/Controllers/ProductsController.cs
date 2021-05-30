@@ -1,11 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ERPManagementSystem.Data;
+using ERPManagementSystem.Extensions;
 using ERPManagementSystem.Models;
+using ERPManagementSystem.ViewModels;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using X.PagedList;
 using static ERPManagementSystem.Extensions.Helper;
 
 namespace ERPManagementSystem.Areas.Admin.Controllers
@@ -14,16 +21,28 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public ProductsController(ApplicationDbContext context)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public ProductsController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pg)
         {
-            var product = _context.Products.Where(c => c.Status == "Enable");
-            return View(await product.ToListAsync());
+            var product = _context.Products.Include(c => c.Category).Include(d => d.SubCategory).Include(e => e.Brand).Where(c => c.Status == "Enable");
+            const int pageSize = 10;
+            if (pg < 1)
+            {
+                pg = 1;
+            }
+            var resCount = product.Count();
+            var pager = new Pager(resCount, pg, pageSize);
+            int resSkip = (pg - 1) * pageSize;
+            var data = product.Skip(resSkip).Take(pager.PageSize);
+            ViewBag.Pager = pager;
+            return View(await data.ToListAsync());
+
         }
         //AddOrEdit
         [NoDirectAccess]
@@ -31,7 +50,10 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
         {
             if (id == Guid.Parse("00000000-0000-0000-0000-000000000000"))
             {
-                return View(new Product());
+                ViewData["Category"] = new SelectList(_context.Categories.ToList(), "Id", "Name");
+                ViewData["SubCategory"] = new SelectList(_context.SubCategories.ToList(), "Id", "Name");
+                ViewData["Brand"] = new SelectList(_context.Brands.ToList(), "Id", "Name");
+                return View(new ProductVm());
             }
 
             else
@@ -39,37 +61,115 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 var product = await _context.Products.FindAsync(id);
                 if (product == null)
                 {
+
                     return NotFound();
                 }
-                return View(product);
+                ProductVm productVm = new ProductVm();
+                var galleries = _context.Galleries.Where(c => c.ProductId == product.Id).ToList();
+                productVm.Id = product.Id;
+                productVm.Name = product.Name;
+                productVm.Status = product.Status;
+                productVm.Description = product.Description;
+                productVm.CategoryId = product.CategoryId;
+                productVm.SubCategoryId = product.SubCategoryId;
+                productVm.BrandId = product.BrandId;
+                productVm.GalleryImagesPath = galleries;
+                ViewData["Category"] = new SelectList(_context.Categories.ToList(), "Id", "Name");
+                ViewData["SubCategory"] = new SelectList(_context.SubCategories.ToList(), "Id", "Name");
+                ViewData["Brand"] = new SelectList(_context.Brands.ToList(), "Id", "Name");
+                return View(productVm);
             }
 
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddOrEdit(Guid id, Product product)
+        public async Task<IActionResult> AddOrEdit(Guid id, ProductVm productVm)
         {
             if (ModelState.IsValid)
             {
+               
+                
                 Product entity;
+                string uniqueFileNAme = null;
+                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploadimages");
                 if (id == Guid.Parse("00000000-0000-0000-0000-000000000000"))
                 {
                     entity = new Product();
                     entity.Id = Guid.NewGuid();
-                    entity.Name = product.Name;
-                    entity.CategoryId = product.CategoryId;
-                    entity.SubCategoryId = product.SubCategoryId;
+                    entity.Name = productVm.Name;
+                    entity.Description = productVm.Description;
+                    entity.Status = productVm.Status;
+                    entity.CategoryId = productVm.CategoryId;
+                    entity.SubCategoryId = productVm.SubCategoryId;
+                    entity.BrandId = productVm.BrandId;
                     _context.Add(entity);
                     await _context.SaveChangesAsync();
+
+
+                    if (productVm.Galleries != null && productVm.Galleries.Count > 0)
+                    {
+                        foreach (IFormFile image in productVm.Galleries)
+                        {
+                            uniqueFileNAme = Guid.NewGuid().ToString() + "_" + image.FileName;
+                            string filePath = Path.Combine(uploadsFolder, uniqueFileNAme);
+                            await image.CopyToAsync(new FileStream(filePath, FileMode.Create));
+                            var img = new Gallery();
+                            img.ImagePath = "uploadimages/" + uniqueFileNAme;
+                            img.ProductId = entity.Id;
+                            _context.Galleries.Add(img);
+
+                        }
+                        IFormFile primaryImage = productVm.Galleries[0];
+                        uniqueFileNAme = Guid.NewGuid().ToString() + "_" + primaryImage.FileName;
+                        string primaryImgFilePath = Path.Combine(uploadsFolder, uniqueFileNAme);
+                        await primaryImage.CopyToAsync(new FileStream(primaryImgFilePath, FileMode.Create));
+                        entity.ImagePath = "uploadimages/" + uniqueFileNAme;
+                        await _context.SaveChangesAsync();
+                    }
                 }
 
                 else
                 {
                     try
                     {
-                        entity = await _context.Categories.FindAsync(category.Id);
-                        entity.Name = category.Name;
-                        entity.Status = category.Status;
+                        entity = await _context.Products.FindAsync(productVm.Id);
+                        entity.Name = productVm.Name;
+                        entity.CategoryId = productVm.CategoryId;
+                        entity.SubCategoryId = productVm.SubCategoryId;
+                        entity.BrandId = productVm.BrandId;
+                        if (productVm.Galleries != null && productVm.Galleries.Count > 0)
+                        {
+                            var oldProductImgcheck = _context.Galleries.Where(c => c.ProductId == entity.Id);
+                            if (oldProductImgcheck.Count() > 0)
+                            {
+                                foreach (var item in oldProductImgcheck)
+                                {
+                                    _context.Galleries.Remove(item);
+                                }
+                            }
+
+                            foreach (IFormFile image in productVm.Galleries)
+                            {
+                                uniqueFileNAme = Guid.NewGuid().ToString() + "_" + image.FileName;
+                                string filePath = Path.Combine(uploadsFolder, uniqueFileNAme);
+                                await image.CopyToAsync(new FileStream(filePath, FileMode.Create));
+                                var img = new Gallery();
+                                img.ImagePath = "uploadimages/" + uniqueFileNAme;
+                                img.ProductId = entity.Id;
+                                _context.Galleries.Add(img);
+
+                            }
+                            IFormFile primaryImage = productVm.Galleries[0];
+                            uniqueFileNAme = Guid.NewGuid().ToString() + "_" + primaryImage.FileName;
+                            string primaryImgFilePath = Path.Combine(uploadsFolder, uniqueFileNAme);
+                            await primaryImage.CopyToAsync(new FileStream(primaryImgFilePath, FileMode.Create));
+                            entity.ImagePath = "uploadimages/" + uniqueFileNAme;
+                        }
+                        //else
+                        //{
+                        //    entity.ImagePath = "uploadimages/noimage.jpg"; 
+                        //}
+
                         _context.Update(entity);
                         await _context.SaveChangesAsync();
                     }
@@ -78,10 +178,29 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
 
                     }
                 }
-                return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllCategory", _context.Categories.Where(c => c.Status == "Enable").ToList()) });
-            }
-            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEdit", category) });
+                const int pageSize = 10;
+                int pg = 1;
+                if (pg < 1)
+                {
+                    pg = 1;
+                }
+                var resulProduct = _context.Products.Include(c => c.Category).Include(d => d.SubCategory).Include(e => e.Brand).Where(c => c.Status == "Enable").ToList();
+                var resCount = resulProduct.Count();
+                var pager = new Pager(resCount, pg, pageSize);
+                int resSkip = (pg - 1) * pageSize;
+                ViewBag.Pager = pager;
+                var data = resulProduct.Skip(resSkip).Take(pager.PageSize);
 
+                return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllProduct", data) });
+            }
+            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEdit") });
+
+        }
+        [HttpGet("/Products/GetAllSubCategory")]
+        public IActionResult GetAllSubCategory(Guid id)
+        {
+            var subCategory = _context.SubCategories.Where(c => c.CategoryId == id).ToList();
+            return Json(subCategory);
         }
     }
 }

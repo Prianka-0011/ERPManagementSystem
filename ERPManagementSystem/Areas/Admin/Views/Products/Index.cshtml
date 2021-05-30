@@ -1,7 +1,26 @@
 ﻿
-@{
-    ViewData["Title"] = "Index";
-}
+@model IEnumerable<ERPManagementSystem.Models.Product>
+@using ERPManagementSystem.Extensions;
 
-<h1>Index</h1>
+@{
+    ViewData["Title"] = "Products";
+}
+<div class="action">
+    <div class="row">
+        <div class="col-md-3 col-12 col-lg-3">
+            <a class="create" onclick="ShowInLargePopup('@Url.Action("AddOrEdit","Products",null,Context.Request.Scheme)','New Product' )"><i class="fas fa-plus"></i><span>New</span></a>
+            <p class="recordcount">@Model.Count() record exist</p>
+        </div>
+    </div>
+</div>
+<div class="body">
+    <div class="row">
+        <div class="col-md-12 col-12 col-lg-12">
+            <div id="view-all">
+                @await Html.PartialAsync("_ViewAllProduct", Model)
+                
+            </div>
+        </div>
+    </div>
+</div>
 

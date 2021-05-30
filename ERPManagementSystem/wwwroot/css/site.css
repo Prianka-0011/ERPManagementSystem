@@ -1,5 +1,6 @@
 ﻿
 /**Global CSS Start**/
+
 * {
     padding: 0;
     font-family: 'Poppins', sans-serif;
@@ -62,9 +63,14 @@ table td {
 }
 input {
     font-size: 12px !important;
+    height:32px!important
+}
+textarea {
+    font-size: 12px !important;
 }
 select {
     font-size: 12px !important;
+    height: 32px !important
 }
 .parentMenu {
     background-color: #f8f6f6;
@@ -73,8 +79,46 @@ select {
     color: #003cff!important;
     background-color: #f8f6f6;
 }
+.primaryimg {
+    padding: 10px 0 0 40px;
+    box-sizing:border-box;
+}
+.primaryimg #primaryimg {
+    height: 70PX;
+    width: 70PX;
+}
+.displayonEditPri {
+    padding: 10px 0 0 40px;
+    box-sizing: border-box;
+}
+    .displayonEditPri img {
+        height: 100PX!important;
+        width: 100PX!important;
+    }
+.galleryimg {
+    box-sizing: border-box;
+    padding: 5px 0 0 40px;
+}
+#galleryParent #galleryimg {
+    height: 30PX;
+    margin-bottom: 3px;
+    width: 30PX;
+}
+.recordcount{
+    font-size:12px;
+    padding:3px 0 0 0;
+}
 
-
+    .pagination li a{
+        color:#000!important;
+        font-size:12px!important;
+        padding:5px 10px;
+    }
+.pagination .active a {
+    color: #000 !important;
+    background: #DCDCDC !important;
+    border-color: #DCDCDC !important;
+}
 /**Global CSS End**/
 /**media query sart**/
 @media screen and (max-width: 920px) {
@@ -295,6 +339,7 @@ label #sidebar-btn{
     width: 100%;
     margin-left: 280px;
     transition: .5s;
+    overflow:hidden;
 }
 .navbar-custom {
     background-color: #fff !important;

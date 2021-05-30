@@ -7,7 +7,7 @@
 <div class="container-fluid">
     <form asp-action="AddOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPost(this);" autocomplete="off">
         <div class="row">
-            <div class="col-md-10 offset-1 col-10 col-lg-10 offset-lg-1">
+            <div class="col-md-10 offset-1 col-10 offset-md-1 col-lg-10 offset-lg-1">
                 <div class="form-group">
                     <input type="hidden" asp-for="Id" />
                     <label>Name</label>

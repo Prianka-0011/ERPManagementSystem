@@ -1,10 +1,10 @@
-﻿@model IEnumerable<ERPManagementSystem.Models.Category>
+﻿@model IEnumerable<ERPManagementSystem.Models.Product>
 @using ERPManagementSystem.Extensions;
 @{
+    var i=0;
 
     Pager pager = new Pager();
     int pageNo = 0;
-    var i = 0;
     if (ViewBag.Pager != null)
     {
         pager = ViewBag.Pager;
@@ -22,7 +22,6 @@
 
 }
 
-
 @if (Model != null)
 {
     <table class="table table-hover">
@@ -30,15 +29,23 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
+                <th scope="col">Brand</th>
+                <th scope="col">Category</th>
+                <th scope="col">Sub Category</th>
+                <th scope="col">Image</th>
                 <th scope="col">Status</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-                <tr onclick="ShowInSmallPopup('@Url.Action("AddOrEdit","Categories",new { id=item.Id},Context.Request.Scheme)','Update Category' )">
+                <tr onclick="ShowInLargePopup('@Url.Action("AddOrEdit","Products",new { id=item.Id},Context.Request.Scheme)','Update Product' )">
                     <td scope="row">@i</td>
                     <td>@item.Name</td>
+                    <td>@item.Brand.Name</td>
+                    <td>@item.Category.Name</td>
+                    <td>@item.SubCategory.Name</td>
+                    <td><img src="~/@item.ImagePath" alt="Alternate Text" style="height:30px;width:30px; border-radius:15px" /></td>
                     <td>@item.Status</td>
                 </tr>
                 i++;
@@ -54,25 +61,25 @@
                         @if (pager.CurrentPage > 1)
                         {
                             <li class="page-item">
-                                <a class="page-link" asp-controller="Categories" asp-action="Index" asp-route-pg="1">Frist</a>
+                                <a class="page-link" asp-controller="Products" asp-action="Index" asp-route-pg="1">Frist</a>
                             </li>
                             <li class="page-item">
-                                <a class="page-link" asp-controller="Categories" asp-action="Index" asp-route-pg="@(pager.CurrentPage-1)">Prev</a>
+                                <a class="page-link" asp-controller="Products" asp-action="Index" asp-route-pg="@(pager.CurrentPage-1)">Prev</a>
                             </li>
                         }
                         @for (var pge = pager.StartPage; pge <= pager.EndPage; pge++)
                         {
                             <li class="page-item @( pge==pager.CurrentPage?"active":"")">
-                                <a class="page-link" asp-controller="Categories" asp-action="Index" asp-route-pg="@pge">@pge</a>
+                                <a class="page-link" asp-controller="Products" asp-action="Index" asp-route-pg="@pge">@pge</a>
                             </li>
                         }
-                        @if (pager.CurrentPage < pager.TotalPages)
+                        @if (pager.CurrentPage <pager.TotalPages)
                         {
                             <li class="page-item">
-                                <a class="page-link" asp-controller="Categories" asp-action="Index" asp-route-pg="@(pager.CurrentPage+1)">Next</a>
+                                <a class="page-link" asp-controller="Products" asp-action="Index" asp-route-pg="@(pager.CurrentPage+1)">Next</a>
                             </li>
                             <li class="page-item">
-                                <a class="page-link" asp-controller="Categories" asp-action="Index" asp-route-pg="@pager.TotalPages">Last</a>
+                                <a class="page-link" asp-controller="Products" asp-action="Index" asp-route-pg="@pager.TotalPages">Last</a>
                             </li>
                         }
                     </ul>
