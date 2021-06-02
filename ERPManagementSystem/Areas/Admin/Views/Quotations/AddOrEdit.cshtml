@@ -1,0 +1,126 @@
+﻿@model ERPManagementSystem.ViewModels.QuotationVm
+@{
+    ViewData["Title"] = "AddOrEdit";
+    Layout = null;
+}
+
+<div class="container-fluid">
+    @using (Html.BeginForm("AddOrEdit", "Quotations", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div class="row">
+            <div class="col-md-4 col-lg-4 col-12">
+                <input type="hidden" asp-for="Id" />
+                <div class="form-group">
+                    <label>Vendon</label>
+                    <select asp-for="VendorId" class="form-control"></select>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4 col-12">
+                <div class="form-group">
+                    <label>Quotation No</label>
+                    <input asp-for="QuotationNo" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-lg-4 col-12">
+                <div class="form-group">
+                    <label>Shipping Cost</label>
+                    <input asp-for="ShippingCost" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4 col-12">
+                <div class="form-group">
+                    <label>Quotation Date</label>
+                    <input type="date" asp-for="Date" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-lg-4 col-12">
+                <div class="form-group">
+                    <label>Status</label>
+                    <select asp-for="Status" class="form-control">
+                        <option value="value">text</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="lineitem">
+            <p>Add Line Item</p>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-lg-12 col-12">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="width: 3%" scope="col">Image</th>
+                            <th scope="col">Product</th>
+                            <th scope="col">Color</th>
+                            <th scope="col">Size</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Tax Rate</th>
+                            <th  scope="col">Discount</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Total Cost</th>
+                            <th scope="col">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.QuotationLineItems)
+                        {
+                            
+                        <tr>
+                            <td style="width: 3%">
+                                <img src="~/images/noimg.png" alt="Alternate Text" id="productImg" />
+                            </td>
+                            <td style="width: 10%">
+                                <div class="form-group">
+                                    <select asp-for="@item.ProductId" class="form-control"></select>
+                                </div>
+                            </td>
+                            <td style="width: 10%">
+                                <div class="form-group">
+                                    <input asp-for="@item.Color" class="form-control" />
+                                </div>
+                            </td>
+                            <td>
+                                <input asp-for="@item.Size" class="form-control" />
+                            </td>
+                            <td>
+                                <input asp-for="@item.Price" class="form-control" />
+                            </td>
+                            <td>
+                                <select asp-for="@item.TaxRateId" class="form-control"></select>
+                                <input type="hidden" asp-for="@item.TaxRate" class="form-control" />
+                            </td>
+                            <td>                               
+                                <input type="number" asp-for="@item.Discount" class="form-control" />
+                            </td>
+                            <td style="width: 2%">
+                                <input asp-for="@item.Quantity" class="form-control" />
+                            </td>
+                            <td>
+                                <input asp-for="@item.TotalCost" class="form-control" />
+                            </td>
+                            <td style="width: 20%">
+                                <textarea asp-for="@item.Description" class="form-control"></textarea>
+                            </td>
+                            <td style="width: 2%">
+                                <button id="removeOnlyFeildValue" class="remove"><i class="fas fa-minus"></i></button>
+                                <button id="removeFeildWithValue" class="remove"><i class="fas fa-minus"></i></button>
+                            </td>
+                        </tr>
+                        }
+                        <tr>
+                            <td><a class="add"><i class="fas fa-plus"></i><span>Add</span></a></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    }
+</div>

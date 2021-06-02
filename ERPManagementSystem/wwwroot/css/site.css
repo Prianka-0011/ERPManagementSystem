@@ -1,10 +1,43 @@
 ﻿
 /**Global CSS Start**/
+.modal-lg {
+  max-width: 1000px !important;
+
+}
+
 
 * {
     padding: 0;
     font-family: 'Poppins', sans-serif;
     margin: 0;
+}
+/**for modal start**/
+.modal-dialog {
+    overflow-x: initial !important
+}
+
+.modal-body {
+   
+    overflow-x: auto;
+}
+.modal-body::-webkit-scrollbar {
+    height: 5px;
+}
+
+    .modal-body::-webkit-scrollbar-thumb {
+        background-color: #bbbbbb;
+    }
+
+.modal-body::-webkit-scrollbar-track-piece:end {
+    margin-right: 50px;
+}
+
+.modal-body::-webkit-scrollbar-track-piece:start {
+    margin-left: 50px;
+}
+/**for modal start**/
+.hideDisplayOnEdit{
+    display:none;
 }
 .nopadding{
     padding-left:3%!important;
@@ -88,14 +121,22 @@ select {
     width: 70PX;
 }
 .displayonEditPri {
-    padding: 10px 0 0 40px;
+    padding: 10px 0 0 0;
     box-sizing: border-box;
 }
     .displayonEditPri img {
-        height: 100PX!important;
-        width: 100PX!important;
+        height: 70px!important;
+        width: 70px!important;
     }
 .galleryimg {
+    box-sizing: border-box;
+    padding: 5px 0 0 40px;
+}
+.displayonEdit {
+    box-sizing: border-box;
+    padding: 5px 0 0 40px;
+}
+.displayonEditPri {
     box-sizing: border-box;
     padding: 5px 0 0 40px;
 }
@@ -119,6 +160,48 @@ select {
     background: #DCDCDC !important;
     border-color: #DCDCDC !important;
 }
+.lineitem p{
+    font-size:13px;
+    width:100%;
+
+}
+.lineitem{
+    padding:0 0 12px 0;
+}
+#productImg {
+    height: 40px !important;
+    width: auto;
+}
+.lineitem::after {
+    content: '';
+    width: 100%;
+    margin: 0 auto;
+    display: block;
+    height: 1px;
+    background: #DCDCDC;
+}
+.remove{
+    height:20px;
+    width:20px;
+    background:none;
+    color:#000;
+    font-size:8px;
+    outline:none;
+    border:solid 1px #a7a5a5;
+    border-radius:10px;
+    cursor:pointer
+}
+.add{
+color:#000;
+font-size:10px;
+}
+  .add:hover {
+        color: #000;
+        cursor:pointer;
+    }
+  .add span{
+      padding:0 5px;
+  }
 /**Global CSS End**/
 /**media query sart**/
 @media screen and (max-width: 920px) {
@@ -176,6 +259,12 @@ select {
     background: #bbbbbb;
     border-radius: 10px;
   }
+::-webkit-scrollbar-track-piece:end {
+    margin-top: 50px;
+}
+::-webkit-scrollbar-track-piece:start {
+    margin-bottom: 50px;
+}
 .sidebar-head {
     padding: 0 12px 15px 40px;
     -webkit-box-shadow: 0 5px 1px -5px #DCDCDC;
@@ -188,8 +277,9 @@ select {
     height: 40px;
     width: 40px;
     border-radius: 20px;
+    display: block;
 }
-.sidebar-head p {
+    .sidebar-head p {
     color: #DCDCDC;
     font-size:10px;
     padding:6px 0 0 0 ;

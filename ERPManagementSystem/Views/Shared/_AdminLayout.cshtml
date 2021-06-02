@@ -30,7 +30,7 @@
                             <img src="~/images/admin.jpg" alt="Alternate Text" />
                         </div>
                     </div>
-                    <div class="col-md-9 nopadding">
+                    <div class="col-md-8 nopadding">
                         <span>UserName</span>
                         <p>Admin@gmail.com</p>
                     </div>
@@ -63,6 +63,11 @@
                             DynamicUrl = "/Admin/Products/Index";
 
                         }
+                        else if ((Context.Request.Path.StartsWithSegments("/Admin/Quotations/Index") == true))
+                        {
+                            DynamicUrl = "/Admin/Quotations/Index";
+
+                        }
 
                     }
                     <li>
@@ -75,7 +80,8 @@
                             <li><a class="@(Context.Request.Path.StartsWithSegments(DynamicUrl) ? "active":null)" href="@DynamicUrl">Product</a></li>
                             <li><a href="#">Brand</a></li>
                             <li><a href="#">Tax Rate</a></li>
-                            <li><a href="#">Quotation</a></li>
+                            @{ DynamicUrl = "/Admin/Quotations/Index";}
+                            <li><a  class="@(Context.Request.Path.StartsWithSegments(DynamicUrl) ? "active":null)" href="@DynamicUrl">Quotation</a></li>
                             <li><a href="#">Purchase</a></li>
                             <li><a href="#">Stock</a></li>
                             <li><a href="#">Orders</a></li>
@@ -155,6 +161,7 @@
             </div>
         </div>
     </div>
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>

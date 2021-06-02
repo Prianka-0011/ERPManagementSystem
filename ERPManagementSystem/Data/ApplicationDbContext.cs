@@ -18,5 +18,9 @@ namespace ERPManagementSystem.Data
         public virtual DbSet<Brand> Brands { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Gallery>Galleries { get; set; }
+        public virtual DbSet<Quotation>Quotations { get; set; }
+        public virtual DbSet<QuotationLineItem>QuotationLineItems { get; set; }
+        public virtual DbSet<TaxRate>TaxRates { get; set; }
+        
     }
 }

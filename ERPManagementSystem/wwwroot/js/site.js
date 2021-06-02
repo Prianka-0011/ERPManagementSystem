@@ -41,7 +41,8 @@ function clear() {
 //Load image
 function loadImg(event) {
     var output = document.getElementById('mainimgDiv');
-    console.log("event", event.target.files.length);
+    document.getElementById('displayonEditPri').style.display = "none";
+    document.getElementById('displayonEdit').style.display = "none";
     var primaryimg = document.createElement("img");
     primaryimg.setAttribute("id", "primaryimg");
     var output = document.getElementById('mainimgDiv');
@@ -54,8 +55,9 @@ function loadImg(event) {
    
     if (event.target.files.length > 1) {
         var parent = document.getElementById('galleryParent');
-        for (var i = 1; i < event.target.files.length; i++) {
+        for (var i = 0; i < event.target.files.length; i++) {
             var childDiv = document.createElement("div");
+            var gallery = document.createElement("img");
             var gallery = document.createElement("img");
             childDiv.setAttribute("class", "col-md-2 col-3 col-lg-2 removeclass"+i);
             gallery.setAttribute("id", "galleryimg");
@@ -80,7 +82,7 @@ function loadImg(event) {
     }
 };
 //Jquery end//
-
+document.getElementById('removeFeildWithValue').style.display = "none";
 // crud operation start
 
 //For small popup start
@@ -101,6 +103,7 @@ ShowInLargePopup = (url, title) => {
         type: 'GET',
         url: url,
         success: function (res) {
+
             $('#large-modal .modal-body').html(res);
             $('#large-modal .modal-title').html(title);
             $('#large-modal').modal('show');

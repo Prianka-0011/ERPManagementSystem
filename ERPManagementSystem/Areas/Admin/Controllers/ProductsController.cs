@@ -73,6 +73,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 productVm.CategoryId = product.CategoryId;
                 productVm.SubCategoryId = product.SubCategoryId;
                 productVm.BrandId = product.BrandId;
+                productVm.ImagePath = product.ImagePath;
                 productVm.GalleryImagesPath = galleries;
                 ViewData["Category"] = new SelectList(_context.Categories.ToList(), "Id", "Name");
                 ViewData["SubCategory"] = new SelectList(_context.SubCategories.ToList(), "Id", "Name");
@@ -125,6 +126,10 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                         await primaryImage.CopyToAsync(new FileStream(primaryImgFilePath, FileMode.Create));
                         entity.ImagePath = "uploadimages/" + uniqueFileNAme;
                         await _context.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        entity.ImagePath = "uploadimages/noimage.jpg";
                     }
                 }
 
