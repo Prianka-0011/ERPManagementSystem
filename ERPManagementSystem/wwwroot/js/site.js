@@ -82,7 +82,7 @@ function loadImg(event) {
     }
 };
 //Jquery end//
-//document.getElementById('removeFeildWithValue').style.display = "none";
+document.getElementById('removeFeildWithValue').style.display = "none";
 // crud operation start
 
 //For small popup start
@@ -119,6 +119,8 @@ ShowInLargePopup = (url, title) => {
                     $trfirst = $tableBody.find("tr:last");             
                     $trNew = $trfirst.clone();
                 $trNew.find("td").find(':input').val('');
+                var img = $trNew.find('#productImg');
+                img.attr("src", "https://localhost:44377/images/noimg.png");
                 $trfirst.after($trNew);
                 $trNew.find("td").find('#removeFeildWithValue').addClass('removeTR');
                 $trfirst.find("td").find('#removeFeildWithValue').addClass('refreshTR');
@@ -130,8 +132,9 @@ ShowInLargePopup = (url, title) => {
             });
             $('.datatable').on('click', '.refreshTR', function () {
                 $closestclear = $('.refreshTR').closest('tr');
-                $closestclear.find("td").find(':input').val('');
-                $closestclear.find("td").find(':select').val('');
+                $closestclear.find("td").find(':input').val('');              
+                var img1 = $closestclear.find('#productImg');       
+                img1.attr("src", "https://localhost:44377/images/noimg.png");
             });  
 
           //dynamically add or remove feild end
@@ -148,11 +151,9 @@ ShowInLargePopup = (url, title) => {
                     dataType: 'JSON',
                     success: function (data) {
                       //  console.log(data);
-                        var img = curentrow.find('#productImg')
-                        var path = data.imagePath
-                        //console.log("path", path)
-                        //var imghh = URL.createObjectURL(path);
-                        img.attr("src", path);
+                        var img = curentrow.find('#productImg');
+                        var path = data.imagePath;
+                        img.attr("src","https://localhost:44377/"+path);
 
                     },
                     error: function (res) {
@@ -196,10 +197,13 @@ ShowInLargePopup = (url, title) => {
                 var taxRate = curentrow.find('#taxRate').val();
                 var quantity = curentrow.find('#quantity').val();
                 var totalCost = curentrow.find('#totalCost');
+                var perProductCost = curentrow.find('#perProductCost');
                 var taxAmount = (taxRate / 100) * price;
                 var totalAmount = ((price - discountAmount) + taxAmount) * quantity;
+                var perProductCost1 = ((price - discountAmount) + taxAmount);
                 console.log("amount", totalAmount)
                 totalCost.val(totalAmount);
+                perProductCost.val(perProductCost1);
             });
             $('.datatable').on('keyup', '#price', function () {
                 var curentrow = $(this).closest("tr");
@@ -209,10 +213,13 @@ ShowInLargePopup = (url, title) => {
                 var taxRate = curentrow.find('#taxRate').val();
                 var quantity = curentrow.find('#quantity').val();
                 var totalCost = curentrow.find('#totalCost');
+                var perProductCost = curentrow.find('#perProductCost');
                 var taxAmount = (taxRate / 100) * price;
                 var totalAmount = ((price - discountAmount) + taxAmount) * quantity;
+                var perProductCost1 = ((price - discountAmount) + taxAmount);
                 console.log("amount", totalAmount)
                 totalCost.val(totalAmount);
+                perProductCost.val(perProductCost1);
             });
             $('.datatable').on('keyup', '#discount', function () {
                 var curentrow = $(this).closest("tr");
@@ -222,10 +229,13 @@ ShowInLargePopup = (url, title) => {
                 var taxRate = curentrow.find('#taxRate').val();
                 var quantity = curentrow.find('#quantity').val();
                 var totalCost = curentrow.find('#totalCost');
+                var perProductCost = curentrow.find('#perProductCost');
                 var taxAmount = (taxRate / 100) * price;
                 var totalAmount = ((price - discountAmount) + taxAmount) * quantity;
+                var perProductCost1 = ((price - discountAmount) + taxAmount);
                 console.log("amount", totalAmount)
                 totalCost.val(totalAmount);
+                perProductCost.val(perProductCost1);
             });
             $('.datatable').on('change', '#tax', function () {
                 var curentrow = $(this).closest("tr");
@@ -235,10 +245,13 @@ ShowInLargePopup = (url, title) => {
                 var taxRate = curentrow.find('#taxRate').val();
                 var quantity = curentrow.find('#quantity').val();
                 var totalCost = curentrow.find('#totalCost');
+                var perProductCost = curentrow.find('#perProductCost');
                 var taxAmount = (taxRate / 100) * price;
                 var totalAmount = ((price - discountAmount) + taxAmount) * quantity;
+                var perProductCost1 = ((price - discountAmount) + taxAmount);
                 console.log("amount", totalAmount)
                 totalCost.val(totalAmount);
+                perProductCost.val(perProductCost1);
             });
 
             $('.datatable').on('keyup', '#quantity', function () {
@@ -249,10 +262,13 @@ ShowInLargePopup = (url, title) => {
                 var taxRate = curentrow.find('#taxRate').val();
                 var quantity = curentrow.find('#quantity').val();
                 var totalCost = curentrow.find('#totalCost');
+                var perProductCost = curentrow.find('#perProductCost');
                 var taxAmount = (taxRate / 100) * price;
                 var totalAmount = ((price - discountAmount) + taxAmount) * quantity;
+                var perProductCost1 = ((price - discountAmount) + taxAmount);
                 console.log("amount", totalAmount)
                 totalCost.val(totalAmount);
+                perProductCost.val(perProductCost1);
             });
 
             

@@ -44,8 +44,9 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
             if (id == Guid.Parse("00000000-0000-0000-0000-000000000000"))
             {
                 QuotationVm quotationVm = new QuotationVm();
-                quotationVm.QuotationLineItems = new List<QuotationLineItem>{ new QuotationLineItem{ Id = Guid.Parse("00000000-0000-0000-0000-000000000000") } };
+                quotationVm.QuotationLineItems = new List<QuotationLineItem>{ new QuotationLineItem{ Id = Guid.Parse("00000000-0000-0000-0000-000000000000"), ImgPath = "images/noimg.png" } };
                 ViewData["Products"] = new SelectList(_context.Products.ToList(), "Id", "Name");
+                
                 ViewData["Tax"] = new SelectList(_context.TaxRates.ToList(), "Id", "Name");
                 return View(quotationVm);
             }
@@ -69,7 +70,81 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
             }
 
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddOrEdit(Guid id, QuotationVm quotationVm)
+        {
+            if (ModelState.IsValid)
+            {
+                Quotation entity;
 
+                QuotationLineItem lineItem;
+                if (id == Guid.Parse("00000000-0000-0000-0000-000000000000"))
+                {
+
+                    entity = new Quotation();
+                    entity.QuotationNo = quotationVm.QuotationNo;
+                    entity.VendorId = quotationVm.VendorId;
+                    entity.ShippingCost = quotationVm.ShippingCost;
+                    entity.Date = DateTime.Now;
+                    entity.Status = quotationVm.Status;
+                  await  _context.SaveChangesAsync();
+                    foreach (var item in quotationVm.QuotationLineItems)
+                    {
+                        lineItem = new QuotationLineItem();
+                        lineItem.ProductId = item.ProductId;
+                        lineItem.Color = item.Color;
+                        lineItem.Size = item.Size;
+                        lineItem.Price = item.Price;
+                        lineItem.TaxRateId = item.TaxRateId;
+                        lineItem.TaxRate = item.TaxRate;
+                        lineItem.QuotationId = entity.Id;
+                        lineItem.PerProductCost = item.PerProductCost;
+                        lineItem.Discount = item.Discount;
+                        lineItem.Quantity = item.Quantity;
+                        lineItem.Description = item.Description;
+                        lineItem.ImgPath = item.ImgPath;
+                        _context.QuotationLineItems.Add(lineItem);
+                    }
+
+                }
+
+                else
+                {
+                    try
+                    {
+                        entity =await _context.Quotations.FindAsync(id);
+                        entity.QuotationNo = quotationVm.QuotationNo;
+                        entity.VendorId = quotationVm.VendorId;
+                        entity.ShippingCost = quotationVm.ShippingCost;
+                        entity.Status = quotationVm.Status;
+                       
+                        _context.Update(entity);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException ex)
+                    {
+
+                    }
+                }
+                const int pageSize = 10;
+                int pg = 1;
+                if (pg < 1)
+                {
+                    pg = 1;
+                }
+                var resulProduct = _context.Products.Include(c => c.Category).Include(d => d.SubCategory).Include(e => e.Brand).Where(c => c.Status == "Enable").ToList();
+                var resCount = resulProduct.Count();
+                var pager = new Pager(resCount, pg, pageSize);
+                int resSkip = (pg - 1) * pageSize;
+                ViewBag.Pager = pager;
+                var data = resulProduct.Skip(resSkip).Take(pager.PageSize);
+
+                return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllProduct", data) });
+            }
+            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEdit") });
+
+        }
         [HttpGet("/Quotations/GetProductImg")]
         public IActionResult GetProductImg(Guid id)
         {
