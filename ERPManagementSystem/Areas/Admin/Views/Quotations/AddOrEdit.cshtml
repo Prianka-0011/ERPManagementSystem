@@ -33,20 +33,15 @@
             </div>
             <div class="col-md-4 col-lg-4 col-12">
                 <div class="form-group">
-                    <label>Quotation Date</label>
-                    <input type="date" asp-for="Date" class="form-control" />
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4 col-lg-4 col-12">
-                <div class="form-group">
                     <label>Status</label>
                     <select asp-for="Status" class="form-control">
                         <option value="value">text</option>
                     </select>
                 </div>
             </div>
+        </div>
+        <div class="row">
+           
         </div>
         <div class="lineitem">
             <p>Add Line Item</p>
@@ -73,15 +68,16 @@
                         {
 
                             <tr>
-                                <td style="width: 2%">
-                                    <img src="~/images/noimg.png" alt="Alternate Text" id="productImg" />
+                                <td >
+                                    <img src="https://localhost:44377/@item.ImgPath" alt="Alternate Text" id="productImg" />
+                                    <input type="hidden" asp-for="@item.ImgPath" value="@ViewBag.imgPath" />
                                 </td>
-                                <td style="width: 10%">
+                                <td style="width: 13%">
                                     <div class="form-group">
                                         <select asp-for="@item.ProductId" asp-items="ViewBag.Products" id="product"  class="form-control"></select>
                                     </div>
                                 </td>
-                                <td style="width: 10%">
+                                <td >
                                     <div class="form-group">
                                         <input asp-for="@item.Color"  class="form-control" />
                                     </div>
@@ -92,18 +88,19 @@
                                 <td>
                                     <input asp-for="@item.Price" id="price" class="form-control" />
                                 </td>
-                                <td>
+                                <td style="width: 13%">
                                     <select asp-for="@item.TaxRateId" id="tax" asp-items="ViewBag.Tax" class="form-control"></select>
                                     <input type="hidden" asp-for="@item.TaxRate"  id="taxRate" class="form-control" />
                                 </td>
-                                <td>
+                                <td >
                                     <input  asp-for="@item.Discount" id="discount" class="form-control" />
                                 </td>
-                                <td style="width: 2%">
+                                <td >
                                     <input asp-for="@item.Quantity" id="quantity" class="form-control" />
                                 </td>
                                 <td>
                                     <input asp-for="@item.TotalCost" readonly id="totalCost" class="form-control" />
+                                    <input asp-for="@item.PerProductCost" type="hidden" id="perProductCost" class="form-control" />
                                 </td>
                                 <td style="width: 20%">
                                     <textarea asp-for="@item.Description" class="form-control"></textarea>
