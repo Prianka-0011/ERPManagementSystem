@@ -4,7 +4,9 @@
   max-width: 1000px !important;
 
 }
-
+.datatable > tbody > tr > td {
+    padding: 5px !important;
+}
 
 * {
     padding: 0;
@@ -169,8 +171,11 @@ select {
     padding:0 0 12px 0;
 }
 #productImg {
-    height: 40px !important;
+    height: 30px !important;
     width: auto;
+}
+#removeOnlyFeildValue{
+    margin-top:15px!important;
 }
 .lineitem::after {
     content: '';
@@ -180,16 +185,22 @@ select {
     height: 1px;
     background: #DCDCDC;
 }
-.remove{
-    height:20px;
-    width:20px;
-    background:none;
-    color:#000;
+.datatable tr th{
+    font-size:10px!important;
+}
+.remove {
+    display: block;
+    height: 18px;
+    width: 18px;
+    text-align:center;
+    border-radius: 9px;
+    padding-top:3px;
+    border: 1px solid #DCDCDC;
+    color: #000;
+    cursor: pointer;
     font-size:8px;
-    outline:none;
-    border:solid 1px #a7a5a5;
-    border-radius:10px;
-    cursor:pointer
+    margin-top:16px;
+        
 }
 .add{
 color:#000;

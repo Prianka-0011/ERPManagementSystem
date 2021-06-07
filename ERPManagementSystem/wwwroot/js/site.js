@@ -82,7 +82,7 @@ function loadImg(event) {
     }
 };
 //Jquery end//
-//document.getElementById('removeFeildWithValue').style.display = "none";
+document.getElementById('removeFeildWithValue').style.display = "none";
 // crud operation start
 
 //For small popup start
@@ -107,6 +107,155 @@ ShowInLargePopup = (url, title) => {
             $('#large-modal .modal-body').html(res);
             $('#large-modal .modal-title').html(title);
             $('#large-modal').modal('show');
+            var $tableBodyClear = $('.datatable').find("tbody");
+
+            $trfirstclear = $tableBodyClear.find("tr:first");
+            $trfirstclear.find("td").find(':input').val('');
+           
+            //dynamically add or remove feild start
+            $("#addAnother").click(function (e) {
+
+                var $tableBody = $('.datatable').find("tbody");
+                    $trfirst = $tableBody.find("tr:last");             
+                    $trNew = $trfirst.clone();
+                $trNew.find("td").find(':input').val('');
+                $trfirst.after($trNew);
+                $trNew.find("td").find('#removeFeildWithValue').addClass('removeTR');
+                $trfirst.find("td").find('#removeFeildWithValue').addClass('refreshTR');
+                $(this).removeClass("input-validation-error");
+            });
+            
+            $('.datatable').on('click', '.removeTR', function () {
+                $(this).parents('tr').remove();
+            });
+            $('.datatable').on('click', '.refreshTR', function () {
+                $closestclear = $('.refreshTR').closest('tr');
+                $closestclear.find("td").find(':input').val('');
+                $closestclear.find("td").find(':select').val('');
+            });  
+
+          //dynamically add or remove feild end
+         //image change start
+            $('.datatable').on('change', '#product', function () {
+                var curentrow = $(this).closest("tr");
+                var colVal = curentrow.find('#product').val();
+
+                console.log("fddfsdfd",colVal);
+                
+                $.ajax({
+                    url: '/Quotations/GetProductImg/?id=' + colVal,
+                    type: 'GET',
+                    dataType: 'JSON',
+                    success: function (data) {
+                      //  console.log(data);
+                        var img = curentrow.find('#productImg')
+                        var path = data.imagePath
+                        //console.log("path", path)
+                        //var imghh = URL.createObjectURL(path);
+                        img.attr("src", path);
+
+                    },
+                    error: function (res) {
+                        console.log(res);
+                    }
+                });
+               
+            });
+            //image change end 
+            //tax Rate get
+            $('.datatable').on('change', '#tax', function () {
+                var curentrow = $(this).closest("tr");
+                var colVal = curentrow.find('#tax').val();
+
+                //console.log("fddfsdfd", colVal);
+
+                $.ajax({
+                    url: '/Quotations/GetTaxRate/?id=' + colVal,
+                    type: 'GET',
+                    dataType: 'JSON',
+                    success: function (data) {
+                        //  console.log(data);
+                        var taxRate = curentrow.find('#taxRate')
+                        taxRate.val(data.rate)
+                        console.log(taxRate.val())
+                    },
+                    error: function (res) {
+                        console.log(res);
+                    }
+                });
+
+            });
+            
+          
+            //sub total count
+            $('.datatable').on('keyup', '#tax', function () {
+                var curentrow = $(this).closest("tr");
+                var price = curentrow.find('#price').val();
+                var discount = curentrow.find('#discount').val();
+                var discountAmount = (discount / 100) * price;
+                var taxRate = curentrow.find('#taxRate').val();
+                var quantity = curentrow.find('#quantity').val();
+                var totalCost = curentrow.find('#totalCost');
+                var taxAmount = (taxRate / 100) * price;
+                var totalAmount = ((price - discountAmount) + taxAmount) * quantity;
+                console.log("amount", totalAmount)
+                totalCost.val(totalAmount);
+            });
+            $('.datatable').on('keyup', '#price', function () {
+                var curentrow = $(this).closest("tr");
+                var price = curentrow.find('#price').val();
+                var discount = curentrow.find('#discount').val();
+                var discountAmount = (discount / 100) * price;
+                var taxRate = curentrow.find('#taxRate').val();
+                var quantity = curentrow.find('#quantity').val();
+                var totalCost = curentrow.find('#totalCost');
+                var taxAmount = (taxRate / 100) * price;
+                var totalAmount = ((price - discountAmount) + taxAmount) * quantity;
+                console.log("amount", totalAmount)
+                totalCost.val(totalAmount);
+            });
+            $('.datatable').on('keyup', '#discount', function () {
+                var curentrow = $(this).closest("tr");
+                var price = curentrow.find('#price').val();
+                var discount = curentrow.find('#discount').val();
+                var discountAmount = (discount / 100) * price;
+                var taxRate = curentrow.find('#taxRate').val();
+                var quantity = curentrow.find('#quantity').val();
+                var totalCost = curentrow.find('#totalCost');
+                var taxAmount = (taxRate / 100) * price;
+                var totalAmount = ((price - discountAmount) + taxAmount) * quantity;
+                console.log("amount", totalAmount)
+                totalCost.val(totalAmount);
+            });
+            $('.datatable').on('change', '#tax', function () {
+                var curentrow = $(this).closest("tr");
+                var price = curentrow.find('#price').val();
+                var discount = curentrow.find('#discount').val();
+                var discountAmount = (discount / 100) * price;
+                var taxRate = curentrow.find('#taxRate').val();
+                var quantity = curentrow.find('#quantity').val();
+                var totalCost = curentrow.find('#totalCost');
+                var taxAmount = (taxRate / 100) * price;
+                var totalAmount = ((price - discountAmount) + taxAmount) * quantity;
+                console.log("amount", totalAmount)
+                totalCost.val(totalAmount);
+            });
+
+            $('.datatable').on('keyup', '#quantity', function () {
+                var curentrow = $(this).closest("tr");
+                var price = curentrow.find('#price').val();
+                var discount = curentrow.find('#discount').val();
+                var discountAmount = (discount / 100) * price;
+                var taxRate = curentrow.find('#taxRate').val();
+                var quantity = curentrow.find('#quantity').val();
+                var totalCost = curentrow.find('#totalCost');
+                var taxAmount = (taxRate / 100) * price;
+                var totalAmount = ((price - discountAmount) + taxAmount) * quantity;
+                console.log("amount", totalAmount)
+                totalCost.val(totalAmount);
+            });
+
+            
         }
     });
 
@@ -203,3 +352,46 @@ function subcategoryList() {
         }
     })
 }
+//dynamically add or remove feild start
+
+$("#addAnother").click(function (e) {
+
+    var $tableBody = $('.datatable').find("tbody"),
+        $trLast = $tableBody.find("tr:last"),
+        $trNew = $trLast.clone();
+
+
+
+    //$trNew.find("td").find(':input').val('');
+    //var suffix = $trNew.find(':input:first').attr('name').match(/\d+/);
+    //console.log(suffix);
+    //$.each($trNew.find(':input'), function (i, val) {
+    //    $('#qt').keyup(function () {
+    //        var res = $('#qt').val() * $('#sum').val();
+    //        if (res == Number.POSITIVE_INFINITY || res == Number.NEGATIVE_INFINITY || isNaN(res))
+    //            res = "N/A"; // OR 0
+    //        $('#result').val(res);
+    //    });
+
+        // Replaced Name
+        //var oldN = $(this).attr('name');
+        //var newN = oldN.replace('[' + suffix + ']', '[' + (parseInt(suffix) + 1) + ']');
+
+        //$(this).attr('name', newN);
+        //Replaced value
+       // var type = $(this).attr('type');
+
+        // If you have another Type then replace with default value
+      //  $(this).removeClass("input-validation-error");
+
+    
+    $trLast.after($trNew);
+
+    $trNew.find("#removeOnlyFeildValue").removeAttr('id', 'removeOnlyFeildValue');
+    $trNew.find("#removeOnlyFeildValue").setAttribute('id', 'removeFeildWithValue');
+    //var $trfirst = $tableBody.find("tr:first");
+
+    //$trfirst.find('.remove').hide();
+
+});
+//dynamically add or remove feild end
