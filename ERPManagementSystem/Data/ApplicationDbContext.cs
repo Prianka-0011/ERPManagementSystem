@@ -13,6 +13,7 @@ namespace ERPManagementSystem.Data
             : base(options)
         {
         }
+        //Inventory table
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<SubCategory> SubCategories { get; set; }
         public virtual DbSet<Brand> Brands { get; set; }
@@ -21,6 +22,12 @@ namespace ERPManagementSystem.Data
         public virtual DbSet<Quotation>Quotations { get; set; }
         public virtual DbSet<QuotationLineItem>QuotationLineItems { get; set; }
         public virtual DbSet<TaxRate>TaxRates { get; set; }
-        
+        //crm table
+        public virtual DbSet<Vendor>Vendors { get; set; }
+        public virtual DbSet<Customer>Customers { get; set; }
+        //hrm table
+        public virtual DbSet<Designation> Designations { get; set; }
+
+
     }
 }

@@ -119,6 +119,29 @@ ShowInLargePopup = (url, title) => {
                     $trfirst = $tableBody.find("tr:last");             
                     $trNew = $trfirst.clone();
                 $trNew.find("td").find(':input').val('');
+                //this part add 
+                var suffix = $trNew.find(':input:first').attr('name').match(/\d+/);
+                console.log(suffix);
+                $.each($trNew.find(':input'), function (i, val) {
+                    $('#qt').keyup(function () {
+                        var res = $('#qt').val() * $('#sum').val();
+                        if (res == Number.POSITIVE_INFINITY || res == Number.NEGATIVE_INFINITY || isNaN(res))
+                            res = "N/A"; // OR 0
+                        $('#result').val(res);
+                    });
+
+                    // Replaced Name
+                    var oldN = $(this).attr('name');
+                    var newN = oldN.replace('[' + suffix + ']', '[' + (parseInt(suffix) + 1) + ']');
+
+                    $(this).attr('name', newN);
+                    //Replaced value
+                    var type = $(this).attr('type');
+
+                    // If you have another Type then replace with default value
+                    $(this).removeClass("input-validation-error");
+
+                });
                 var img = $trNew.find('#productImg');
                 img.attr("src", "https://localhost:44377/images/noimg.png");
                 $trfirst.after($trNew);
@@ -152,8 +175,10 @@ ShowInLargePopup = (url, title) => {
                     success: function (data) {
                       //  console.log(data);
                         var img = curentrow.find('#productImg');
+                        var storeImgPath = curentrow.find('#imgPath');
                         var path = data.imagePath;
-                        img.attr("src","https://localhost:44377/"+path);
+                        img.attr("src", "https://localhost:44377/" + path);
+                        storeImgPath.val(data.imagePath);
 
                     },
                     error: function (res) {

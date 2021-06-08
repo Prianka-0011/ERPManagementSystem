@@ -9,11 +9,12 @@ namespace ERPManagementSystem.Models
     public class Quotation
     {
         public Guid Id { get; set; }
+        [Required]
         public string QuotationNo { get; set; }
 
-        [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+       
         public DateTime Date { get; set; }
+        [Required]
         public decimal ShippingCost { get; set; }
         public string Status { get; set; }
         //Navigation

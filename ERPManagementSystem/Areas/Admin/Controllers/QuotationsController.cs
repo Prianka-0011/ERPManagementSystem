@@ -43,11 +43,12 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
         {
             if (id == Guid.Parse("00000000-0000-0000-0000-000000000000"))
             {
-                QuotationVm quotationVm = new QuotationVm();
+                Quotation quotationVm = new Quotation();
                 quotationVm.QuotationLineItems = new List<QuotationLineItem>{ new QuotationLineItem{ Id = Guid.Parse("00000000-0000-0000-0000-000000000000"), ImgPath = "images/noimg.png" } };
                 ViewData["Products"] = new SelectList(_context.Products.ToList(), "Id", "Name");
                 
                 ViewData["Tax"] = new SelectList(_context.TaxRates.ToList(), "Id", "Name");
+                ViewData["Vendor"] = new SelectList(_context.Vendors.ToList(), "Id", "DisplayName");
                 return View(quotationVm);
             }
 
@@ -59,7 +60,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 {
                     return NotFound();
                 }
-                QuotationVm quotationVm = new QuotationVm();
+                Quotation quotationVm = new Quotation();
                 quotationVm.Id = quotation.Id;
                 quotationVm.QuotationNo = quotation.QuotationNo;
                 quotationVm.VendorId = quotation.VendorId;
@@ -72,10 +73,9 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddOrEdit(Guid id, QuotationVm quotationVm)
+        public async Task<IActionResult> AddOrEdit(Guid id, Quotation quotationVm)
         {
-            if (ModelState.IsValid)
-            {
+           
                 Quotation entity;
 
                 QuotationLineItem lineItem;
@@ -88,6 +88,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     entity.ShippingCost = quotationVm.ShippingCost;
                     entity.Date = DateTime.Now;
                     entity.Status = quotationVm.Status;
+                    _context.Quotations.Add(entity);
                   await  _context.SaveChangesAsync();
                     foreach (var item in quotationVm.QuotationLineItems)
                     {
@@ -118,7 +119,28 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                         entity.VendorId = quotationVm.VendorId;
                         entity.ShippingCost = quotationVm.ShippingCost;
                         entity.Status = quotationVm.Status;
-                       
+                        var oldLineIetm =await _context.QuotationLineItems.Where(c => c.QuotationId == id).ToListAsync();
+                        foreach (var item in oldLineIetm)
+                        {
+                            _context.Remove(item);
+                        }
+                        foreach (var item in quotationVm.QuotationLineItems)
+                        {
+                            lineItem = new QuotationLineItem();
+                            lineItem.ProductId = item.ProductId;
+                            lineItem.Color = item.Color;
+                            lineItem.Size = item.Size;
+                            lineItem.Price = item.Price;
+                            lineItem.TaxRateId = item.TaxRateId;
+                            lineItem.TaxRate = item.TaxRate;
+                            lineItem.QuotationId = entity.Id;
+                            lineItem.PerProductCost = item.PerProductCost;
+                            lineItem.Discount = item.Discount;
+                            lineItem.Quantity = item.Quantity;
+                            lineItem.Description = item.Description;
+                            lineItem.ImgPath = item.ImgPath;
+                            _context.QuotationLineItems.Add(lineItem);
+                        }
                         _context.Update(entity);
                         await _context.SaveChangesAsync();
                     }
@@ -133,16 +155,16 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 {
                     pg = 1;
                 }
-                var resulProduct = _context.Products.Include(c => c.Category).Include(d => d.SubCategory).Include(e => e.Brand).Where(c => c.Status == "Enable").ToList();
+                var resulProduct = _context.Quotations.Include(c => c.Vendor).ToList();
                 var resCount = resulProduct.Count();
                 var pager = new Pager(resCount, pg, pageSize);
                 int resSkip = (pg - 1) * pageSize;
                 ViewBag.Pager = pager;
                 var data = resulProduct.Skip(resSkip).Take(pager.PageSize);
 
-                return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllProduct", data) });
-            }
-            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEdit") });
+                return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllQuotation", data) });
+            
+           // return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEdit",quotationVm) });
 
         }
         [HttpGet("/Quotations/GetProductImg")]

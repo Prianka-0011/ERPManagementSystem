@@ -1,7 +1,8 @@
-﻿@model ERPManagementSystem.ViewModels.QuotationVm
+﻿@model ERPManagementSystem.Models.Quotation
 @{
     ViewData["Title"] = "AddOrEdit";
     Layout = null;
+   
 }
 
 <div class="container-fluid">
@@ -14,7 +15,7 @@
                 <input type="hidden" asp-for="Id" />
                 <div class="form-group">
                     <label>Vendon</label>
-                    <select asp-for="VendorId" class="form-control"></select>
+                    <select asp-for="VendorId" asp-items="ViewBag.Vendor" class="form-control"></select>
                 </div>
             </div>
             <div class="col-md-4 col-lg-4 col-12">
@@ -48,73 +49,91 @@
         </div>
         <div class="row">
             <div class="col-md-12 col-lg-12 col-12">
-                <table class="table datatable table-hover table-bordered">
-                    <thead>
-                        <tr>
-                            <th style="width: 3%" scope="col">Image</th>
-                            <th scope="col">Product</th>
-                            <th scope="col">Color</th>
-                            <th scope="col">Size</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Tax Rate</th>
-                            <th scope="col">Discount</th>
-                            <th scope="col"> Quantity</th>
-                            <th scope="col"> Total Cost</th>
-                            <th scope="col">Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model.QuotationLineItems)
-                        {
-
+             
+                @if (Model.QuotationLineItems != null && Model.QuotationLineItems.Count() > 0)
+                {
+                    <table class="table datatable table-hover table-bordered">
+                        <thead>
                             <tr>
-                                <td >
-                                    <img src="https://localhost:44377/@item.ImgPath" alt="Alternate Text" id="productImg" />
-                                    <input type="hidden" asp-for="@item.ImgPath" value="@ViewBag.imgPath" />
-                                </td>
-                                <td style="width: 13%">
-                                    <div class="form-group">
-                                        <select asp-for="@item.ProductId" asp-items="ViewBag.Products" id="product"  class="form-control"></select>
-                                    </div>
-                                </td>
-                                <td >
-                                    <div class="form-group">
-                                        <input asp-for="@item.Color"  class="form-control" />
-                                    </div>
-                                </td>
-                                <td>
-                                    <input asp-for="@item.Size" class="form-control" />
-                                </td>
-                                <td>
-                                    <input asp-for="@item.Price" id="price" class="form-control" />
-                                </td>
-                                <td style="width: 13%">
-                                    <select asp-for="@item.TaxRateId" id="tax" asp-items="ViewBag.Tax" class="form-control"></select>
-                                    <input type="hidden" asp-for="@item.TaxRate"  id="taxRate" class="form-control" />
-                                </td>
-                                <td >
-                                    <input  asp-for="@item.Discount" id="discount" class="form-control" />
-                                </td>
-                                <td >
-                                    <input asp-for="@item.Quantity" id="quantity" class="form-control" />
-                                </td>
-                                <td>
-                                    <input asp-for="@item.TotalCost" readonly id="totalCost" class="form-control" />
-                                    <input asp-for="@item.PerProductCost" type="hidden" id="perProductCost" class="form-control" />
-                                </td>
-                                <td style="width: 20%">
-                                    <textarea asp-for="@item.Description" class="form-control"></textarea>
-                                </td>
-                                <td style="width: 2%">
-                                    <a id="removeFeildWithValue" class="remove"><i class="fas fa-minus"></i></a>
-                                </td>
+                                <th style="width: 3%" scope="col">Image</th>
+                                <th scope="col">Product</th>
+                                <th scope="col">Color</th>
+                                <th scope="col">Size</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Tax Rate</th>
+                                <th scope="col">Discount</th>
+                                <th scope="col"> Quantity</th>
+                                <th scope="col"> Total Cost</th>
+                                <th scope="col">Description</th>
                             </tr>
-                        }
+                        </thead>
+                        <tbody>
+                          @{  
+                              int j = 0;
+                          }
+                            @foreach (var item in Model.QuotationLineItems)
+                            {
 
-                    </tbody>
-                </table>
-                <a class="add" id="addAnother"><i class="fas fa-plus"></i><span>Add</span></a>
+                                <tr>
+                                    <td>
+                                        <input type="hidden" asp-for="@Model.QuotationLineItems[j].Id" />
+                                        <img src="https://localhost:44377/@item.ImgPath" alt="Alternate Text" id="productImg" />
+                                        <input type="hidden" asp-for="@Model.QuotationLineItems[j].ImgPath" id="imgPath" />
+                                    </td>
+                                    <td style="width: 13%">
+                                        <div class="form-group">
+                                            <select asp-for="@Model.QuotationLineItems[j].ProductId" asp-items="ViewBag.Products" id="product" class="form-control"></select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input asp-for="@Model.QuotationLineItems[j].Color" class="form-control" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input asp-for="@Model.QuotationLineItems[j].Size" class="form-control" />
+                                    </td>
+                                    <td>
+                                        <input asp-for="@Model.QuotationLineItems[j].Price" id="price" class="form-control" />
+                                    </td>
+                                    <td style="width: 13%">
+                                        <select asp-for="@Model.QuotationLineItems[j].TaxRateId" id="tax" asp-items="ViewBag.Tax" class="form-control"></select>
+                                        <input type="hidden" asp-for="@Model.QuotationLineItems[j].TaxRate" id="taxRate" class="form-control" />
+                                    </td>
+                                    <td>
+                                        <input asp-for="@Model.QuotationLineItems[j].Discount" id="discount" class="form-control" />
+                                    </td>
+                                    <td>
+                                        <input asp-for="@Model.QuotationLineItems[j].Quantity" id="quantity" class="form-control" />
+                                    </td>
+                                    <td>
+                                        <input asp-for="@Model.QuotationLineItems[j].TotalCost" readonly id="totalCost" class="form-control" />
+                                        <input asp-for="@Model.QuotationLineItems[j].PerProductCost" type="hidden" id="perProductCost" class="form-control" />
+                                    </td>
+                                    <td style="width: 20%">
+                                        <textarea asp-for="@Model.QuotationLineItems[j].Description" class="form-control"></textarea>
+                                    </td>
+                                    <td style="width: 2%">
+                                        <a id="removeFeildWithValue" class="remove"><i class="fas fa-minus"></i></a>
+                                    </td>
+                                </tr>
+                                j++;
+                            }
+
+                        </tbody>
+                        
+                    </table>
+                }
+            <div class="row">
+                <div class="col-md-1">
+                    <a class="add" id="addAnother"><i class="fas fa-plus"></i><span>Add</span></a>
+                </div>
+                <div class="col-md-1">
+ 
+                    <button type="submit" class="savebtn">Save</button>
+                </div>
             </div>
+                </div>
         </div>
     }
 </div>

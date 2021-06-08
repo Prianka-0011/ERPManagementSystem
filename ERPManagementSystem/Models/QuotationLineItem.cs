@@ -11,11 +11,11 @@ namespace ERPManagementSystem.Models
         public Guid Id { get; set; }
         public string  Color { get; set; }
         public string  Size { get; set; }
-        [Required]
+        
         public decimal Price { get; set; }
         public int Discount { get; set; }
         public decimal PerProductCost { get; set; }
-        [Required]
+        
         public decimal Quantity { get; set; }
         public decimal TotalCost { get; set; }
         public string Description { get; set; }

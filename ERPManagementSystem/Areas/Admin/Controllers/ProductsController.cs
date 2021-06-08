@@ -198,7 +198,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
 
                 return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllProduct", data) });
             }
-            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEdit") });
+            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEdit", productVm) });
 
         }
         [HttpGet("/Products/GetAllSubCategory")]
