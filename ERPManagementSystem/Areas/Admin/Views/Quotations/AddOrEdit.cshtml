@@ -2,14 +2,11 @@
 @{
     ViewData["Title"] = "AddOrEdit";
     Layout = null;
-   
+
 }
 
 <div class="container-fluid">
-    @using (Html.BeginForm("AddOrEdit", "Quotations", FormMethod.Post))
-    {
-        @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true)
+    <form asp-action="AddOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPostLargeModal(this);" enctype="multipart/form-data" autocomplete="off">
         <div class="row">
             <div class="col-md-4 col-lg-4 col-12">
                 <input type="hidden" asp-for="Id" />
@@ -42,98 +39,150 @@
             </div>
         </div>
         <div class="row">
-           
+
         </div>
         <div class="lineitem">
             <p>Add Line Item</p>
         </div>
         <div class="row">
             <div class="col-md-12 col-lg-12 col-12">
-             
+
                 @if (Model.QuotationLineItems != null && Model.QuotationLineItems.Count() > 0)
                 {
-                    <table class="table datatable table-hover table-bordered">
-                        <thead>
-                            <tr>
-                                <th style="width: 3%" scope="col">Image</th>
-                                <th scope="col">Product</th>
-                                <th scope="col">Color</th>
-                                <th scope="col">Size</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">Tax Rate</th>
-                                <th scope="col">Discount</th>
-                                <th scope="col"> Quantity</th>
-                                <th scope="col"> Total Cost</th>
-                                <th scope="col">Description</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                          @{  
-                              int j = 0;
-                          }
-                            @foreach (var item in Model.QuotationLineItems)
-                            {
-
+                    <div class="table-wrapper-scroll-y custom-scrollbar">
+                        <table class="table datatable table-hover table-bordered">
+                            <thead>
                                 <tr>
-                                    <td>
-                                        <input type="hidden" asp-for="@Model.QuotationLineItems[j].Id" />
-                                        <img src="https://localhost:44377/@item.ImgPath" alt="Alternate Text" id="productImg" />
-                                        <input type="hidden" asp-for="@Model.QuotationLineItems[j].ImgPath" id="imgPath" />
-                                    </td>
-                                    <td style="width: 13%">
-                                        <div class="form-group">
-                                            <select asp-for="@Model.QuotationLineItems[j].ProductId" asp-items="ViewBag.Products" id="product" class="form-control"></select>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <input asp-for="@Model.QuotationLineItems[j].Color" class="form-control" />
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <input asp-for="@Model.QuotationLineItems[j].Size" class="form-control" />
-                                    </td>
-                                    <td>
-                                        <input asp-for="@Model.QuotationLineItems[j].Price" id="price" class="form-control" />
-                                    </td>
-                                    <td style="width: 13%">
-                                        <select asp-for="@Model.QuotationLineItems[j].TaxRateId" id="tax" asp-items="ViewBag.Tax" class="form-control"></select>
-                                        <input type="hidden" asp-for="@Model.QuotationLineItems[j].TaxRate" id="taxRate" class="form-control" />
-                                    </td>
-                                    <td>
-                                        <input asp-for="@Model.QuotationLineItems[j].Discount" id="discount" class="form-control" />
-                                    </td>
-                                    <td>
-                                        <input asp-for="@Model.QuotationLineItems[j].Quantity" id="quantity" class="form-control" />
-                                    </td>
-                                    <td>
-                                        <input asp-for="@Model.QuotationLineItems[j].TotalCost" readonly id="totalCost" class="form-control" />
-                                        <input asp-for="@Model.QuotationLineItems[j].PerProductCost" type="hidden" id="perProductCost" class="form-control" />
-                                    </td>
-                                    <td style="width: 20%">
-                                        <textarea asp-for="@Model.QuotationLineItems[j].Description" class="form-control"></textarea>
-                                    </td>
-                                    <td style="width: 2%">
-                                        <a id="removeFeildWithValue" class="remove"><i class="fas fa-minus"></i></a>
-                                    </td>
+                                    <th style="width: 3%" scope="col">Image</th>
+                                    <th scope="col">Product</th>
+                                    <th scope="col">Color</th>
+                                    <th scope="col">Size</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Tax Rate</th>
+                                    <th scope="col">Discount</th>
+                                    <th scope="col"> Quantity</th>
+                                    <th scope="col"> Total Cost</th>
+                                    <th scope="col">Description</th>
                                 </tr>
-                                j++;
-                            }
+                            </thead>
+                            <tbody>
+                                @{
+                                    int j = 0;
+                                }
+                                @foreach (var item in Model.QuotationLineItems)
+                                {
+                                    if (j == 0)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <input type="hidden" asp-for="@Model.QuotationLineItems[j].Id" />
+                                                <img src="https://localhost:44377/@item.ImgPath" alt="Alternate Text" id="productImg" />
+                                                <input type="hidden" asp-for="@Model.QuotationLineItems[j].ImgPath" id="imgPath" />
+                                            </td>
+                                            <td style="width: 13%">
+                                                <div class="form-group">
+                                                    <select asp-for="@Model.QuotationLineItems[j].ProductId" asp-items="ViewBag.Products" id="product" class="form-control"></select>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input asp-for="@Model.QuotationLineItems[j].Color" class="form-control" />
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <input asp-for="@Model.QuotationLineItems[j].Size" class="form-control" />
+                                            </td>
+                                            <td>
+                                                <input asp-for="@Model.QuotationLineItems[j].Price" id="price" class="form-control" />
+                                            </td>
+                                            <td style="width: 13%">
+                                                <select asp-for="@Model.QuotationLineItems[j].TaxRateId" id="tax" asp-items="ViewBag.Tax" class="form-control"></select>
+                                                <input type="hidden" asp-for="@Model.QuotationLineItems[j].Rate" id="rate" class="form-control" />
+                                            </td>
+                                            <td>
+                                                <input asp-for="@Model.QuotationLineItems[j].Discount" id="discount" class="form-control" />
+                                            </td>
+                                            <td>
+                                                <input asp-for="@Model.QuotationLineItems[j].Quantity" id="quantity" class="form-control" />
+                                            </td>
+                                            <td>
+                                                <input asp-for="@Model.QuotationLineItems[j].TotalCost" readonly id="totalCost" class="form-control" />
+                                                <input asp-for="@Model.QuotationLineItems[j].PerProductCost" type="hidden" id="perProductCost" class="form-control" />
+                                            </td>
+                                            <td style="width: 20%">
+                                                <textarea asp-for="@Model.QuotationLineItems[j].Description" class="form-control"></textarea>
+                                            </td>
+                                            <td style="width: 2%">
+                                                <a id="removeFeildWithValue" class="remove refreshTR"><i class="fas fa-minus"></i></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td>
+                                                <input type="hidden" asp-for="@Model.QuotationLineItems[j].Id" />
+                                                <img src="https://localhost:44377/@item.ImgPath" alt="Alternate Text" id="productImg" />
+                                                <input type="hidden" asp-for="@Model.QuotationLineItems[j].ImgPath" id="imgPath" />
+                                            </td>
+                                            <td style="width: 13%">
+                                                <div class="form-group">
+                                                    <select asp-for="@Model.QuotationLineItems[j].ProductId" asp-items="ViewBag.Products" id="product" class="form-control"></select>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input asp-for="@Model.QuotationLineItems[j].Color" class="form-control" />
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <input asp-for="@Model.QuotationLineItems[j].Size" class="form-control" />
+                                            </td>
+                                            <td>
+                                                <input asp-for="@Model.QuotationLineItems[j].Price" id="price" class="form-control" />
+                                            </td>
+                                            <td style="width: 13%">
+                                                <select asp-for="@Model.QuotationLineItems[j].TaxRateId" id="tax" asp-items="ViewBag.Tax" class="form-control"></select>
+                                                <input type="hidden" asp-for="@Model.QuotationLineItems[j].TaxRate" id="taxRate" class="form-control" />
+                                            </td>
+                                            <td>
+                                                <input asp-for="@Model.QuotationLineItems[j].Discount" id="discount" class="form-control" />
+                                            </td>
+                                            <td>
+                                                <input asp-for="@Model.QuotationLineItems[j].Quantity" id="quantity" class="form-control" />
+                                            </td>
+                                            <td>
+                                                <input asp-for="@Model.QuotationLineItems[j].TotalCost" readonly id="totalCost" class="form-control" />
+                                                <input asp-for="@Model.QuotationLineItems[j].PerProductCost" type="hidden" id="perProductCost" class="form-control" />
+                                            </td>
+                                            <td style="width: 20%">
+                                                <textarea asp-for="@Model.QuotationLineItems[j].Description" class="form-control"></textarea>
+                                            </td>
+                                            <td style="width: 2%">
+                                                <a id="removeFeildWithValue" class="remove removeTR"><i class="fas fa-minus"></i></a>
+                                            </td>
+                                        </tr>
+                                    }
 
-                        </tbody>
-                        
-                    </table>
+                                    j++;
+                                }
+
+                            </tbody>
+
+                        </table>
+                    </div>
                 }
             <div class="row">
-                <div class="col-md-1">
-                    <a class="add" id="addAnother"><i class="fas fa-plus"></i><span>Add</span></a>
+                <div class="col-md-1 col-5 col-lg-1">
+                    <a class="addBtn" id="addAnother"><i class="fas fa-plus"></i><span>Add</span></a>
+                
                 </div>
-                <div class="col-md-1">
- 
+                <div class="col-md-1 col-5 col-lg-1 nopadding">                   
                     <button type="submit" class="savebtn">Save</button>
                 </div>
+
             </div>
-                </div>
+            </div>
         </div>
-    }
+    </form>
 </div>

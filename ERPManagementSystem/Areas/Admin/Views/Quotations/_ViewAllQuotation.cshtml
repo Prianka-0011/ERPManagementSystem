@@ -39,7 +39,7 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr onclick="ShowInSmallPopup('@Url.Action("AddOrEdit","Quotations",new { id=item.Id},Context.Request.Scheme)','Update Quotation' )">
+                <tr onclick="ShowInLargePopupOnEdit('@Url.Action("AddOrEdit","Quotations",new { id=item.Id},Context.Request.Scheme)','Update Quotation' )">
                     <td scope="row">@i</td>
                     <td>@item.QuotationNo</td>
                     <td>@item.Vendor.DisplayName</td>
@@ -60,25 +60,25 @@
                         @if (pager.CurrentPage > 1)
                         {
                             <li class="page-item">
-                                <a class="page-link" asp-controller="Categories" asp-action="Index" asp-route-pg="1">Frist</a>
+                                <a class="page-link" asp-controller="Quotations" asp-action="Index" asp-route-pg="1">Frist</a>
                             </li>
                             <li class="page-item">
-                                <a class="page-link" asp-controller="Categories" asp-action="Index" asp-route-pg="@(pager.CurrentPage-1)">Prev</a>
+                                <a class="page-link" asp-controller="Quotations" asp-action="Index" asp-route-pg="@(pager.CurrentPage-1)">Prev</a>
                             </li>
                         }
                         @for (var pge = pager.StartPage; pge <= pager.EndPage; pge++)
                         {
                             <li class="page-item @( pge==pager.CurrentPage?"active":"")">
-                                <a class="page-link" asp-controller="Categories" asp-action="Index" asp-route-pg="@pge">@pge</a>
+                                <a class="page-link" asp-controller="Quotations" asp-action="Index" asp-route-pg="@pge">@pge</a>
                             </li>
                         }
                         @if (pager.CurrentPage < pager.TotalPages)
                         {
                             <li class="page-item">
-                                <a class="page-link" asp-controller="Categories" asp-action="Index" asp-route-pg="@(pager.CurrentPage+1)">Next</a>
+                                <a class="page-link" asp-controller="Quotations" asp-action="Index" asp-route-pg="@(pager.CurrentPage+1)">Next</a>
                             </li>
                             <li class="page-item">
-                                <a class="page-link" asp-controller="Categories" asp-action="Index" asp-route-pg="@pager.TotalPages">Last</a>
+                                <a class="page-link" asp-controller="Quotations" asp-action="Index" asp-route-pg="@pager.TotalPages">Last</a>
                             </li>
                         }
                     </ul>

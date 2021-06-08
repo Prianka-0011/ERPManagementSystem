@@ -61,12 +61,16 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     return NotFound();
                 }
                 Quotation quotationVm = new Quotation();
+                var QuotationLineItems = _context.QuotationLineItems.Where(c => c.QuotationId == quotation.Id).ToList();
                 quotationVm.Id = quotation.Id;
                 quotationVm.QuotationNo = quotation.QuotationNo;
                 quotationVm.VendorId = quotation.VendorId;
                 quotationVm.Date = quotation.Date;
                 quotationVm.ShippingCost = quotation.ShippingCost;
-                quotationVm.QuotationLineItems = quotation.QuotationLineItems;
+                quotationVm.QuotationLineItems = QuotationLineItems;
+                ViewData["Products"] = new SelectList(_context.Products.ToList(), "Id", "Name");
+                ViewData["Tax"] = new SelectList(_context.TaxRates.ToList(), "Id", "Name");
+                ViewData["Vendor"] = new SelectList(_context.Vendors.ToList(), "Id", "DisplayName");
                 return View(quotationVm);
             }
 
@@ -98,13 +102,14 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                         lineItem.Size = item.Size;
                         lineItem.Price = item.Price;
                         lineItem.TaxRateId = item.TaxRateId;
-                        lineItem.TaxRate = item.TaxRate;
+                        lineItem.Rate = item.Rate;
                         lineItem.QuotationId = entity.Id;
                         lineItem.PerProductCost = item.PerProductCost;
                         lineItem.Discount = item.Discount;
                         lineItem.Quantity = item.Quantity;
                         lineItem.Description = item.Description;
                         lineItem.ImgPath = item.ImgPath;
+                        lineItem.TotalCost = item.TotalCost;
                         _context.QuotationLineItems.Add(lineItem);
                     }
 
@@ -139,17 +144,19 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                             lineItem.Quantity = item.Quantity;
                             lineItem.Description = item.Description;
                             lineItem.ImgPath = item.ImgPath;
-                            _context.QuotationLineItems.Add(lineItem);
+                            lineItem.TotalCost = item.TotalCost;
+                        _context.QuotationLineItems.Add(lineItem);
                         }
                         _context.Update(entity);
-                        await _context.SaveChangesAsync();
+                        
                     }
                     catch (DbUpdateConcurrencyException ex)
                     {
 
                     }
                 }
-                const int pageSize = 10;
+            await _context.SaveChangesAsync();
+            const int pageSize = 10;
                 int pg = 1;
                 if (pg < 1)
                 {
