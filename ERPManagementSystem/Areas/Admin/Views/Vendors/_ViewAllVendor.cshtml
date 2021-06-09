@@ -1,0 +1,98 @@
+﻿@model IEnumerable<ERPManagementSystem.Models.Vendor>
+@using ERPManagementSystem.Extensions;
+@{
+
+    Pager pager = new Pager();
+    int pageNo = 0;
+    var i = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+        if (pager.CurrentPage == 1)
+        {
+            i = pager.StartPage;
+        }
+        if (pager.CurrentPage > 1)
+        {
+            i = pager.PageSize * (pager.CurrentPage - pager.StartPage);
+            i++;
+        }
+    }
+
+}
+
+
+@if (Model != null)
+{
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">FirstName</th>
+                <th scope="col">LastName</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Email</th>
+                <th scope="col">Address</th>
+                <th scope="col">CompanyName</th>
+                <th scope="col">DisplayName</th>
+                <th scope="col">WebSite</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr onclick="ShowInSmallPopup('@Url.Action("AddOrEdit","Vendors",new { id=item.Id},Context.Request.Scheme)','Update Vendor' )">
+                    <td scope="row">@i</td>
+                    <td>@item.FristName</td>
+                    <td>@item.LastName</td>
+                    <td>@item.Phone</td>
+                    <td>@item.Email</td>
+                    <td>@item.Address</td>
+                    <td>@item.CompanyName</td>
+                    <td>@item.DisplayName</td>
+                    <td>@item.WebSite</td>
+                    <td>@item.Status</td>
+
+                </tr>
+                i++;
+            }
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col-md-12 col-12 col-lg-12">
+            @if (pager.TotalPages > 0)
+            {
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        @if (pager.CurrentPage > 1)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" asp-controller="Vendors" asp-action="Index" asp-route-pg="1">Frist</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" asp-controller="Vendors" asp-action="Index" asp-route-pg="@(pager.CurrentPage-1)">Prev</a>
+                            </li>
+                        }
+                        @for (var pge = pager.StartPage; pge <= pager.EndPage; pge++)
+                        {
+                            <li class="page-item @( pge==pager.CurrentPage?"active":"")">
+                                <a class="page-link" asp-controller="Vendors" asp-action="Index" asp-route-pg="@pge">@pge</a>
+                            </li>
+                        }
+                        @if (pager.CurrentPage < pager.TotalPages)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" asp-controller="Vendors" asp-action="Index" asp-route-pg="@(pager.CurrentPage+1)">Next</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" asp-controller="Vendors" asp-action="Index" asp-route-pg="@pager.TotalPages">Last</a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            }
+        </div>
+    </div>
+}

@@ -39,13 +39,27 @@
             <div class="sidebar-body">
 
                 <ul>
+                    @{if ((Context.Request.Path.StartsWithSegments("/Admin/Customers/Index") == true))
+                        {
+                            DynamicUrl = "/Admin/Customers/Index";
+
+                        }
+                        else if ((Context.Request.Path.StartsWithSegments("/Admin/Vendors/Index") == true))
+                        {
+                            DynamicUrl = "/Admin/Vendors/Index";
+
+                        }
+                      }
                     <li>
-                        <a class="dropdown2"><i class="fas fa-users"></i><span>CRM</span><i class="fas fa-caret-down"></i></a>
-                        <ul class="dropdown-menu2">
-                            <li><a href="#">Vendor</a></li>
-                            <li><a href="#">Customer</a></li>
+                        <a class="@(Context.Request.Path.StartsWithSegments(DynamicUrl) ? "parentMenu":null) dropdown2"><i class="fas fa-users"></i><span>CRM</span><i class="fas fa-caret-down"></i></a>
+                        <ul class="@(Context.Request.Path.StartsWithSegments(DynamicUrl) ? "show":null) dropdown-menu2">
+                            @{ DynamicUrl = "/Admin/Customers/Index";}
+                            <li><a class="@(Context.Request.Path.StartsWithSegments(DynamicUrl) ? "active":null)" href="@DynamicUrl">Customer</a></li>
+                            @{ DynamicUrl = "/Admin/Vendors/Index";}
+                            <li><a class="@(Context.Request.Path.StartsWithSegments(DynamicUrl) ? "active":null)" href="@DynamicUrl">Vendor</a></li>
                         </ul>
                     </li>
+
                      @{if ((Context.Request.Path.StartsWithSegments("/Admin/Designations/Index") == true))
                          {
                              DynamicUrl = "/Admin/Designations/Index";
