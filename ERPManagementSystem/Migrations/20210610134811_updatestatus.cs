@@ -343,7 +343,7 @@ namespace ERPManagementSystem.Migrations
                         column: x => x.SubCategoryId,
                         principalTable: "SubCategories",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -409,7 +409,7 @@ namespace ERPManagementSystem.Migrations
                         column: x => x.QuotationId,
                         principalTable: "Quotations",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_PurchaseOrderLineItems_TaxRates_TaxRateId",
                         column: x => x.TaxRateId,
