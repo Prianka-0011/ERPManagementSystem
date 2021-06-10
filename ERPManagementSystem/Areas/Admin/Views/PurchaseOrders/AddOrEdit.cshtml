@@ -1,4 +1,4 @@
-﻿@model ERPManagementSystem.Models.Quotation
+﻿@model ERPManagementSystem.Models.PurchaseOrder
 @{
     ViewData["Title"] = "AddOrEdit";
     Layout = null;
@@ -17,8 +17,8 @@
             </div>
             <div class="col-md-4 col-lg-4 col-12">
                 <div class="form-group">
-                    <label>Quotation No</label>
-                    <input asp-for="QuotationNo" class="form-control" />
+                    <label>Purchase Order No</label>
+                    <input asp-for="PurchaseNo" class="form-control" />
                 </div>
             </div>
         </div>
@@ -29,6 +29,14 @@
                     <input asp-for="ShippingCost" class="form-control" />
                 </div>
             </div>
+            <div class="col-md-4 col-lg-4 col-12">
+                <div class="form-group">
+                    <label>Shipping Cost</label>
+                    <input asp-for="DeliveryDate" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-md-4 col-lg-4 col-12">
                 <div class="form-group">
                     <label>Status</label>
@@ -47,7 +55,7 @@
         <div class="row">
             <div class="col-md-12 col-lg-12 col-12">
 
-                @if (Model.QuotationLineItems != null && Model.QuotationLineItems.Count() > 0)
+                @if (Model.PurchaseOrderLineItems != null && Model.PurchaseOrderLineItems.Count() > 0)
                 {
                     <div class="table-wrapper-scroll-y custom-scrollbar">
                         <table class="table datatable table-hover table-bordered">
@@ -60,7 +68,7 @@
                                     <th scope="col">Price</th>
                                     <th scope="col">Tax Rate</th>
                                     <th scope="col">Discount</th>
-                                    <th scope="col"> Quantity</th>
+                                    <th scope="col">Order Quantity</th>
                                     <th scope="col"> Total Cost</th>
                                     <th scope="col">Description</th>
                                 </tr>
@@ -69,49 +77,49 @@
                                 @{
                                     int j = 0;
                                 }
-                                @foreach (var item in Model.QuotationLineItems)
+                                @foreach (var item in Model.PurchaseOrderLineItems)
                                 {
                                     if (j == 0)
                                     {
                                         <tr>
-                                            
+
                                             <td>
-                                                <input type="hidden" asp-for="@Model.QuotationLineItems[j].Id" />
+                                                <input type="hidden" asp-for="@Model.PurchaseOrderLineItems[j].Id" />
                                                 <img src="https://localhost:44377/@item.ImgPath" alt="Alternate Text" id="productImg" />
-                                                <input type="hidden" asp-for="@Model.QuotationLineItems[j].ImgPath" id="imgPath" />
+                                                <input type="hidden" asp-for="@Model.PurchaseOrderLineItems[j].ImgPath" id="imgPath" />
                                             </td>
                                             <td style="width: 13%">
                                                 <div class="form-group">
-                                                    <select asp-for="@Model.QuotationLineItems[j].ProductId" asp-items="ViewBag.Products" id="product" class="form-control"></select>
+                                                    <select asp-for="@Model.PurchaseOrderLineItems[j].ProductId" asp-items="ViewBag.Products" id="product" class="form-control"></select>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group">
-                                                    <input asp-for="@Model.QuotationLineItems[j].Color" class="form-control" />
+                                                    <input asp-for="@Model.PurchaseOrderLineItems[j].Color" class="form-control" />
                                                 </div>
                                             </td>
                                             <td>
-                                                <input asp-for="@Model.QuotationLineItems[j].Size" class="form-control" />
+                                                <input asp-for="@Model.PurchaseOrderLineItems[j].Size" class="form-control" />
                                             </td>
                                             <td>
-                                                <input asp-for="@Model.QuotationLineItems[j].Price" id="price" class="form-control" />
+                                                <input asp-for="@Model.PurchaseOrderLineItems[j].Price" id="price" class="form-control" />
                                             </td>
                                             <td style="width: 13%">
-                                                <select asp-for="@Model.QuotationLineItems[j].TaxRateId" id="tax" asp-items="ViewBag.Tax" class="form-control"></select>
-                                                <input type="hidden" asp-for="@Model.QuotationLineItems[j].Rate" id="rate" class="form-control" />
+                                                <select asp-for="@Model.PurchaseOrderLineItems[j].TaxRateId" id="tax" asp-items="ViewBag.Tax" class="form-control"></select>
+                                                <input type="hidden" asp-for="@Model.PurchaseOrderLineItems[j].Rate" id="rate" class="form-control" />
                                             </td>
                                             <td>
-                                                <input asp-for="@Model.QuotationLineItems[j].Discount" id="discount" class="form-control" />
+                                                <input asp-for="@Model.PurchaseOrderLineItems[j].Discount" id="discount" class="form-control" />
                                             </td>
                                             <td>
-                                                <input asp-for="@Model.QuotationLineItems[j].Quantity" id="quantity" class="form-control" />
+                                                <input asp-for="@Model.PurchaseOrderLineItems[j].OrderQuantity" id="quantity" class="form-control" />
                                             </td>
                                             <td>
-                                                <input asp-for="@Model.QuotationLineItems[j].TotalCost" readonly id="totalCost" class="form-control" />
-                                                <input asp-for="@Model.QuotationLineItems[j].PerProductCost" type="hidden" id="perProductCost" class="form-control" />
+                                                <input asp-for="@Model.PurchaseOrderLineItems[j].TotalCost" readonly id="totalCost" class="form-control" />
+                                                <input asp-for="@Model.PurchaseOrderLineItems[j].PerProductCost" type="hidden" id="perProductCost" class="form-control" />
                                             </td>
                                             <td style="width: 20%">
-                                                <textarea asp-for="@Model.QuotationLineItems[j].Description" class="form-control"></textarea>
+                                                <textarea asp-for="@Model.PurchaseOrderLineItems[j].Description" class="form-control"></textarea>
                                             </td>
                                             <td style="width: 2%">
                                                 <a id="removeFeildWithValue" class="remove refreshTR"><i class="fas fa-minus"></i></a>
@@ -122,42 +130,42 @@
                                     {
                                         <tr>
                                             <td>
-                                                <input type="hidden" asp-for="@Model.QuotationLineItems[j].Id" />
+                                                <input type="hidden" asp-for="@Model.PurchaseOrderLineItems[j].Id" />
                                                 <img src="https://localhost:44377/@item.ImgPath" alt="Alternate Text" id="productImg" />
-                                                <input type="hidden" asp-for="@Model.QuotationLineItems[j].ImgPath" id="imgPath" />
+                                                <input type="hidden" asp-for="@Model.PurchaseOrderLineItems[j].ImgPath" id="imgPath" />
                                             </td>
                                             <td style="width: 13%">
                                                 <div class="form-group">
-                                                    <select asp-for="@Model.QuotationLineItems[j].ProductId" asp-items="ViewBag.Products" id="product" class="form-control"></select>
+                                                    <select asp-for="@Model.PurchaseOrderLineItems[j].ProductId" asp-items="ViewBag.Products" id="product" class="form-control"></select>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group">
-                                                    <input asp-for="@Model.QuotationLineItems[j].Color" class="form-control" />
+                                                    <input asp-for="@Model.PurchaseOrderLineItems[j].Color" class="form-control" />
                                                 </div>
                                             </td>
                                             <td>
-                                                <input asp-for="@Model.QuotationLineItems[j].Size" class="form-control" />
+                                                <input asp-for="@Model.PurchaseOrderLineItems[j].Size" class="form-control" />
                                             </td>
                                             <td>
-                                                <input asp-for="@Model.QuotationLineItems[j].Price" id="price" class="form-control" />
+                                                <input asp-for="@Model.PurchaseOrderLineItems[j].Price" id="price" class="form-control" />
                                             </td>
                                             <td style="width: 13%">
-                                                <select asp-for="@Model.QuotationLineItems[j].TaxRateId" id="tax" asp-items="ViewBag.Tax" class="form-control"></select>
-                                                <input type="hidden" asp-for="@Model.QuotationLineItems[j].TaxRate" id="taxRate" class="form-control" />
+                                                <select asp-for="@Model.PurchaseOrderLineItems[j].TaxRateId" id="tax" asp-items="ViewBag.Tax" class="form-control"></select>
+                                                <input type="hidden" asp-for="@Model.PurchaseOrderLineItems[j].TaxRate" id="taxRate" class="form-control" />
                                             </td>
                                             <td>
-                                                <input asp-for="@Model.QuotationLineItems[j].Discount" id="discount" class="form-control" />
+                                                <input asp-for="@Model.PurchaseOrderLineItems[j].Discount" id="discount" class="form-control" />
                                             </td>
                                             <td>
-                                                <input asp-for="@Model.QuotationLineItems[j].Quantity" id="quantity" class="form-control" />
+                                                <input asp-for="@Model.PurchaseOrderLineItems[j].OrderQuantity" id="quantity" class="form-control" />
                                             </td>
                                             <td>
-                                                <input asp-for="@Model.QuotationLineItems[j].TotalCost" readonly id="totalCost" class="form-control" />
-                                                <input asp-for="@Model.QuotationLineItems[j].PerProductCost" type="hidden" id="perProductCost" class="form-control" />
+                                                <input asp-for="@Model.PurchaseOrderLineItems[j].TotalCost" readonly id="totalCost" class="form-control" />
+                                                <input asp-for="@Model.PurchaseOrderLineItems[j].PerProductCost" type="hidden" id="perProductCost" class="form-control" />
                                             </td>
                                             <td style="width: 20%">
-                                                <textarea asp-for="@Model.QuotationLineItems[j].Description" class="form-control"></textarea>
+                                                <textarea asp-for="@Model.PurchaseOrderLineItems[j].Description" class="form-control"></textarea>
                                             </td>
                                             <td style="width: 2%">
                                                 <a id="removeFeildWithValue" class="remove removeTR"><i class="fas fa-minus"></i></a>
@@ -174,15 +182,29 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-1 col-5 col-lg-1">
+                        <div class="col-md-1 col-3 col-lg-1">
                             <a class="addBtn" id="addAnother"><i class="fas fa-plus"></i><span>Add</span></a>
 
                         </div>
-                        <div class="col-md-1 col-5 col-lg-1 nopadding">
+                        <div class="col-md-1 col-3 col-lg-1 nopadding">
                             <button type="submit" class="savebtn">Save</button>
                         </div>
 
+                        <div class="col-md-2 col-lg-2 col-3  ml-auto">
+                            <div class="form-group">
+                                <label>Discount</label>
+                                <input id="discountOntotalOrder" class="form-control" asp-for="Discont" />
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-3">
+                            <div class="form-group">
+                                <label>Subtotal</label>
+                                <input id="subtotal" readonly class="form-control" asp-for="TotalAmount" />
+                            </div>
+
+                        </div>
                     </div>
+
                 }
             </div>
         </div>

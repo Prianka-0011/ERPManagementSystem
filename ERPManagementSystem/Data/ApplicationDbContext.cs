@@ -22,6 +22,8 @@ namespace ERPManagementSystem.Data
         public virtual DbSet<Quotation>Quotations { get; set; }
         public virtual DbSet<QuotationLineItem>QuotationLineItems { get; set; }
         public virtual DbSet<TaxRate>TaxRates { get; set; }
+        public virtual DbSet<PurchaseOrder>PurchaseOrders { get; set; }
+        public virtual DbSet<PurchaseOrderLineItem>PurchaseOrderLineItems { get; set; }
         //crm table
         public virtual DbSet<Vendor>Vendors { get; set; }
         public virtual DbSet<Customer>Customers { get; set; }

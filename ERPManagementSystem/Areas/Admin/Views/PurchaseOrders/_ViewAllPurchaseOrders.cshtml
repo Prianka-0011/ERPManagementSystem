@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ERPManagementSystem.Models.Quotation>
+﻿@model IEnumerable<ERPManagementSystem.Models.PurchaseOrder>
 @using ERPManagementSystem.Extensions;
 @{
 
@@ -40,15 +40,17 @@
         <tbody>
             @foreach (var item in Model)
             {
-            <tr onclick="ShowInLargePopupOnEdit('@Url.Action("AddOrEdit","Quotations",new { id=item.Id},Context.Request.Scheme)','Update Quotation' )">
-                @*<td scope="row"><a href="#" class="childrowexpand"><input type="hidden" asp-for="@item.Id" /><i class="fas fa-plus"></i></a></td>*@
-                <td scope="row">@i</td>
-                <td>@item.QuotationNo</td>
-                <td>@item.Vendor.DisplayName</td>
-                <td>@item.ShippingCost</td>
-                <td>@item.Date</td>
-                <td>@item.Status</td>
-            </tr>
+                <tr onclick="ShowInLargePopupOnEdit('@Url.Action("AddOrEdit","PurchaseOrders",new { id=item.Id},Context.Request.Scheme)','Update Purchase Order' )">
+                    @*<td scope="row"><a href="#" class="childrowexpand"><input type="hidden" asp-for="@item.Id" /><i class="fas fa-plus"></i></a></td>*@
+                    <td scope="row">@i</td>
+                    <td>@item.PurchaseNo</td>
+                    <td>@item.Vendor.DisplayName</td>
+                    <td>@item.Discont</td>
+                    <td>@item.ShippingCost</td>
+                    <td>@item.OrderDate</td>
+                    <td>@item.DeliveryDate</td>
+                    <td>@item.Status</td>
+                </tr>
                 i++;
             }
         </tbody>
@@ -62,25 +64,25 @@
                         @if (pager.CurrentPage > 1)
                         {
                             <li class="page-item">
-                                <a class="page-link" asp-controller="Quotations" asp-action="Index" asp-route-pg="1">Frist</a>
+                                <a class="page-link" asp-controller="PurchaseOrders" asp-action="Index" asp-route-pg="1">Frist</a>
                             </li>
                             <li class="page-item">
-                                <a class="page-link" asp-controller="Quotations" asp-action="Index" asp-route-pg="@(pager.CurrentPage-1)">Prev</a>
+                                <a class="page-link" asp-controller="PurchaseOrders" asp-action="Index" asp-route-pg="@(pager.CurrentPage-1)">Prev</a>
                             </li>
                         }
                         @for (var pge = pager.StartPage; pge <= pager.EndPage; pge++)
                         {
                             <li class="page-item @( pge==pager.CurrentPage?"active":"")">
-                                <a class="page-link" asp-controller="Quotations" asp-action="Index" asp-route-pg="@pge">@pge</a>
+                                <a class="page-link" asp-controller="PurchaseOrders" asp-action="Index" asp-route-pg="@pge">@pge</a>
                             </li>
                         }
                         @if (pager.CurrentPage < pager.TotalPages)
                         {
                             <li class="page-item">
-                                <a class="page-link" asp-controller="Quotations" asp-action="Index" asp-route-pg="@(pager.CurrentPage+1)">Next</a>
+                                <a class="page-link" asp-controller="PurchaseOrders" asp-action="Index" asp-route-pg="@(pager.CurrentPage+1)">Next</a>
                             </li>
                             <li class="page-item">
-                                <a class="page-link" asp-controller="Quotations" asp-action="Index" asp-route-pg="@pager.TotalPages">Last</a>
+                                <a class="page-link" asp-controller="PurchaseOrders" asp-action="Index" asp-route-pg="@pager.TotalPages">Last</a>
                             </li>
                         }
                     </ul>

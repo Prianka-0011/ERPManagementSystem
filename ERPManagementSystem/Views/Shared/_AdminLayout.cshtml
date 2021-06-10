@@ -83,6 +83,11 @@
                             DynamicUrl = "/Admin/Quotations/Index";
 
                         }
+                        else if ((Context.Request.Path.StartsWithSegments("/Admin/PurchaseOrders/Index") == true))
+                        {
+                            DynamicUrl = "/Admin/PurchaseOrders/Index";
+
+                        }
 
                     }
                     <li>
@@ -100,7 +105,8 @@
                             <li><a class="@(Context.Request.Path.StartsWithSegments(DynamicUrl) ? "active":null)" href="@DynamicUrl">Product</a></li>
                             @{ DynamicUrl = "/Admin/Quotations/Index";}
                             <li><a class="@(Context.Request.Path.StartsWithSegments(DynamicUrl) ? "active":null)" href="@DynamicUrl">Quotation</a></li>
-                            <li><a href="#">Purchase</a></li>
+                            @{ DynamicUrl = "/Admin/PurchaseOrders/Index";}
+                            <li><a class="@(Context.Request.Path.StartsWithSegments(DynamicUrl) ? "active":null)" href="@DynamicUrl">Purchase Order</a></li>
                             <li><a href="#">Stock</a></li>
                             <li><a href="#">Orders</a></li>
                         </ul>

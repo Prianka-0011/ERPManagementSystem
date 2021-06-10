@@ -82,7 +82,7 @@ function loadImg(event) {
     }
 };
 //Jquery end//
-//document.getElementById('removeFeildWithValue').style.display = "none";
+
 // crud operation start
 
 //For small popup start
