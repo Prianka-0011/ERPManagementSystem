@@ -30,7 +30,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index(int pg)
         {
-            var product = _context.Products.Include(c => c.Category).Include(d => d.SubCategory).Include(e => e.Brand).Where(c => c.Status == "Enable");
+            var product = _context.Products.Include(c => c.Category).Include(d => d.SubCategory).Include(e => e.Brand).Where(c => c.ProductStatus == "Enable");
             const int pageSize = 10;
             if (pg < 1)
             {
@@ -68,7 +68,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 var galleries = _context.Galleries.Where(c => c.ProductId == product.Id).ToList();
                 productVm.Id = product.Id;
                 productVm.Name = product.Name;
-                productVm.Status = product.Status;
+                productVm.ProductStatus = product.ProductStatus;
                 productVm.Description = product.Description;
                 productVm.CategoryId = product.CategoryId;
                 productVm.SubCategoryId = product.SubCategoryId;
@@ -99,7 +99,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     entity.Id = Guid.NewGuid();
                     entity.Name = productVm.Name;
                     entity.Description = productVm.Description;
-                    entity.Status = productVm.Status;
+                    entity.ProductStatus = productVm.ProductStatus;
                     entity.CategoryId = productVm.CategoryId;
                     entity.SubCategoryId = productVm.SubCategoryId;
                     entity.BrandId = productVm.BrandId;
@@ -189,7 +189,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 {
                     pg = 1;
                 }
-                var resulProduct = _context.Products.Include(c => c.Category).Include(d => d.SubCategory).Include(e => e.Brand).Where(c => c.Status == "Enable").ToList();
+                var resulProduct = _context.Products.Include(c => c.Category).Include(d => d.SubCategory).Include(e => e.Brand).Where(c => c.ProductStatus == "Enable").ToList();
                 var resCount = resulProduct.Count();
                 var pager = new Pager(resCount, pg, pageSize);
                 int resSkip = (pg - 1) * pageSize;

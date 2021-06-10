@@ -23,7 +23,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index(int pg)
         {
-            var vendor = _context.Vendors.Where(c => c.Status == "Enable");
+            var vendor = _context.Vendors.Where(c => c.VendorStatus == "Enable");
             const int pageSize = 10;
             if (pg < 1)
             {
@@ -76,7 +76,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     entity.CompanyName = vendor.CompanyName;
                     entity.DisplayName = vendor.DisplayName;
                     entity.WebSite = vendor.WebSite;
-                    entity.Status = vendor.Status;
+                    entity.VendorStatus = vendor.VendorStatus;
                     _context.Add(entity);
                     await _context.SaveChangesAsync();
                 }
@@ -94,7 +94,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                         entity.CompanyName = vendor.CompanyName;
                         entity.DisplayName = vendor.DisplayName;
                         entity.WebSite = vendor.WebSite;
-                        entity.Status = vendor.Status;
+                        entity.VendorStatus = vendor.VendorStatus;
                         _context.Update(entity);
                         await _context.SaveChangesAsync();
                     }
@@ -103,7 +103,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
 
                     }
                 }
-                var vendorData = _context.Vendors.Where(c => c.Status == "Enable");
+                var vendorData = _context.Vendors.Where(c => c.VendorStatus == "Enable");
                 int pg = 1;
                 const int pageSize = 10;
                 if (pg < 1)
@@ -128,10 +128,10 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 return NotFound();
             }
             var vendor = await _context.Vendors.FindAsync(id);
-            vendor.Status = "Disable";
+            vendor.VendorStatus = "Disable";
             await _context.SaveChangesAsync();
 
-            return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllVendor", _context.Vendors.Where(c => c.Status == "Enable").ToList()) });
+            return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllVendor", _context.Vendors.Where(c => c.VendorStatus == "Enable").ToList()) });
 
         }
     }

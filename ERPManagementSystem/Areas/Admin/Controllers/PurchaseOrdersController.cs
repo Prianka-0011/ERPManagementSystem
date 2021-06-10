@@ -92,7 +92,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 entity.ShippingCost = purchaseOrderVm.ShippingCost;
                 entity.OrderDate = DateTime.Now;
                 entity.DeliveryDate = purchaseOrderVm.DeliveryDate;
-                entity.Status = purchaseOrderVm.Status;
+                entity.PurchaseOrderStatus = purchaseOrderVm.PurchaseOrderStatus;
                 _context.PurchaseOrders.Add(entity);
                 await _context.SaveChangesAsync();
                 foreach (var item in purchaseOrderVm.PurchaseOrderLineItems)
@@ -111,6 +111,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     lineItem.Description = item.Description;
                     lineItem.ImgPath = item.ImgPath;
                     lineItem.TotalCost = item.TotalCost;
+                    lineItem.ItemStatus = item.ItemStatus;
                     _context.PurchaseOrderLineItems.Add(lineItem);
                 }
 
@@ -124,7 +125,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     entity.PurchaseNo = purchaseOrderVm.PurchaseNo;
                     entity.VendorId = purchaseOrderVm.VendorId;
                     entity.ShippingCost = purchaseOrderVm.ShippingCost;
-                    entity.Status = purchaseOrderVm.Status;
+                    entity.PurchaseOrderStatus = purchaseOrderVm.PurchaseOrderStatus;
                     var oldLineIetm = await _context.PurchaseOrderLineItems.Where(c => c.QuotationId == id).ToListAsync();
                     foreach (var item in oldLineIetm)
                     {
@@ -146,6 +147,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                         lineItem.Description = item.Description;
                         lineItem.ImgPath = item.ImgPath;
                         lineItem.TotalCost = item.TotalCost;
+                        lineItem.ItemStatus = item.ItemStatus;
                         _context.PurchaseOrderLineItems.Add(lineItem);
                     }
                     _context.Update(entity);

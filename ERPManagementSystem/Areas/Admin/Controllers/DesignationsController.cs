@@ -23,7 +23,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index(int pg)
         {
-            var designation = _context.Designations.Where(c => c.Status == "Enable");
+            var designation = _context.Designations.Where(c => c.DesignationStatus == "Enable");
             const int pageSize = 10;
             if (pg < 1)
             {
@@ -70,7 +70,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     entity.Id = Guid.NewGuid();
                     entity.Name = designation.Name;
                     entity.Salary = designation.Salary;
-                    entity.Status = designation.Status;
+                    entity.DesignationStatus = designation.DesignationStatus;
                     _context.Add(entity);
                     await _context.SaveChangesAsync();
                 }
@@ -82,7 +82,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                         entity = await _context.Designations.FindAsync(designation.Id);
                         entity.Name = designation.Name;
                         entity.Salary = designation.Salary;
-                        entity.Status = designation.Status;
+                        entity.DesignationStatus = designation.DesignationStatus;
                         _context.Update(entity);
                         await _context.SaveChangesAsync();
                     }
@@ -91,7 +91,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
 
                     }
                 }
-                var designationData = _context.Designations.Where(c => c.Status == "Enable");
+                var designationData = _context.Designations.Where(c => c.DesignationStatus == "Enable");
                 int pg = 1;
                 const int pageSize = 10;
                 if (pg < 1)
@@ -116,10 +116,10 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 return NotFound();
             }
             var designation = await _context.Designations.FindAsync(id);
-            designation.Status = "Disable";
+            designation.DesignationStatus = "Disable";
             await _context.SaveChangesAsync();
 
-            return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllDesignation", _context.Designations.Where(c => c.Status == "Enable").ToList()) });
+            return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllDesignation", _context.Designations.Where(c => c.DesignationStatus == "Enable").ToList()) });
 
         }
     }

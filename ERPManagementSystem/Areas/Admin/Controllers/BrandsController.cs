@@ -23,7 +23,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index(int pg)
         {
-            var brand = _context.Brands.Where(c => c.Status == "Enable");
+            var brand = _context.Brands.Where(c => c.BrandStatus == "Enable");
             const int pageSize = 10;
             if (pg < 1)
             {
@@ -69,7 +69,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     entity = new Brand();
                     entity.Id = Guid.NewGuid();
                     entity.Name = brand.Name;
-                    entity.Status = brand.Status;
+                    entity.BrandStatus = brand.BrandStatus;
                     _context.Add(entity);
                     await _context.SaveChangesAsync();
                 }
@@ -80,7 +80,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     {
                         entity = await _context.Brands.FindAsync(brand.Id);
                         entity.Name = brand.Name;
-                        entity.Status = brand.Status;
+                        entity.BrandStatus = brand.BrandStatus;
                         _context.Update(entity);
                         await _context.SaveChangesAsync();
                     }
@@ -89,7 +89,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
 
                     }
                 }
-                var brandData = _context.Brands.Where(c => c.Status == "Enable");
+                var brandData = _context.Brands.Where(c => c.BrandStatus == "Enable");
                 int pg = 1;
                 const int pageSize = 10;
                 if (pg < 1)
@@ -114,10 +114,10 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 return NotFound();
             }
             var brand = await _context.Brands.FindAsync(id);
-            brand.Status = "Disable";
+            brand.BrandStatus = "Disable";
             await _context.SaveChangesAsync();
 
-            return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllBrand", _context.Brands.Where(c => c.Status == "Enable").ToList()) });
+            return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllBrand", _context.Brands.Where(c => c.BrandStatus == "Enable").ToList()) });
 
         }
     }

@@ -25,11 +25,11 @@ namespace ERPManagementSystem.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
+                    b.Property<string>("BrandStatus")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Status")
+                    b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -43,11 +43,11 @@ namespace ERPManagementSystem.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
+                    b.Property<string>("CategoryStatus")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Status")
+                    b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -65,6 +65,9 @@ namespace ERPManagementSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CustomerStatus")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
@@ -80,9 +83,6 @@ namespace ERPManagementSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.ToTable("Customers");
@@ -94,14 +94,14 @@ namespace ERPManagementSystem.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("DesignationStatus")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Salary")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -152,7 +152,7 @@ namespace ERPManagementSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Status")
+                    b.Property<string>("ProductStatus")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("SubCategoryId")
@@ -187,11 +187,11 @@ namespace ERPManagementSystem.Migrations
                     b.Property<string>("PurchaseNo")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PurchaseOrderStatus")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("ShippingCost")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("TotalAmount")
                         .HasColumnType("decimal(18,2)");
@@ -227,6 +227,9 @@ namespace ERPManagementSystem.Migrations
                     b.Property<string>("ImgPath")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ItemStatus")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("OrderQuantity")
                         .HasColumnType("int");
 
@@ -252,9 +255,6 @@ namespace ERPManagementSystem.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Size")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("TaxRateId")
@@ -289,11 +289,11 @@ namespace ERPManagementSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("QuotatonStatus")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("ShippingCost")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("VendorId")
                         .HasColumnType("uniqueidentifier");
@@ -374,7 +374,7 @@ namespace ERPManagementSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Status")
+                    b.Property<string>("SubCategoryStatus")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -397,7 +397,7 @@ namespace ERPManagementSystem.Migrations
                     b.Property<decimal>("Rate")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("Status")
+                    b.Property<string>("TaxRateStatus")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -435,7 +435,7 @@ namespace ERPManagementSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Status")
+                    b.Property<string>("VendorStatus")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("WebSite")

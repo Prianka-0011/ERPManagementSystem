@@ -23,7 +23,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index(int pg)
         {
-            var taxRate = _context.TaxRates.Where(c => c.Status == "Enable");
+            var taxRate = _context.TaxRates.Where(c => c.TaxRateStatus == "Enable");
             const int pageSize = 10;
             if (pg < 1)
             {
@@ -70,7 +70,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     entity.Id = Guid.NewGuid();
                     entity.Name = taxRate.Name;
                     entity.Rate = taxRate.Rate;
-                    entity.Status = taxRate.Status;
+                    entity.TaxRateStatus = taxRate.TaxRateStatus;
                     _context.Add(entity);
                     await _context.SaveChangesAsync();
                 }
@@ -82,7 +82,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                         entity = await _context.TaxRates.FindAsync(taxRate.Id);
                         entity.Name = taxRate.Name;
                         entity.Rate = taxRate.Rate;
-                        entity.Status = taxRate.Status;
+                        entity.TaxRateStatus = taxRate.TaxRateStatus;
                         _context.Update(entity);
                         await _context.SaveChangesAsync();
                     }
@@ -91,7 +91,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
 
                     }
                 }
-                var taxRateData = _context.TaxRates.Where(c => c.Status == "Enable");
+                var taxRateData = _context.TaxRates.Where(c => c.TaxRateStatus == "Enable");
                 int pg = 1;
                 const int pageSize = 10;
                 if (pg < 1)
@@ -116,10 +116,10 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 return NotFound();
             }
             var taxRate = await _context.TaxRates.FindAsync(id);
-            taxRate.Status = "Disable";
+            taxRate.TaxRateStatus = "Disable";
             await _context.SaveChangesAsync();
 
-            return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllBrand", _context.TaxRates.Where(c => c.Status == "Enable").ToList()) });
+            return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllBrand", _context.TaxRates.Where(c => c.TaxRateStatus == "Enable").ToList()) });
 
         }
     }

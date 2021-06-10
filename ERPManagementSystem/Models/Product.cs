@@ -13,7 +13,7 @@ namespace ERPManagementSystem.Models
         public string Name { get; set; }
         public string ImagePath { get; set; }
         public string Description { get; set; }
-        public string Status { get; set; }
+        public string ProductStatus { get; set; }
         //Navigation
         public Guid CategoryId { get; set; }
         public Category Category { get; set; }

@@ -39,7 +39,7 @@
                 <tr onclick="ShowInSmallPopup('@Url.Action("AddOrEdit","Brands",new { id=item.Id},Context.Request.Scheme)','Update Brand' )">
                     <td scope="row">@i</td>
                     <td>@item.Name</td>
-                    <td>@item.Status</td>
+                    <td>@item.BrandStatus</td>
                 </tr>
                 i++;
             }

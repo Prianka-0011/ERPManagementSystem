@@ -23,7 +23,7 @@ namespace ERPManagementSystem.Models
         public decimal TotalCost { get; set; }
         public string Description { get; set; }
         public string ImgPath { get; set; }
-        public string Status { get; set; }
+        public string ItemStatus { get; set; }
         //Navigation
         public Guid PurchaseOrderId { get; set; }
         public PurchaseOrder PurchaseOrder { get; set; }

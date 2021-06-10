@@ -23,7 +23,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index(int pg)
         {
-            var category = _context.Categories.Where(c => c.Status == "Enable");
+            var category = _context.Categories.Where(c => c.CategoryStatus == "Enable");
             const int pageSize = 10;
             if (pg < 1)
             {
@@ -69,7 +69,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     entity = new Category();
                     entity.Id = Guid.NewGuid();
                     entity.Name = category.Name;
-                    entity.Status = category.Status;
+                    entity.CategoryStatus = category.CategoryStatus;
                     _context.Add(entity);
                     await _context.SaveChangesAsync();
                 }
@@ -80,7 +80,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     {
                         entity =await _context.Categories.FindAsync(category.Id);
                         entity.Name = category.Name;
-                        entity.Status = category.Status;
+                        entity.CategoryStatus = category.CategoryStatus;
                         _context.Update(entity);
                         await _context.SaveChangesAsync();
                     }
@@ -89,7 +89,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                         
                     }
                 }
-                var categoryData = _context.Categories.Where(c => c.Status == "Enable");
+                var categoryData = _context.Categories.Where(c => c.CategoryStatus == "Enable");
                 int pg=1;
                 const int pageSize = 10;
                 if (pg < 1)
@@ -114,10 +114,10 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 return NotFound();
             }
             var category = await _context.Categories.FindAsync(id);
-            category.Status = "Disable";
+            category.CategoryStatus = "Disable";
             await _context.SaveChangesAsync();
 
-            return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllCategory", _context.Categories.Where(c=>c.Status== "Enable").ToList()) });
+            return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllCategory", _context.Categories.Where(c=>c.CategoryStatus== "Enable").ToList()) });
 
         }
     }

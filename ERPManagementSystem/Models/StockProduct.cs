@@ -19,7 +19,7 @@ namespace ERPManagementSystem.Models
         public int Quantity { get; set; }
         public string Description { get; set; }
         public string ImgPath { get; set; }
-        public string Status { get; set; }
+        public string StockProductStatus { get; set; }
         //Navigation
         public Guid PurchaseOrderLineItemId { get; set; }
         public PurchaseOrderLineItem PurchaseOrderLineItem { get; set; }

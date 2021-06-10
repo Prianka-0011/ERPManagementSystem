@@ -12,7 +12,7 @@ namespace ERPManagementSystem.Models
         public DateTime OrderDate { get; set; }
         public DateTime DeliveryDate { get; set; }
         public decimal ShippingCost { get; set; }
-        public string Status { get; set; }
+        public string PurchaseOrderStatus { get; set; }
         public decimal Discont { get; set; }
         public decimal TotalAmount { get; set; }
         //Navigation

@@ -16,7 +16,7 @@ namespace ERPManagementSystem.Models
         public DateTime Date { get; set; }
         [Required]
         public decimal ShippingCost { get; set; }
-        public string Status { get; set; }
+        public string QuotatonStatus { get; set; }
         //Navigation
         public Guid VendorId { get; set; }
         public Vendor Vendor { get; set; }

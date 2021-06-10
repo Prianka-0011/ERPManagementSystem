@@ -23,7 +23,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index(int pg)
         {
-            var customer = _context.Customers.Where(c => c.Status == "Enable");
+            var customer = _context.Customers.Where(c => c.CustomerStatus == "Enable");
             const int pageSize = 10;
             if (pg < 1)
             {
@@ -73,7 +73,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     entity.Phone = customer.Phone;
                     entity.Email = customer.Email;
                     entity.Address = customer.Address;
-                    entity.Status = customer.Status;
+                    entity.CustomerStatus = customer.CustomerStatus;
                     _context.Add(entity);
                     await _context.SaveChangesAsync();
                 }
@@ -88,7 +88,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                         entity.Phone = customer.Phone;
                         entity.Email = customer.Email;
                         entity.Address = customer.Address;
-                        entity.Status = customer.Status;
+                        entity.CustomerStatus = customer.CustomerStatus;
                         _context.Update(entity);
                         await _context.SaveChangesAsync();
                     }
@@ -97,7 +97,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
 
                     }
                 }
-                var customerData = _context.Customers.Where(c => c.Status == "Enable");
+                var customerData = _context.Customers.Where(c => c.CustomerStatus == "Enable");
                 int pg = 1;
                 const int pageSize = 10;
                 if (pg < 1)
@@ -122,10 +122,10 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 return NotFound();
             }
             var customer = await _context.Customers.FindAsync(id);
-            customer.Status = "Disable";
+            customer.CustomerStatus = "Disable";
             await _context.SaveChangesAsync();
 
-            return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllCustomer", _context.Customers.Where(c => c.Status == "Enable").ToList()) });
+            return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllCustomer", _context.Customers.Where(c => c.CustomerStatus == "Enable").ToList()) });
 
         }
     }

@@ -91,7 +91,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     entity.VendorId = quotationVm.VendorId;
                     entity.ShippingCost = quotationVm.ShippingCost;
                     entity.Date = DateTime.Now;
-                    entity.Status = quotationVm.Status;
+                    entity.QuotatonStatus = quotationVm.QuotatonStatus;
                     _context.Quotations.Add(entity);
                   await  _context.SaveChangesAsync();
                     foreach (var item in quotationVm.QuotationLineItems)
@@ -123,7 +123,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                         entity.QuotationNo = quotationVm.QuotationNo;
                         entity.VendorId = quotationVm.VendorId;
                         entity.ShippingCost = quotationVm.ShippingCost;
-                        entity.Status = quotationVm.Status;
+                        entity.QuotatonStatus = quotationVm.QuotatonStatus;
                         var oldLineIetm =await _context.QuotationLineItems.Where(c => c.QuotationId == id).ToListAsync();
                         foreach (var item in oldLineIetm)
                         {

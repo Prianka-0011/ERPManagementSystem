@@ -11,7 +11,7 @@ namespace ERPManagementSystem.Models
         public Guid Id { get; set; }
         [Required]
         public string Name { get; set; }
-        public string Status { get; set; }
+        public string SubCategoryStatus { get; set; }
 
         //Navigation
         public Guid CategoryId { get; set; }

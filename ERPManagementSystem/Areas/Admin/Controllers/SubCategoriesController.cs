@@ -23,7 +23,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
         }
         public async Task<IActionResult> Index(int pg)
         {
-            var subCategory = _context.SubCategories.Include(c => c.Category).Where(c => c.Status == "Enable");
+            var subCategory = _context.SubCategories.Include(c => c.Category).Where(c => c.SubCategoryStatus == "Enable");
             const int pageSize = 10;
             if (pg < 1)
             {
@@ -72,7 +72,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     entity.Id = Guid.NewGuid();
                     entity.Name = subCategory.Name;
                     entity.CategoryId = subCategory.CategoryId;
-                    entity.Status = subCategory.Status;
+                    entity.SubCategoryStatus = subCategory.SubCategoryStatus;
                     _context.Add(entity);
                     await _context.SaveChangesAsync();
                 }
@@ -84,7 +84,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                         entity = await _context.SubCategories.FindAsync(subCategory.Id);
                         entity.Name = subCategory.Name;
                         entity.CategoryId = subCategory.CategoryId;
-                        entity.Status = subCategory.Status;
+                        entity.SubCategoryStatus = subCategory.SubCategoryStatus;
                         _context.Update(entity);
                         await _context.SaveChangesAsync();
                     }
@@ -93,7 +93,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
 
                     }
                 }
-                var subCategoryData = _context.SubCategories.Include(c => c.Category).Where(c => c.Status == "Enable");
+                var subCategoryData = _context.SubCategories.Include(c => c.Category).Where(c => c.SubCategoryStatus == "Enable");
                 int pg = 1;
                 const int pageSize = 10;
                 if (pg < 1)
@@ -118,10 +118,10 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 return NotFound();
             }
             var subCategory = await _context.SubCategories.FindAsync(id);
-            subCategory.Status = "Disable";
+            subCategory.SubCategoryStatus = "Disable";
             await _context.SaveChangesAsync();
 
-            return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllSubCategory", _context.Categories.Where(c => c.Status == "Enable").ToList()) });
+            return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllSubCategory", _context.SubCategories.Where(c => c.SubCategoryStatus == "Enable").ToList()) });
 
         }
     }

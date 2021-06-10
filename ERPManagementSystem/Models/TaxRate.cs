@@ -13,6 +13,6 @@ namespace ERPManagementSystem.Models
         public string Name { get; set; }
         [Required]
         public decimal Rate { get; set; }
-        public string Status { get; set; }
+        public string TaxRateStatus { get; set; }
     }
 }
