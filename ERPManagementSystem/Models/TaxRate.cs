@@ -8,11 +8,18 @@ namespace ERPManagementSystem.Models
 {
     public class TaxRate
     {
+        public TaxRate()
+        {
+            PurchaseOrderLineItems = new HashSet<PurchaseOrderLineItem>();
+            QuotationLineItems = new HashSet<QuotationLineItem>();
+        }
+
         public Guid Id { get; set; }
-        [Required]
         public string Name { get; set; }
-        [Required]
         public decimal Rate { get; set; }
         public string TaxRateStatus { get; set; }
+
+        public virtual ICollection<PurchaseOrderLineItem> PurchaseOrderLineItems { get; set; }
+        public virtual ICollection<QuotationLineItem> QuotationLineItems { get; set; }
     }
 }

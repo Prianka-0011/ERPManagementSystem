@@ -67,6 +67,8 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 purchaseOrderVm.OrderDate = purchaseOrder.OrderDate;
                 purchaseOrderVm.DeliveryDate = purchaseOrder.DeliveryDate;
                 purchaseOrderVm.ShippingCost = purchaseOrder.ShippingCost;
+                purchaseOrderVm.Discont = purchaseOrder.Discont;
+                purchaseOrderVm.TotalAmount = purchaseOrder.TotalAmount;
                 purchaseOrderVm.PurchaseOrderLineItems = PurchaseOrderLineItems;
                 ViewData["Products"] = new SelectList(_context.Products.ToList(), "Id", "Name");
                 ViewData["Tax"] = new SelectList(_context.TaxRates.ToList(), "Id", "Name");
@@ -93,8 +95,10 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 entity.OrderDate = DateTime.Now;
                 entity.DeliveryDate = purchaseOrderVm.DeliveryDate;
                 entity.PurchaseOrderStatus = purchaseOrderVm.PurchaseOrderStatus;
+                entity.Discont = purchaseOrderVm.Discont;
+                entity.TotalAmount = purchaseOrderVm.TotalAmount;
                 _context.PurchaseOrders.Add(entity);
-                await _context.SaveChangesAsync();
+                //await _context.SaveChangesAsync();
                 foreach (var item in purchaseOrderVm.PurchaseOrderLineItems)
                 {
                     lineItem = new PurchaseOrderLineItem();
@@ -114,7 +118,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     lineItem.ItemStatus = item.ItemStatus;
                     _context.PurchaseOrderLineItems.Add(lineItem);
                 }
-
+             
             }
 
             else
@@ -126,7 +130,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     entity.VendorId = purchaseOrderVm.VendorId;
                     entity.ShippingCost = purchaseOrderVm.ShippingCost;
                     entity.PurchaseOrderStatus = purchaseOrderVm.PurchaseOrderStatus;
-                    var oldLineIetm = await _context.PurchaseOrderLineItems.Where(c => c.QuotationId == id).ToListAsync();
+                    var oldLineIetm = await _context.PurchaseOrderLineItems.Where(c => c.PurchaseOrderId == id).ToListAsync();
                     foreach (var item in oldLineIetm)
                     {
                         _context.Remove(item);
@@ -165,14 +169,14 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
             {
                 pg = 1;
             }
-            var resulProduct = _context.PurchaseOrders.Include(c => c.Vendor).ToList();
-            var resCount = resulProduct.Count();
+            var resultPurchaseOrder = _context.PurchaseOrders.Include(d=>d.Vendor).ToList();
+            var resCount = resultPurchaseOrder.Count();
             var pager = new Pager(resCount, pg, pageSize);
             int resSkip = (pg - 1) * pageSize;
             ViewBag.Pager = pager;
-            var data = resulProduct.Skip(resSkip).Take(pager.PageSize);
+            var data = resultPurchaseOrder.Skip(resSkip).Take(pager.PageSize);
 
-            return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllPurchaseOrder", data) });
+            return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllPurchaseOrders", data) });
 
             // return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEdit",quotationVm) });
 

@@ -93,7 +93,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     entity.Date = DateTime.Now;
                     entity.QuotatonStatus = quotationVm.QuotatonStatus;
                     _context.Quotations.Add(entity);
-                  await  _context.SaveChangesAsync();
+                  
                     foreach (var item in quotationVm.QuotationLineItems)
                     {
                         lineItem = new QuotationLineItem();
@@ -162,12 +162,12 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 {
                     pg = 1;
                 }
-                var resulProduct = _context.Quotations.Include(c => c.Vendor).ToList();
-                var resCount = resulProduct.Count();
+                var resultQotation = _context.Quotations.Include(c => c.Vendor).ToList();
+                var resCount = resultQotation.Count();
                 var pager = new Pager(resCount, pg, pageSize);
                 int resSkip = (pg - 1) * pageSize;
                 ViewBag.Pager = pager;
-                var data = resulProduct.Skip(resSkip).Take(pager.PageSize);
+                var data = resultQotation.Skip(resSkip).Take(pager.PageSize);
 
                 return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllQuotation", data) });
             

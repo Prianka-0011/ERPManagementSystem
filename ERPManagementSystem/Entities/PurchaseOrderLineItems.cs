@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace ERPManagementSystem.Models
+namespace ERPManagementSystem.Entities
 {
-    public partial class PurchaseOrderLineItem
+    public partial class PurchaseOrderLineItems
     {
         public Guid Id { get; set; }
         public string Color { get; set; }
@@ -24,9 +22,11 @@ namespace ERPManagementSystem.Models
         public Guid? PurchaseOrderId { get; set; }
         public Guid? ProductId { get; set; }
         public Guid? TaxRateId { get; set; }
+        public Guid? QuotationId { get; set; }
 
-        public virtual Product Product { get; set; }
-        public virtual PurchaseOrder PurchaseOrder { get; set; }
-        public virtual TaxRate TaxRate { get; set; }
+        public virtual Products Product { get; set; }
+        public virtual PurchaseOrders PurchaseOrder { get; set; }
+        public virtual Quotations Quotation { get; set; }
+        public virtual TaxRates TaxRate { get; set; }
     }
 }

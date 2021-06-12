@@ -18,18 +18,19 @@
                     </div>
                     <div class="col-12 col-md-6 col-lg-6">
                         <div class="form-group">
-                            <label>Brand</label>
-                            <select asp-for="BrandId" asp-items="@ViewBag.Brand" class="form-control"> </select>
+                            <div class="form-group">
+                                <label>Category</label>
+                                <select asp-for="CategoryId" asp-items="@ViewBag.Category" class="form-control category"> </select>
+                            </div>
                         </div>
+                        
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12 col-md-6 col-lg-6">
                         <div class="form-group">
-                            <div class="form-group">
-                                <label>Category</label>
-                                <select asp-for="CategoryId" asp-items="@ViewBag.Category" onclick="subcategoryList()" class="form-control category"> </select>
-                            </div>
+                            <label>Brand</label>
+                            <select asp-for="BrandId" asp-items="@ViewBag.Brand" class="form-control brand"> </select>
                         </div>
                     </div>
                     <div class="col-12 col-md-6 col-lg-6">
@@ -79,7 +80,7 @@
                             @if (Model.ImagePath != null)
                             {
                                 <div class="displayonEditPri" id="displayonEditPri">
-                                    <img src="@Model.ImagePath" alt="Alternate Text" />
+                                    <img src="~/@Model.ImagePath" alt="Alternate Text" />
                                 </div>
                             }
                             <div class="primaryimg" id="mainimgDiv">
@@ -98,7 +99,7 @@
                                         {
 
                                             <div class="col-md-2 col-3 col-lg-2 nopadding">
-                                                <img src="@item.ImagePath" style="height: 30PX; margin-bottom: 3px; width: 30PX; " alt="Alternate Text" />
+                                                <img src="~/@item.ImagePath" style="height: 30PX; margin-bottom: 3px; width: 30PX; " alt="Alternate Text" />
                                             </div>
 
                                         }

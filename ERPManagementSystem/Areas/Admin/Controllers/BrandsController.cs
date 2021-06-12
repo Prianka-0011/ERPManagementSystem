@@ -2,6 +2,7 @@
 using ERPManagementSystem.Extensions;
 using ERPManagementSystem.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index(int pg)
         {
-            var brand = _context.Brands.Where(c => c.BrandStatus == "Enable");
+            var brand = _context.Brands.Include(d=>d.Category).Where(c => c.BrandStatus == "Enable");
             const int pageSize = 10;
             if (pg < 1)
             {
@@ -43,6 +44,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
         {
             if (id == Guid.Parse("00000000-0000-0000-0000-000000000000"))
             {
+                ViewData["Category"] = new SelectList(_context.Categories.ToList(), "Id", "Name");
                 return View(new Brand());
             }
 
@@ -53,6 +55,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 {
                     return NotFound();
                 }
+                ViewData["Category"] = new SelectList(_context.Categories.ToList(), "Id", "Name");
                 return View(brand);
             }
 
@@ -69,6 +72,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     entity = new Brand();
                     entity.Id = Guid.NewGuid();
                     entity.Name = brand.Name;
+                    entity.CategoryId = brand.CategoryId;
                     entity.BrandStatus = brand.BrandStatus;
                     _context.Add(entity);
                     await _context.SaveChangesAsync();
@@ -89,7 +93,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
 
                     }
                 }
-                var brandData = _context.Brands.Where(c => c.BrandStatus == "Enable");
+                var brandData = _context.Brands.Include(d=>d.Category).Where(c => c.BrandStatus == "Enable");
                 int pg = 1;
                 const int pageSize = 10;
                 if (pg < 1)

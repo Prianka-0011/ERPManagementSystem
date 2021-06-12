@@ -189,12 +189,12 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 {
                     pg = 1;
                 }
-                var resulProduct = _context.Products.Include(c => c.Category).Include(d => d.SubCategory).Include(e => e.Brand).Where(c => c.ProductStatus == "Enable").ToList();
-                var resCount = resulProduct.Count();
+                var resultProduct = _context.Products.Include(c => c.Category).Include(d => d.SubCategory).Include(e => e.Brand).Where(c => c.ProductStatus == "Enable").ToList();
+                var resCount = resultProduct.Count();
                 var pager = new Pager(resCount, pg, pageSize);
                 int resSkip = (pg - 1) * pageSize;
                 ViewBag.Pager = pager;
-                var data = resulProduct.Skip(resSkip).Take(pager.PageSize);
+                var data = resultProduct.Skip(resSkip).Take(pager.PageSize);
 
                 return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllProduct", data) });
             }
@@ -206,6 +206,12 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
         {
             var subCategory = _context.SubCategories.Where(c => c.CategoryId == id).ToList();
             return Json(subCategory);
+        }
+        [HttpGet("/Products/GetAllBrand")]
+        public IActionResult GetAllBrand(Guid id)
+        {
+            var brand = _context.Brands.Where(c => c.CategoryId == id).ToList();
+            return Json(brand);
         }
     }
 }

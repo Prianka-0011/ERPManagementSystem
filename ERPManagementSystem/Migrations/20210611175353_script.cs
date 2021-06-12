@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ERPManagementSystem.Migrations
 {
-    public partial class updatestatus : Migration
+    public partial class script : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,19 +44,6 @@ namespace ERPManagementSystem.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Brands",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(nullable: false),
-                    BrandStatus = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Brands", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -244,6 +231,26 @@ namespace ERPManagementSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Brands",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
+                    BrandStatus = table.Column<string>(nullable: true),
+                    CategoryId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Brands", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Brands_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SubCategories",
                 columns: table => new
                 {
@@ -337,7 +344,7 @@ namespace ERPManagementSystem.Migrations
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Products_SubCategories_SubCategoryId",
                         column: x => x.SubCategoryId,
@@ -386,7 +393,6 @@ namespace ERPManagementSystem.Migrations
                     ItemStatus = table.Column<string>(nullable: true),
                     PurchaseOrderId = table.Column<Guid>(nullable: false),
                     ProductId = table.Column<Guid>(nullable: false),
-                    QuotationId = table.Column<Guid>(nullable: false),
                     TaxRateId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
@@ -404,12 +410,6 @@ namespace ERPManagementSystem.Migrations
                         principalTable: "PurchaseOrders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_PurchaseOrderLineItems_Quotations_QuotationId",
-                        column: x => x.QuotationId,
-                        principalTable: "Quotations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_PurchaseOrderLineItems_TaxRates_TaxRateId",
                         column: x => x.TaxRateId,
@@ -500,6 +500,11 @@ namespace ERPManagementSystem.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Brands_CategoryId",
+                table: "Brands",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Galleries_ProductId",
                 table: "Galleries",
                 column: "ProductId");
@@ -528,11 +533,6 @@ namespace ERPManagementSystem.Migrations
                 name: "IX_PurchaseOrderLineItems_PurchaseOrderId",
                 table: "PurchaseOrderLineItems",
                 column: "PurchaseOrderId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PurchaseOrderLineItems_QuotationId",
-                table: "PurchaseOrderLineItems",
-                column: "QuotationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PurchaseOrderLineItems_TaxRateId",

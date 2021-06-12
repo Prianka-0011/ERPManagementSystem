@@ -7,19 +7,21 @@
 <div class="container-fluid">
     <form asp-action="AddOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPost(this);" autocomplete="off">
         <div class="row">
-            <div class="col-md-10 offset-1 col-10 offset-md-1 col-lg-10 offset-lg-1">
+            <div class="col-md-6 col-lg-6 col-10 offset-md-0 offset-lg-0 offset-1">
                 <div class="form-group">
                     <input type="hidden" asp-for="Id" />
                     <label>FirstName</label>
                     <input asp-for="FirstName" class="form-control" />
                 </div>
             </div>
-            <div class="col-md-10 offset-1 col-10 col-lg-10 offset-lg-1">
+            <div class="col-md-6 col-lg-6 col-10 offset-md-0 offset-lg-0 offset-1">
                 <div class="form-group">
                     <label>LastName</label>
                     <input asp-for="LastName" class="form-control" />
                 </div>
             </div>
+        </div>
+        <div class="row">
             <div class="col-md-10 offset-1 col-10 col-lg-10 offset-lg-1">
                 <div class="form-group">
                     <label>Phone</label>

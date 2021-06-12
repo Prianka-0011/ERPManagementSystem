@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ERPManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210610134811_updatestatus")]
-    partial class updatestatus
+    [Migration("20210611175353_script")]
+    partial class script
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,11 +30,16 @@ namespace ERPManagementSystem.Migrations
                     b.Property<string>("BrandStatus")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Brands");
                 });
@@ -247,9 +252,6 @@ namespace ERPManagementSystem.Migrations
                     b.Property<Guid>("PurchaseOrderId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("QuotationId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<decimal>("Rate")
                         .HasColumnType("decimal(18,2)");
 
@@ -270,8 +272,6 @@ namespace ERPManagementSystem.Migrations
                     b.HasIndex("ProductId");
 
                     b.HasIndex("PurchaseOrderId");
-
-                    b.HasIndex("QuotationId");
 
                     b.HasIndex("TaxRateId");
 
@@ -648,6 +648,15 @@ namespace ERPManagementSystem.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("ERPManagementSystem.Models.Brand", b =>
+                {
+                    b.HasOne("ERPManagementSystem.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ERPManagementSystem.Models.Gallery", b =>
                 {
                     b.HasOne("ERPManagementSystem.Models.Product", "Product")
@@ -698,12 +707,6 @@ namespace ERPManagementSystem.Migrations
                     b.HasOne("ERPManagementSystem.Models.PurchaseOrder", "PurchaseOrder")
                         .WithMany("PurchaseOrderLineItems")
                         .HasForeignKey("PurchaseOrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ERPManagementSystem.Models.Quotation", "Quotation")
-                        .WithMany()
-                        .HasForeignKey("QuotationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
