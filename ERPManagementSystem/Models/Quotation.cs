@@ -21,5 +21,6 @@ namespace ERPManagementSystem.Models
         public Guid VendorId { get; set; }
         public Vendor Vendor { get; set; }
         public List<QuotationLineItem> QuotationLineItems { get; set; }
+        public List<PurchaseOrderLineItem> PurchaseOrderLineItems { get; set; }
     }
 }

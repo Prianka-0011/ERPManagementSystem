@@ -11,5 +11,6 @@ namespace ERPManagementSystem.Models
         public string Name { get; set; }
         public decimal Salary { get; set; }
         public string DesignationStatus { get; set; }
+        public List<Employee> Employees { get; set; }
     }
 }

@@ -7,6 +7,7 @@ namespace ERPManagementSystem.Models
 {
     public partial class PurchaseOrderLineItem
     {
+      
         public Guid Id { get; set; }
         public string Color { get; set; }
         public string Size { get; set; }
@@ -24,9 +25,11 @@ namespace ERPManagementSystem.Models
         public Guid? PurchaseOrderId { get; set; }
         public Guid? ProductId { get; set; }
         public Guid? TaxRateId { get; set; }
+        public Guid? QuotationId { get; set; }
 
         public virtual Product Product { get; set; }
         public virtual PurchaseOrder PurchaseOrder { get; set; }
+        public virtual Quotation Quotation { get; set; }
         public virtual TaxRate TaxRate { get; set; }
     }
 }

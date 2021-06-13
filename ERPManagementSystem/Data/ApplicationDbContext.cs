@@ -29,6 +29,7 @@ namespace ERPManagementSystem.Data
         public virtual DbSet<Customer>Customers { get; set; }
         //hrm table
         public virtual DbSet<Designation> Designations { get; set; }
+        public virtual DbSet<Employee> Employees { get; set; }
 
 
     }

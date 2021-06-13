@@ -130,6 +130,9 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     entity.VendorId = purchaseOrderVm.VendorId;
                     entity.ShippingCost = purchaseOrderVm.ShippingCost;
                     entity.PurchaseOrderStatus = purchaseOrderVm.PurchaseOrderStatus;
+                    entity.Discont = purchaseOrderVm.Discont;
+                    entity.DeliveryDate = purchaseOrderVm.DeliveryDate;
+                    entity.TotalAmount = purchaseOrderVm.TotalAmount;
                     var oldLineIetm = await _context.PurchaseOrderLineItems.Where(c => c.PurchaseOrderId == id).ToListAsync();
                     foreach (var item in oldLineIetm)
                     {

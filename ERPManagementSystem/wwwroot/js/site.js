@@ -653,6 +653,36 @@ ShowInLargePopupOnEdit = (url, title) => {
                 console.log("amount", totalAmount)
                 totalCost.val(totalAmount);
                 perProductCost.val(perProductCost1);
+                // final subtotal
+                var finalAmount = 0;
+                var productAmount = 0;
+                $(".datatable .define").each(function (row, tr) {
+                    var amount = parseFloat($(this).closest('tr').find('#totalCost').val());
+                    if (isNaN(amount)) {
+                        amount = 0;
+                    }
+                    console.log("amount", amount);
+                    productAmount = amount + productAmount;
+
+                });
+                console.log("productamount", productAmount);
+                var shippingCost = parseFloat($('.shippingcost').val());
+                var discount1 = parseFloat($('#discountOntotalOrder').val());
+                if (isNaN(discount)) {
+                    discount = 0;
+
+
+                }
+                if (isNaN(shippingCost)) {
+                    shippingCost = 0;
+                }
+                if (isNaN(productAmount)) {
+                    productAmount = 0
+                }
+                finalAmount = productAmount + shippingCost;
+                var discountAmount = (discount1 / 100) * finalAmount;
+                finalAmount = finalAmount - discountAmount;
+                $('#subtotalOfThisOrder').val(finalAmount.toFixed(2));
             });
             $('.datatable').on('keyup', '#price', function () {
                 var curentrow = $(this).closest("tr");
@@ -669,6 +699,36 @@ ShowInLargePopupOnEdit = (url, title) => {
                 console.log("amount", totalAmount)
                 totalCost.val(totalAmount);
                 perProductCost.val(perProductCost1);
+                // final subtotal
+                var finalAmount = 0;
+                var productAmount = 0;
+                $(".datatable .define").each(function (row, tr) {
+                    var amount = parseFloat($(this).closest('tr').find('#totalCost').val());
+                    if (isNaN(amount)) {
+                        amount = 0;
+                    }
+                    console.log("amount", amount);
+                    productAmount = amount + productAmount;
+
+                });
+                console.log("productamount", productAmount);
+                var shippingCost = parseFloat($('.shippingcost').val());
+                var discount1 = parseFloat($('#discountOntotalOrder').val());
+                if (isNaN(discount)) {
+                    discount = 0;
+
+
+                }
+                if (isNaN(shippingCost)) {
+                    shippingCost = 0;
+                }
+                if (isNaN(productAmount)) {
+                    productAmount = 0
+                }
+                finalAmount = productAmount + shippingCost;
+                var discountAmount = (discount1 / 100) * finalAmount;
+                finalAmount = finalAmount - discountAmount;
+                $('#subtotalOfThisOrder').val(finalAmount.toFixed(2));
             });
             $('.datatable').on('keyup', '#discount', function () {
                 var curentrow = $(this).closest("tr");
@@ -685,6 +745,36 @@ ShowInLargePopupOnEdit = (url, title) => {
                 console.log("amount", totalAmount)
                 totalCost.val(totalAmount);
                 perProductCost.val(perProductCost1);
+                // final subtotal
+                var finalAmount = 0;
+                var productAmount = 0;
+                $(".datatable .define").each(function (row, tr) {
+                    var amount = parseFloat($(this).closest('tr').find('#totalCost').val());
+                    if (isNaN(amount)) {
+                        amount = 0;
+                    }
+                    console.log("amount", amount);
+                    productAmount = amount + productAmount;
+
+                });
+                console.log("productamount", productAmount);
+                var shippingCost = parseFloat($('.shippingcost').val());
+                var discount1 = parseFloat($('#discountOntotalOrder').val());
+                if (isNaN(discount)) {
+                    discount = 0;
+
+
+                }
+                if (isNaN(shippingCost)) {
+                    shippingCost = 0;
+                }
+                if (isNaN(productAmount)) {
+                    productAmount = 0
+                }
+                finalAmount = productAmount + shippingCost;
+                var discountAmount = (discount1 / 100) * finalAmount;
+                finalAmount = finalAmount - discountAmount;
+                $('#subtotalOfThisOrder').val(finalAmount.toFixed(2));
             });
             $('.datatable').on('change', '#tax', function () {
                 var curentrow = $(this).closest("tr");
@@ -701,6 +791,36 @@ ShowInLargePopupOnEdit = (url, title) => {
                 console.log("amount", totalAmount)
                 totalCost.val(totalAmount);
                 perProductCost.val(perProductCost1);
+                // final subtotal
+                var finalAmount = 0;
+                var productAmount = 0;
+                $(".datatable .define").each(function (row, tr) {
+                    var amount = parseFloat($(this).closest('tr').find('#totalCost').val());
+                    if (isNaN(amount)) {
+                        amount = 0;
+                    }
+                    console.log("amount", amount);
+                    productAmount = amount + productAmount;
+
+                });
+                console.log("productamount", productAmount);
+                var shippingCost = parseFloat($('.shippingcost').val());
+                var discount1 = parseFloat($('#discountOntotalOrder').val());
+                if (isNaN(discount)) {
+                    discount = 0;
+
+
+                }
+                if (isNaN(shippingCost)) {
+                    shippingCost = 0;
+                }
+                if (isNaN(productAmount)) {
+                    productAmount = 0
+                }
+                finalAmount = productAmount + shippingCost;
+                var discountAmount = (discount1 / 100) * finalAmount;
+                finalAmount = finalAmount - discountAmount;
+                $('#subtotalOfThisOrder').val(finalAmount.toFixed(2));
             });
 
             $('.datatable').on('keyup', '#quantity', function () {
@@ -715,16 +835,108 @@ ShowInLargePopupOnEdit = (url, title) => {
                 var taxAmount = (taxRate / 100) * price;
                 var totalAmount = ((price - discountAmount) + taxAmount) * quantity;
                 var perProductCost1 = ((price - discountAmount) + taxAmount);
-               
                 console.log("amount", totalAmount)
-                console.log("discount", discount)
-                console.log("discountAmount", discountAmount)
-                console.log("taxRate", taxRate)
-                console.log("quantity", quantity)
                 totalCost.val(totalAmount);
                 perProductCost.val(perProductCost1);
-            });
 
+                // final subtotal
+                var finalAmount = 0;
+                var productAmount = 0;
+                $(".datatable .define").each(function (row, tr) {
+                    var amount = parseFloat($(this).closest('tr').find('#totalCost').val());
+                    if (isNaN(amount )) {
+                        amount = 0;
+                    }
+                    console.log("amount", amount);
+                    productAmount = amount + productAmount;
+
+                });
+                console.log("productamount", productAmount);
+                var shippingCost = parseFloat($('.shippingcost').val());
+                var discount1 = parseFloat($('#discountOntotalOrder').val());
+                if (isNaN(discount)) {
+                    discount = 0;
+
+
+                }
+                if (isNaN(shippingCost)) {
+                    shippingCost = 0;
+                }
+                if (isNaN(productAmount)) {
+                    productAmount = 0
+                }
+                finalAmount = productAmount + shippingCost;
+                var discountAmount = (discount1 / 100) * finalAmount;
+                finalAmount = finalAmount - discountAmount;
+                $('#subtotalOfThisOrder').val(finalAmount.toFixed(2));
+            });
+            $('.shippingcost').keyup(function () {
+                var finalAmount = 0;
+                var productAmount = 0;
+                $(".datatable .define").each(function (row, tr) {                   
+                    var amount = parseFloat( $(this).closest('tr').find('#totalCost').val());
+                    if (isNaN(amount)) {
+                        amount = 0;
+                    }
+                    console.log("amount", amount); 
+                    productAmount = amount + productAmount;
+
+                });
+                console.log("productamount", productAmount);
+                var shippingCost = parseFloat($('.shippingcost').val());
+                var discount = parseFloat($('#discountOntotalOrder').val());
+                if (isNaN(discount)) {
+                    discount = 0;
+
+
+                }
+                if (isNaN(shippingCost)) {
+                    shippingCost = 0;
+                }
+                if (isNaN(productAmount)) {
+                    productAmount = 0
+                }
+                finalAmount = productAmount + shippingCost;
+                var discountAmount = (discount / 100) * finalAmount;
+                finalAmount = finalAmount - discountAmount;
+                $('#subtotalOfThisOrder').val(finalAmount.toFixed(2));
+               
+                console.log("shippingCost", shippingCost);
+                console.log("discount", discount); 
+                console.log("finalAmount", finalAmount); 
+            });
+            $('#discountOntotalOrder').keyup(function () {
+                var finalAmount = 0;
+                var productAmount = 0;
+                $(".datatable .define").each(function (row, tr) {
+                    var amount = parseFloat($(this).closest('tr').find('#totalCost').val());
+                    if (isNaN(amount)) {
+                        amount = 0;
+                    }
+                    console.log("amount", amount);
+                    productAmount = amount + productAmount;
+
+                });
+                console.log("productamount", productAmount);
+                var shippingCost = parseFloat($('.shippingcost').val());
+                var discount = parseFloat($('#discountOntotalOrder').val());
+                if (isNaN(discount)) {
+                    discount = 0;
+
+
+                }
+                if (isNaN(shippingCost)) {
+                    shippingCost = 0;
+                }
+                if (isNaN(productAmount)) {
+                    productAmount = 0
+                }
+                finalAmount = productAmount + shippingCost;
+                var discountAmount = (discount / 100) * finalAmount;
+                finalAmount = finalAmount - discountAmount;
+                $('#subtotalOfThisOrder').val(finalAmount.toFixed(2));
+
+            });
             
         }
     });

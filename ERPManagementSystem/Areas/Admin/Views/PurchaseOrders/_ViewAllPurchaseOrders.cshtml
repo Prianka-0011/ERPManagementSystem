@@ -32,8 +32,10 @@
                 <th scope="col">#</th>
                 <th scope="col">Reference No</th>
                 <th scope="col">Vendor</th>
+                <th scope="col">Discout</th>
                 <th scope="col">Shipping Cost</th>
-                <th scope="col">Date</th>
+                <th scope="col">Delivery Date</th>
+                <th scope="col">Total Amount</th>
                 <th scope="col">Status</th>
             </tr>
         </thead>
@@ -49,6 +51,7 @@
                     <td>@item.ShippingCost</td>
                     <td>@item.OrderDate</td>
                     <td>@item.DeliveryDate</td>
+                    <td>@item.TotalAmount</td>
                     <td>@item.PurchaseOrderStatus</td>
                 </tr>
                 i++;
