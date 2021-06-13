@@ -65,13 +65,19 @@
                              DynamicUrl = "/Admin/Designations/Index";
 
                          }
+                         else if ((Context.Request.Path.StartsWithSegments("/Admin/Employees/Index") == true))
+                         {
+                             DynamicUrl = "/Admin/Employees/Index";
+
+                         }
                       }
                     <li>
                         <a class="@(Context.Request.Path.StartsWithSegments(DynamicUrl) ? "parentMenu":null) dropdown3"><i class="fas fa-user-tie"></i><span>HRM</span><i class="fas fa-caret-down"></i></a>
                         <ul class="@(Context.Request.Path.StartsWithSegments(DynamicUrl) ? "show":null) dropdown-menu3">
                             @{ DynamicUrl = "/Admin/Designations/Index";}
                             <li><a class="@(Context.Request.Path.StartsWithSegments(DynamicUrl) ? "active":null)" href="@DynamicUrl">Designation</a></li>
-                            <li><a href="#">Employee</a></li>
+                            @{ DynamicUrl = "/Admin/Employees/Index";}
+                            <li><a class="@(Context.Request.Path.StartsWithSegments(DynamicUrl) ? "active":null)" href="@DynamicUrl">Employee</a></li>
                         </ul>
                     </li>
                     @{if ((Context.Request.Path.StartsWithSegments("/Admin/Categories/Index") == true))

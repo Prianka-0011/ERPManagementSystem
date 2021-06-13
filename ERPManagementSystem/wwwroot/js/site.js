@@ -92,6 +92,24 @@ ShowInSmallPopup = (url, title) => {
             $('#small-modal .modal-body').html(res);
             $('#small-modal .modal-title').html(title);
             $('#small-modal').modal('show');
+
+            $("#Designation").change(function () {
+                var d = $("#Designation option:selected").val();
+                $.ajax({
+                    type: 'GET',
+                    url: '/Employees/GetDesignationSalary/?id=' + d,
+                    dataType: 'JSON',
+                    success: function (data) {
+                        console.log("salary", data)
+                        var salary = document.getElementById("Salary");
+                        salary.value = data;
+                    },
+                    error: function (err) {
+                        console.log(err)
+                    }
+                })
+            });
+            $("#Designation").trigger("change");
         }
     });
 
@@ -142,7 +160,7 @@ ShowInLargePopup = (url, title) => {
                     error: function (res) {
                         console.log(res);
                     }
-                })
+                })                
             })
             //just for this portion i add 2 popup function
         }
