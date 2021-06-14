@@ -1,0 +1,164 @@
+﻿@model IEnumerable<ERPManagementSystem.Models.StockProduct>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<!-- slider start -->
+<div class="slider-area text-center">
+    <div class="slider-active">
+        <div class="single-slider slider-opacity ptb-250" style="background-image: url(assets/img/bg/1.jpg)">
+            <div class="slider-text">
+                <h2>summer Collection 2018 </h2>
+                <h3>A good looking, comfortable traditional collection</h3>
+                <a href="shop.html">Shop The Collection</a>
+            </div>
+        </div>
+        <div class="single-slider slider-opacity ptb-250" style="background-image: url(assets/img/bg/4.jpg)">
+            <div class="slider-text">
+                <h2>Top Collection 2018</h2>
+                <h3>A good looking, comfortable traditional collection</h3>
+                <a href="shop.html">Shop The Collection</a>
+            </div>
+        </div>
+        <div class="single-slider slider-opacity ptb-250" style="background-image: url(assets/img/bg/3.jpg)">
+            <div class="slider-text">
+                <h2>summer Collection 2018</h2>
+                <h3>A good looking, comfortable traditional collection</h3>
+                <a href="shop.html">Shop The Collection</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- slider end -->
+<!-- shop area start -->
+<div class="shop-area ptb-90">
+    <div class="container">
+        <div class="section-title text-center">
+            <h3>Featured Collections</h3>
+            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>
+        </div>
+        <div class="shop-style-all">
+            <div class="row">
+                <div class="grid">
+                    @if (Model != null)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <div class="col-md-3 col-sm-6 col-xs-12 grid-item cat1">
+                                <div class="shop hover-style mb-30">
+                                    <div class="shop-img">
+                                        <div class="shop-single-img">
+                                            <a asp-action="ProductDetail" asp-controller="Home" asp-route-id="@item.Id">
+                                                <img src="~/@item.Product.ImagePath" alt="" />
+                                            </a>
+                                            <div class="product-cart-3">
+                                                <div class="product-cart-center">
+                                                    <a href="#"><i class="pe-7s-cart"></i></a>
+                                                    <a href="#" data-toggle="modal" data-target="#productModal" ><i class="pe-7s-look"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="title-style-3 text-center">
+                                            <h3><a href="#">@item.Product.Name</a></h3>
+                                            <span class="new-price">$@item.SalePrice</span>
+                                            <span class="old-price">$@item.PreviousPrice</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+                    }
+
+                </div>
+            </div>
+        </div>
+        <div class="view-more text-center mt-30">
+            <a href="shop.html">view more</a>
+        </div>
+    </div>
+</div>
+<!-- shop area end -->
+<!-- banner area start -->
+<div class="banner-area pb-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-sm-6">
+                <div class="single-banner">
+                    <a href="#"><img src="assets/img/banner/2.jpg" alt=""></a>
+                    <div class="single-banner-title">
+                        <h3>woman fashion</h3>
+                        <a href="#">shop now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="single-banner res-mrg">
+                    <a href="#"><img src="assets/img/banner/3.jpg" alt=""></a>
+                    <div class="single-banner-title">
+                        <h3>trendy fashion</h3>
+                        <a href="#">shop now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 hidden-sm">
+                <div class="single-banner res-mrg">
+                    <a href="#"><img src="assets/img/banner/4.jpg" alt=""></a>
+                    <div class="single-banner-title">
+                        <h3>mordern fashion</h3>
+                        <a href="#">shop now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- banner area end -->
+<!-- blog area start -->
+<div class="blog-area pb-70">
+    <div class="container">
+        <div class="section-title text-center mb-50">
+            <h3>Latest News</h3>
+            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-sm-6">
+                <div class="single-blog mb-30">
+                    <a href="blog-details.html">
+                        <img src="assets/img/blog/1.jpg" alt="">
+                    </a>
+                    <div class="blog-title">
+                        <span>December 8, 2018</span>
+                        <h3><a href="blog-details.html">Lorem Ipsum is simply dummy</a></h3>
+                        <a href="blog-details.html">read more</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="single-blog mb-30">
+                    <a href="blog-details.html">
+                        <img src="assets/img/blog/2.jpg" alt="">
+                    </a>
+                    <div class="blog-title">
+                        <span>December 8, 2018</span>
+                        <h3><a href="blog-details.html">Lorem Ipsum is simply dummy</a></h3>
+                        <a href="blog-details.html">read more</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 hidden-sm">
+                <div class="single-blog mb-30">
+                    <a href="blog-details.html">
+                        <img src="assets/img/blog/3.jpg" alt="">
+                    </a>
+                    <div class="blog-title">
+                        <span>December 8, 2018</span>
+                        <h3><a href="blog-details.html">Lorem Ipsum is simply dummy</a></h3>
+                        <a href="blog-details.html">read more</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- blog area end -->

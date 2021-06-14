@@ -24,16 +24,16 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index(int pg)
         {
-            var brand = _context.PurchaseOrderLineItems.Include(d => d.Product);
+            var lineItem = _context.PurchaseOrderLineItems.Include(d => d.Product);
             const int pageSize = 10;
             if (pg < 1)
             {
                 pg = 1;
             }
-            var resCount = brand.Count();
+            var resCount = lineItem.Count();
             var pager = new Pager(resCount, pg, pageSize);
             int resSkip = (pg - 1) * pageSize;
-            var data = brand.Skip(resSkip).Take(pager.PageSize);
+            var data = lineItem.Skip(resSkip).Take(pager.PageSize);
             ViewBag.Pager = pager;
             return View(await data.ToListAsync());
         }
@@ -41,24 +41,79 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
         [NoDirectAccess]
         public async Task<IActionResult> AddOrEdit(Guid id)
         {
-            if (id == Guid.Parse("00000000-0000-0000-0000-000000000000"))
+            var lineItem = await _context.PurchaseOrderLineItems.FindAsync(id);
+            lineItem.ReceiveQuantity = lineItem.DueQuantity;
+            if (lineItem == null)
             {
-                ViewData["Category"] = new SelectList(_context.Categories.ToList(), "Id", "Name");
-                return View(new PurchaseOrderLineItem());
+                return NotFound();
             }
-
-            else
+            return View(lineItem);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddOrEdit(Guid id, PurchaseOrderLineItem lineItem)
+        {
+            if (ModelState.IsValid)
             {
-                var brand = await _context.PurchaseOrderLineItems.FindAsync(id);
-                if (brand == null)
+                PurchaseOrderLineItem entity;
+                StockProduct stockProduct;
+                try
                 {
-                    return NotFound();
+                    entity = await _context.PurchaseOrderLineItems.FindAsync(lineItem.Id);
+                    entity.SalePrice = lineItem.SalePrice;
+                    entity.ReceiveQuantity =entity.ReceiveQuantity + lineItem.ReceiveQuantity;
+                    entity.DueQuantity = entity.OrderQuantity - entity.ReceiveQuantity;                    
+                    _context.Update(entity);
+                    stockProduct = await _context.StockProducts.Where(c => c.PurchaseOrderLineItemId == entity.Id).FirstOrDefaultAsync();
+                    if (stockProduct==null)
+                    {
+                        stockProduct = new StockProduct();
+                        stockProduct.PurchaseOrderLineItemId = entity.Id;
+                        stockProduct.ProductId = entity.ProductId.Value;
+                        stockProduct.ImgPath = entity.ImgPath;
+                        stockProduct.Quantity = stockProduct.Quantity+lineItem.ReceiveQuantity.Value;
+                        stockProduct.SalePrice = entity.SalePrice.Value;
+                        stockProduct.Description = entity.Description;
+                        stockProduct.PreviousPrice = lineItem.PreviousPrice.Value;
+                        stockProduct.Color = entity.Color;
+                        stockProduct.Size = entity.Size;
+                        _context.Add(stockProduct);
+                    }
+                    else
+                    {
+                       
+                        stockProduct.Quantity = stockProduct.Quantity+lineItem.ReceiveQuantity.Value;
+                        stockProduct.SalePrice = entity.SalePrice.Value;
+                        stockProduct.PreviousPrice = lineItem.PreviousPrice.Value;
+                        _context.Update(stockProduct);
+                    }
+                    await _context.SaveChangesAsync();
                 }
-                ViewData["Category"] = new SelectList(_context.Categories.ToList(), "Id", "Name");
-                return View(brand);
+                catch (DbUpdateConcurrencyException ex)
+                {
+
+                }
+            
+            var brandData = _context.PurchaseOrderLineItems.Include(d => d.Product);
+            int pg = 1;
+            const int pageSize = 10;
+            if (pg < 1)
+            {
+                pg = 1;
             }
+            var resCount = brandData.Count();
+            var pager = new Pager(resCount, pg, pageSize);
+            int resSkip = (pg - 1) * pageSize;
+            var data = brandData.Skip(resSkip).Take(pager.PageSize);
+            ViewBag.Pager = pager;
+            return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllLineItem", data) });
+        }
+            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEdit", lineItem) });
 
         }
 
     }
 }
+
+
+

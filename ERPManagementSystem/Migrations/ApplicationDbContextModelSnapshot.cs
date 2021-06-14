@@ -281,6 +281,9 @@ namespace ERPManagementSystem.Migrations
                     b.Property<decimal?>("PerProductCost")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<decimal?>("PreviousPrice")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<decimal?>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -298,6 +301,9 @@ namespace ERPManagementSystem.Migrations
 
                     b.Property<int?>("ReceiveQuantity")
                         .HasColumnType("int");
+
+                    b.Property<decimal?>("SalePrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Size")
                         .HasColumnType("nvarchar(max)");
@@ -404,6 +410,57 @@ namespace ERPManagementSystem.Migrations
                     b.HasIndex("TaxRateId");
 
                     b.ToTable("QuotationLineItems");
+                });
+
+            modelBuilder.Entity("ERPManagementSystem.Models.StockProduct", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Color")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Discount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("ImgPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("PerProductCost")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("PreviousPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PurchaseOrderLineItemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("SalePrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Size")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StockProductStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("PurchaseOrderLineItemId");
+
+                    b.ToTable("StockProducts");
                 });
 
             modelBuilder.Entity("ERPManagementSystem.Models.SubCategory", b =>
@@ -792,6 +849,21 @@ namespace ERPManagementSystem.Migrations
                     b.HasOne("ERPManagementSystem.Models.TaxRate", "TaxRate")
                         .WithMany("QuotationLineItems")
                         .HasForeignKey("TaxRateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ERPManagementSystem.Models.StockProduct", b =>
+                {
+                    b.HasOne("ERPManagementSystem.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ERPManagementSystem.Models.PurchaseOrderLineItem", "PurchaseOrderLineItem")
+                        .WithMany()
+                        .HasForeignKey("PurchaseOrderLineItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -198,7 +198,7 @@ ShowInLargePopupPurchaQuotation = (url, title) => {
                 img.attr("src", "https://localhost:44377/images/noimg.png");
                 $trfirst.after($trNew);
                 $trNew.find("td").find('#removeFeildWithValue').addClass('removeTR');
-                $trfirst.find("td").find('#removeFeildWithValue').addClass('refreshTR');
+                $trfirst.find("td").find('#removeFeildWithValue').removeClass('refreshTR');
                 $(this).removeClass("input-validation-error");
             });
             
@@ -951,7 +951,7 @@ jQueryAjaxPost = form => {
             contentType: false,
             processData: false,
             success: function (res) {
-
+                console.log("res",res)
                 if (res.isValid) {
 
                     $('#view-all').html(res.html)
@@ -964,7 +964,7 @@ jQueryAjaxPost = form => {
                     $('#small-modal .modal-body').html(res.html);
             },
             error: function (err) {
-
+                console.log("res", err)
                 toastr.success(" ", "Faild");
 
 

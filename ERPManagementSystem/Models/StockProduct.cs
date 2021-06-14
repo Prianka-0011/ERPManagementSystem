@@ -14,6 +14,7 @@ namespace ERPManagementSystem.Models
         public decimal SalePrice { get; set; }
 
         public decimal PerProductCost { get; set; }
+        public decimal PreviousPrice { get; set; }
         public decimal Discount { get; set; }
 
         public int Quantity { get; set; }

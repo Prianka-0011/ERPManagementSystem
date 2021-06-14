@@ -67,7 +67,7 @@ namespace ERPManagementSystem
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{area=Admin}/{controller=Dashboard}/{action=Index}/{id?}");
+                    pattern: "{area=Shop}/{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
         }

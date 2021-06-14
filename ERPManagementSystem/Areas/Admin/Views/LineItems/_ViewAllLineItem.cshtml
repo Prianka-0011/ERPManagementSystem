@@ -1,0 +1,94 @@
+﻿@model IEnumerable<ERPManagementSystem.Models.PurchaseOrderLineItem>
+@using ERPManagementSystem.Extensions;
+@{
+
+    Pager pager = new Pager();
+    int pageNo = 0;
+    var i = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+        if (pager.CurrentPage == 1)
+        {
+            i = pager.StartPage;
+        }
+        if (pager.CurrentPage > 1)
+        {
+            i = pager.PageSize * (pager.CurrentPage - pager.StartPage);
+            i++;
+        }
+    }
+
+}
+
+
+@if (Model != null)
+{
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                @*<th scope="col"><i class="fas fa-plus"></i></th>*@
+                <th scope="col">#</th>
+                <th scope="col">Product</th>
+                <th scope="col"> Order Quantity</th>
+                <th scope="col">Receive Quantity</th>
+                <th scope="col">DueQuantity</th>
+                <th scope="col">Per Product Cost </th>
+                <th scope="col">Sale Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr onclick="ShowInSmallPopup('@Url.Action("AddOrEdit","LineItems",new { id=item.Id},Context.Request.Scheme)','Update LineItem' )">
+                    @*<td scope="row"><a href="#" class="childrowexpand"><input type="hidden" asp-for="@item.Id" /><i class="fas fa-plus"></i></a></td>*@
+                    <td scope="row">@i</td>
+                    <td>@item.Product.Name</td>
+                    <td>@item.OrderQuantity</td>
+                    <td>@item.ReceiveQuantity</td>
+                    <td>@item.DueQuantity</td>
+                    <td>@item.PerProductCost</td>
+                    <td>@item.SalePrice</td>
+                   
+                </tr>
+                i++;
+            }
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col-md-12 col-12 col-lg-12">
+            @if (pager.TotalPages > 0)
+            {
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        @if (pager.CurrentPage > 1)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" asp-controller="Quotations" asp-action="Index" asp-route-pg="1">Frist</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" asp-controller="Quotations" asp-action="Index" asp-route-pg="@(pager.CurrentPage-1)">Prev</a>
+                            </li>
+                        }
+                        @for (var pge = pager.StartPage; pge <= pager.EndPage; pge++)
+                        {
+                            <li class="page-item @( pge==pager.CurrentPage?"active":"")">
+                                <a class="page-link" asp-controller="Quotations" asp-action="Index" asp-route-pg="@pge">@pge</a>
+                            </li>
+                        }
+                        @if (pager.CurrentPage < pager.TotalPages)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" asp-controller="Quotations" asp-action="Index" asp-route-pg="@(pager.CurrentPage+1)">Next</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" asp-controller="Quotations" asp-action="Index" asp-route-pg="@pager.TotalPages">Last</a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            }
+        </div>
+    </div>
+}

@@ -112,6 +112,8 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     lineItem.PerProductCost = item.PerProductCost;
                     lineItem.Discount = item.Discount;
                     lineItem.OrderQuantity = item.OrderQuantity;
+                    lineItem.DueQuantity = item.OrderQuantity;
+                    lineItem.ReceiveQuantity = 0;
                     lineItem.Description = item.Description;
                     lineItem.ImgPath = item.ImgPath;
                     lineItem.TotalCost = item.TotalCost;
