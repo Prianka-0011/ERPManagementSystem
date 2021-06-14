@@ -1,0 +1,83 @@
+﻿@model ERPManagementSystem.Models.Employee
+@{
+    ViewData["Title"] = "AddOrEdit";
+    Layout = null;
+}
+
+<div class="container-fluid">
+    <form asp-action="AddOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPost(this);" enctype="multipart/form-data" autocomplete="off">
+        <div class="row">
+            <div class="col-md-6 col-lg-6 col-10 offset-md-0 offset-lg-0 offset-1">
+                <div class="form-group">
+                    <input type="hidden" asp-for="Id" />
+                    <label>FirstName</label>
+                    <input asp-for="FirstName" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-10 offset-md-0 offset-lg-0 offset-1">
+                <div class="form-group">
+                    <label>LastName</label>
+                    <input asp-for="LastName" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-lg-6 col-10 offset-md-0 offset-lg-0 offset-1">
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input asp-for="Phone" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-10 offset-md-0 offset-lg-0 offset-1">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input asp-for="Email" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-lg-6 col-10 offset-md-0 offset-lg-0 offset-1">
+                <div class="form-group">
+                    <label>Designation</label>
+                    <select asp-for="DesignationId" class="form-control" asp-items="ViewBag.DesignationId" id="Designation"></select>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-6 col-10 offset-md-0 offset-lg-0 offset-1">
+                <div class="form-group">
+                    <label>Salary</label>
+                    <input asp-for="Salary" type="number" id="Salary" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-lg-6 col-10 offset-md-0 offset-lg-0 offset-1">
+                <div class="form-group">
+                    <label>EmployeeType</label>
+                    <select asp-for="EmployeeType" class="form-control">
+                        <option value="Permanent">Permanent</option>
+                        <option value="PartTime">PartTime</option>
+                        <option value="Contractual">Contractual</option>
+                    </select>
+
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-10 offset-md-0 offset-lg-0 offset-1">
+                <div class="form-group">
+                    <label>Status</label>
+                    <select asp-for="EmployeeStatus" class="form-control">
+                        <option value="Enable">Enable</option>
+                        <option value="Disable">Disable</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+       
+        <div class="row">
+            <div class="container d-flex justify-content-center align-items-center">
+                <button type="submit" class="savebtn">Save</button>
+            </div>
+        </div>
+    </form>
+</div>
+

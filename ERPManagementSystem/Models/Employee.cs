@@ -15,6 +15,7 @@ namespace ERPManagementSystem.Models
         public string EmployeeType { get; set; }
         public decimal Salary { get; set; }
         public decimal ReviewSalary { get; set; }
+        public string EmployeeStatus { get; set; }
         //Navigaton
         public Guid RoleId { get; set; }
         public Guid DesignationId { get; set; }
