@@ -1,4 +1,4 @@
-﻿@model ERPManagementSystem.Models.PurchaseOrderLineItem
+﻿@model ERPManagementSystem.ViewModels.LineItemVm
 @{
     ViewData["Title"] = "AddOrEdit";
     Layout = null;
@@ -24,6 +24,12 @@
                 <div class="form-group">
                     <label>Previous Price</label>
                     <input asp-for="PreviousPrice" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-10 offset-1 col-10 col-lg-10 offset-lg-1">
+                <div class="form-group">
+                    <label>Quick View</label>
+                   <textarea class="form-control"  asp-for="ShortDescription"></textarea>
                 </div>
             </div>
 

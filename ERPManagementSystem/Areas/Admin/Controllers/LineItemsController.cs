@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ERPManagementSystem.Data;
 using ERPManagementSystem.Extensions;
 using ERPManagementSystem.Models;
+using ERPManagementSystem.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -41,8 +42,12 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
         [NoDirectAccess]
         public async Task<IActionResult> AddOrEdit(Guid id)
         {
-            var lineItem = await _context.PurchaseOrderLineItems.FindAsync(id);
-            lineItem.ReceiveQuantity = lineItem.DueQuantity;
+            var entity = await _context.PurchaseOrderLineItems.FindAsync(id);
+            LineItemVm lineItem = new LineItemVm();
+            lineItem.ReceiveQuantity = entity.DueQuantity;
+            lineItem.SalePrice = entity.SalePrice;
+            lineItem.PreviousPrice = entity.PreviousPrice;
+            lineItem.ShortDescription = entity.ShortDescription;
             if (lineItem == null)
             {
                 return NotFound();
@@ -51,7 +56,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddOrEdit(Guid id, PurchaseOrderLineItem lineItem)
+        public async Task<IActionResult> AddOrEdit(Guid id, LineItemVm lineItem)
         {
             if (ModelState.IsValid)
             {
@@ -62,7 +67,9 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     entity = await _context.PurchaseOrderLineItems.FindAsync(lineItem.Id);
                     entity.SalePrice = lineItem.SalePrice;
                     entity.ReceiveQuantity =entity.ReceiveQuantity + lineItem.ReceiveQuantity;
-                    entity.DueQuantity = entity.OrderQuantity - entity.ReceiveQuantity;                    
+                    entity.DueQuantity = entity.OrderQuantity - entity.ReceiveQuantity;
+                    entity.PreviousPrice = lineItem.PreviousPrice;
+                    entity.ShortDescription = lineItem.ShortDescription;
                     _context.Update(entity);
                     stockProduct = await _context.StockProducts.Where(c => c.PurchaseOrderLineItemId == entity.Id).FirstOrDefaultAsync();
                     if (stockProduct==null)
@@ -74,17 +81,28 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                         stockProduct.Quantity = stockProduct.Quantity+lineItem.ReceiveQuantity.Value;
                         stockProduct.SalePrice = entity.SalePrice.Value;
                         stockProduct.Description = entity.Description;
+                        stockProduct.ShortDescription = lineItem.ShortDescription;
                         stockProduct.PreviousPrice = lineItem.PreviousPrice.Value;
                         stockProduct.Color = entity.Color;
                         stockProduct.Size = entity.Size;
+                        stockProduct.Description = lineItem.ShortDescription;
                         _context.Add(stockProduct);
                     }
                     else
                     {
-                       
-                        stockProduct.Quantity = stockProduct.Quantity+lineItem.ReceiveQuantity.Value;
+
+                        stockProduct.PurchaseOrderLineItemId = entity.Id;
+                        stockProduct.ProductId = entity.ProductId.Value;
+                        stockProduct.ImgPath = entity.ImgPath;
+                        stockProduct.Quantity = stockProduct.Quantity + lineItem.ReceiveQuantity.Value;
                         stockProduct.SalePrice = entity.SalePrice.Value;
+
+                        stockProduct.Description = entity.Description;
+                        stockProduct.ShortDescription = lineItem.ShortDescription;
                         stockProduct.PreviousPrice = lineItem.PreviousPrice.Value;
+                        stockProduct.Color = entity.Color;
+                        stockProduct.Size = entity.Size;
+                        stockProduct.Description = lineItem.ShortDescription;
                         _context.Update(stockProduct);
                     }
                     await _context.SaveChangesAsync();

@@ -1,4 +1,17 @@
-﻿
+﻿@using ERPManagementSystem.ViewModels
+@using Microsoft.AspNetCore.Http
+@using ERPManagementSystem.Extensions
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    var userRole = HttpContextAccessor.HttpContext.Session.GetString("roleName");
+    int count = 0;
+    List<StockProductVm> products = HttpContextAccessor.HttpContext.Session.Get<List<StockProductVm>>("products");
+    if (products == null)
+    {
+        products = new List<StockProductVm>();
+    }
+    count = products.Count();
+}
 
 <!doctype html>
 <html class="no-js" lang="zxx">
@@ -80,7 +93,7 @@
                         <div class="col-md-3 col-sm-4 col-xs-6 text-right text-sm text-res">
                             <div class="cart-user-language">
                                 <div class="shopping-cart ml-30 display-inline">
-                                    <a class="top-cart" href="cart.html"><i class="pe-7s-cart"></i></a>
+                                    <a class="top-cart" asp-area="Shop" asp-controller="Home" asp-action="Cart"><i class="pe-7s-cart">(@count)</i></a>
                                     <ul>
                                         <li>
                                             <div class="cart-img">
@@ -97,7 +110,7 @@
                                         </li>
                                         <li>
                                             <div class="cart-img">
-                                                <a href="#"><img src="assets/img/cart/2.jpg" alt="" /></a>
+                                                <a href="#"><img src="~/assets/img/cart/2.jpg" alt="" /></a>
                                             </div>
                                             <div class="cart-content">
                                                 <h3><a href="#"> 1 X Faded...</a> </h3>

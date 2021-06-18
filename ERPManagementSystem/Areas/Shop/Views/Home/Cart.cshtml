@@ -1,0 +1,109 @@
+﻿@model List<ERPManagementSystem.ViewModels.StockProductVm>
+@{
+    ViewData["Title"] = "Cart";
+
+  
+}
+
+<!-- breadcrumb start -->
+<div class="breadcrumb-area gray-bg">
+    <div class="container text-center">
+        <div class="breadcrumb-stye ptb-100">
+            <h2 class="page-title">cart page</h2>
+            <ul>
+                <li><a href="#">home</a></li>
+                <li><a href="#">shop</a></li>
+                <li class="active">cart</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- breadcrumb end -->
+<!-- shopping-cart-area start -->
+<div class="cart-main-area ptb-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h1 class="cart-heading">Cart</h1>
+                <form action="#">
+                    <div class="table-content table-responsive">
+                        <table class="cartTable">
+                            <thead>
+                                <tr>
+                                    <th class="product-name">remove</th>
+                                    <th class="product-price">images</th>
+                                    <th class="product-name">Product</th>
+                                    <th class="product-price">Price</th>
+                                    <th class="product-quantity">Quantity</th>
+                                    <th class="product-subtotal">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null)
+                                {
+                                    int j = 0;
+                                    foreach (var item in Model)
+                                    {
+                                        <tr class="cartTr">
+                                            <td class="product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
+                                            <td class="product-thumbnail">
+                                                <a href="#"><img src="~/@item.ImgPath" alt=""></a>
+                                                <input type="hidden" asp-for="@Model[j].ImgPath" />
+                                            </td>
+                                            <td class="product-name">
+                                                <a href="#">@item.ProductName</a>
+                                                <input type="hidden" asp-for="@Model[j].ProductName" />
+                                            </td>
+
+                                            <td class="product-price">
+                                                <span id="salePriceAmount"  class="amount">@item.SalePrice</span>
+                                                <input type="hidden" id="salePrice" asp-for="@Model[j].SalePrice" />
+                                            </td>
+                                            <td class="product-quantity">
+                                                <input asp-for="@Model[j].CartQuantity" id="cartQuantity" type="number">
+                                                <input asp-for="@Model[j].StockProduct" id="stockQuantity" type="hidden">
+
+                                            </td>
+                                            <td class="product-subtotal">
+                                                <span id="productTotalSpan"> @item.ProductTotal</span> 
+                                                <input type="hidden" id="productTotal" asp-for="@Model[j].ProductTotal" />
+                                            </td>
+
+                                        </tr>
+                                    }
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="coupon-all">
+                                <div class="coupon">
+                                    <input id="coupon_code" class="input-text" name="coupon_code" value="" placeholder="Coupon code" type="text">
+                                    <input class="button" name="apply_coupon" value="Apply coupon" type="submit">
+                                </div>
+                                <div class="coupon2">
+                                    <input class="button" name="update_cart" value="Update cart" type="submit">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 col-md-offset-7 col-sm-12 col-xs-12">
+                            <div class="cart-total">
+                                <h2>Cart totals</h2>
+                                <ul>
+                                    <li>Subtotal<span class="cartSubtotal">@ViewBag.subTotal</span></li>
+                                    @*<li>Total<span>100.00</span></li>*@
+                                </ul>
+                                <a href="#">Proceed to checkout</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- shopping-cart-area end -->

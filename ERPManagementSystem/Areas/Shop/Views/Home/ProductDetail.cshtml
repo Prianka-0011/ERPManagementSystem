@@ -1,22 +1,26 @@
-﻿
+﻿@model ERPManagementSystem.ViewModels.StockProductVm
 @{
     ViewData["Title"] = "ProductDetail";
     int i;
     int j;
 }
+@using ERPManagementSystem.Extensions
+@using ERPManagementSystem.ViewModels
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
 
-<!-- breadcrumb start -->
-<div class="breadcrumb-area gray-bg">
-    <div class="container text-center">
-        <div class="breadcrumb-stye ptb-100">
-            <h2 class="page-title">product details</h2>
-            <ul>
-                <li><a href="#">home</a></li>
-                <li class="active">product details</li>
-            </ul>
-        </div>
-    </div>
-</div>
+    List<StockProductVm> products = HttpContextAccessor.HttpContext.Session.Get<List<StockProductVm>>("products");
+
+
+    StockProductVm product =null;
+    if (products != null)
+    {
+        product = products.FirstOrDefault(c => c.Id == Model.Id);
+
+
+    }
+}
 <!-- breadcrumb end -->
 <!-- page section start -->
 @if (Model != null)
@@ -70,11 +74,11 @@
                 <div class="col-md-7 col-sm-6 col-xs-12 mb-40">
                     <div class="product-details section">
                         <!-- Title -->
-                        <h1 class="title">Folwer Vase</h1>
+                        <h1 class="title">@Model.ProductName</h1>
                         <!-- Price Ratting -->
                         <div class="price-ratting section">
                             <!-- Price -->
-                            <span class="price float-left"><span class="new">€ 120.00</span></span>
+                            <span class="price float-left"><span class="new">€ @Model.SalePrice</span></span>
                             <!-- Ratting -->
                             <span class="ratting float-right">
                                 <i class="fa fa-star active"></i>
@@ -88,7 +92,7 @@
                         <!-- Short Description -->
                         <div class="short-desc section">
                             <h5 class="pd-sub-title">Quick Overview</h5>
-                            <p>There are many variations of passages of Lorem Ipsum avaable, b majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. make an ami jani </p>
+                            <p>@Model.ShortDescription </p>
                         </div>
                         <!-- Product Size -->
                         <div class="product-size section">
@@ -106,13 +110,48 @@
                             <button style="background-color: #baa6c2;"><i class="fa fa-check"></i></button>
                             <button style="background-color: #414141;"><i class="fa fa-check"></i></button>
                         </div>
-                        <!-- Quantity Cart -->
-                        <div class="quantity-cart section">
-                            <div class="product-quantity2">
-                                <input type="text" value="0">
-                            </div>
-                            <button class="add-to-cart">add to cart</button>
-                        </div>
+                        @if (product == null)
+                        {
+
+                            <form class="m-5" asp-action="ProductDetail" method="post">
+                                <!-- Quantity Cart -->
+                                <input type="hidden" asp-for="Id" />
+                                <div class="quantity-cart section">
+                                    <input class="quatityDDD" type="hidden" asp-for="Quantity" />
+
+                                    <div class="product-quantity2">
+
+                                        <input asp-for="CartQuantity" value="1">
+
+                                    </div>
+
+                                    <button class="add-to-cart">add to cart</button>
+
+
+                                </div>
+                            </form>
+                        }
+                        else
+                        {
+                            <form class="m-5" asp-action="RemoveToCart" method="post">
+                                <!-- Quantity Cart -->
+                                <input type="hidden" asp-for="Id" />
+                                <div class="quantity-cart section">
+                                    <input class="quatityDDD" type="hidden" asp-for="Quantity" />
+
+                                    <div class="product-quantity2">
+
+                                        <input asp-for="CartQuantity" value="1">
+
+                                    </div>
+
+                                    <button class="add-to-cart">remove to cart</button>
+
+
+                                </div>
+                            </form>
+                        }
+
                         <!-- Usefull Link -->
                         <ul class="usefull-link section">
                             <li><a href="#"><i class="pe-7s-mail"></i> Email to a Friend</a></li>
@@ -142,7 +181,7 @@
                 <!-- Tab panes -->
                 <div class="tab-content col-xs-12">
                     <div class="pro-info-tab tab-pane active" id="more-info">
-                        <p>Fashion has been creating well-designed collections since 2010. The brand offers feminine designs delivering stylish separates and statement dresses which have since evolved into a full ready-to-wear collection in which every item is a vital part of a woman's wardrobe. The result? Cool, easy, chic looks with youthful elegance and unmistakable signature style. All the beautiful pieces are made in Italy and manufactured with the greatest attention. Now Fashion extends to a range of accessories including shoes, hats, belts and more!</p>
+                        <p>@Model.Description</p>
                     </div>
                     <div class="pro-info-tab tab-pane" id="data-sheet">
                         <table class="table-data-sheet">

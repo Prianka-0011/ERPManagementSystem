@@ -178,21 +178,121 @@
 
 
 
+ //cart quantity
+    var stockQuantity = $('.stockQuantity').val();
+    $('#cartQuantity').on('change', function () {
+        var $tableBody = $('.cartTable').find("tbody");
+        var $closest = $tableBody.find(".cartTr");
+        var $stockProduct = $tableBody.find("#stockQuantity").val();
 
-    /*-- Product Quantity --*/
+        var cartQuentity = $closest.find("td").find('#cartQuantity').val();
+        if (cartQuentity < $stockProduct) {
+            console.log("cartTolat", $stockProduct)
+            var salePrice = $closest.find("td").find('#salePrice').val();
+            var updateProdutAmount = cartQuentity * salePrice;
+            $closest.find("td").find('#productTotalSpan').text(updateProdutAmount);
+            $closest.find("td").find('#productTotal').val(updateProdutAmount);
+            var productAmount = 0;
+            $(".cartTable .cartTr").each(function (row, tr) {
+                var amount = parseFloat($(this).closest('tr').find('#productTotal').val());
+                if (isNaN(amount)) {
+                    amount = 0;
+                }
+                console.log("amount", amount);
+                productAmount = amount + productAmount;
+
+            });
+            $('.cartSubtotal').text(productAmount);
+        } else {
+            console.log("cartTolat", stockProduct)
+            cartQuentity = $stockProduct;
+            var salePrice = $closest.find("td").find('#salePrice').val();
+            var updateProdutAmount = cartQuentity * salePrice;
+            $closest.find("td").find('#productTotalSpan').text(updateProdutAmount);
+            $closest.find("td").find('#productTotal').val(updateProdutAmount);
+            var productAmount = 0;
+            $(".cartTable .cartTr").each(function (row, tr) {
+                var amount = parseFloat($(this).closest('tr').find('#productTotal').val());
+                if (isNaN(amount)) {
+                    amount = 0;
+                }
+                console.log("amount", amount);
+                productAmount = amount + productAmount;
+            });
+            $('.cartSubtotal').text(productAmount);
+        }
+
+    });
+    $('#cartQuantity').on('keyup', function () {
+        var $tableBody = $('.cartTable').find("tbody");
+        var $closest = $tableBody.find(".cartTr");
+        var $stockProduct = $tableBody.find("#stockQuantity").val();
+        console.log("$stockProduct", stockProduct);
+        var cartQuentity = $closest.find("td").find('#cartQuantity').val();
+        if (cartQuentity < $stockProduct) {
+            var salePrice = $closest.find("td").find('#salePrice').val();
+            var updateProdutAmount = cartQuentity * salePrice;
+            $closest.find("td").find('#productTotalSpan').text(updateProdutAmount);
+            $closest.find("td").find('#productTotal').val(updateProdutAmount);
+            var productAmount = 0;
+            $(".cartTable .cartTr").each(function (row, tr) {
+                var amount = parseFloat($(this).closest('tr').find('#productTotal').val());
+                if (isNaN(amount)) {
+                    amount = 0;
+                }
+                console.log("amount", amount);
+                productAmount = amount + productAmount;
+
+            });
+            $('.cartSubtotal').text(productAmount);
+        } else {
+            cartQuentity = stockProduct;
+            var salePrice = $closest.find("td").find('#salePrice').val();
+            var updateProdutAmount = cartQuentity * salePrice;
+            $closest.find("td").find('#productTotalSpan').text(updateProdutAmount);
+            $closest.find("td").find('#productTotal').val(updateProdutAmount);
+            var productAmount = 0;
+            $(".cartTable .cartTr").each(function (row, tr) {
+                var amount = parseFloat($(this).closest('tr').find('#productTotal').val());
+                if (isNaN(amount)) {
+                    amount = 0;
+                }
+                console.log("amount", amount);
+                productAmount = amount + productAmount;
+            });
+            $('.cartSubtotal').text(productAmount);
+        }
+        
+    });
+/*-- Product Quantity --*/
+
     $('.product-quantity2').append('<span class="dec qtybtn"><i class="fa fa-angle-left"></i></span><span class="inc qtybtn"><i class="fa fa-angle-right"></i></span>');
-    $('.qtybtn').on('click', function() {
+    var quantity = $('.quatityDDD').val();
+    $('.qtybtn').on('click', function () {
         var $button = $(this);
         var oldValue = $button.parent().find('input').val();
+        
         if ($button.hasClass('inc')) {
-            var newVal = parseFloat(oldValue) + 1;
+            console.log("oldValue", oldValue, "  ", quantity)
+            if (oldValue < quantity) {
+               
+                var newVal = parseFloat(oldValue) + 1;
+            } else {
+
+                newVal = quantity;
+            }
+            
+           
         } else {
             // Don't allow decrementing below zero
-            if (oldValue > 0) {
+            console.log("olsddfd", oldValue)
+            if (oldValue > 1) {
                 var newVal = parseFloat(oldValue) - 1;
+
             } else {
-                newVal = 0;
+                newVal = 1;
             }
+            oldValue = newVal;
         }
         $button.parent().find('input').val(newVal);
     });

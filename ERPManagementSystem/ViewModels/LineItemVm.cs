@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ERPManagementSystem.Models
+namespace ERPManagementSystem.ViewModels
 {
-    public partial class PurchaseOrderLineItem
+    public class LineItemVm
     {
-      
         public Guid Id { get; set; }
         public string Color { get; set; }
         public string Size { get; set; }
@@ -16,14 +15,14 @@ namespace ERPManagementSystem.Models
         public decimal? Rate { get; set; }
         public decimal? SalePrice { get; set; }
         public decimal? PreviousPrice { get; set; }
-        
+
         public decimal? PerProductCost { get; set; }
         public int? OrderQuantity { get; set; }
         public int? ReceiveQuantity { get; set; }
         public int? DueQuantity { get; set; }
         public decimal? TotalCost { get; set; }
-        public string Description { get; set; }
         public string ShortDescription { get; set; }
+        public string LargeDescription { get; set; }
         public string ImgPath { get; set; }
         public string ItemStatus { get; set; }
         public Guid? PurchaseOrderId { get; set; }
@@ -31,9 +30,5 @@ namespace ERPManagementSystem.Models
         public Guid? TaxRateId { get; set; }
         public Guid? QuotationId { get; set; }
 
-        public virtual Product Product { get; set; }
-        public virtual PurchaseOrder PurchaseOrder { get; set; }
-        public virtual Quotation Quotation { get; set; }
-        public virtual TaxRate TaxRate { get; set; }
     }
 }
