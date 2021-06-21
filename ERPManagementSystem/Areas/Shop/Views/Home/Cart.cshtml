@@ -25,7 +25,7 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <h1 class="cart-heading">Cart</h1>
-                <form action="#">
+                <form asp-action="Cart" asp-controller="Home">
                     <div class="table-content table-responsive">
                         <table class="cartTable">
                             <thead>
@@ -44,8 +44,9 @@
                                     int j = 0;
                                     foreach (var item in Model)
                                     {
+                                        
                                         <tr class="cartTr">
-                                            <td class="product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
+                                            <td class="product-remove"><a asp-action="RemoveProductToCart" asp-controller="Home" asp-route-id="@Model[j].Id"><i class="fa fa-times"></i></a></td>
                                             <td class="product-thumbnail">
                                                 <a href="#"><img src="~/@item.ImgPath" alt=""></a>
                                                 <input type="hidden" asp-for="@Model[j].ImgPath" />
@@ -53,6 +54,7 @@
                                             <td class="product-name">
                                                 <a href="#">@item.ProductName</a>
                                                 <input type="hidden" asp-for="@Model[j].ProductName" />
+                                                <input type="hidden" asp-for="@Model[j].Id" />
                                             </td>
 
                                             <td class="product-price">

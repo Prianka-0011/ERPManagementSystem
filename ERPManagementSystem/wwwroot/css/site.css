@@ -337,6 +337,8 @@ select {
     width: 40px;
     border-radius: 20px;
     display: block;
+    object-fit:cover;
+    object-position:center center;
 }
     .sidebar-head p {
     color: #DCDCDC;

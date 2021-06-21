@@ -87,6 +87,20 @@ namespace ERPManagementSystem.Areas.Shop.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
+        public ActionResult RemoveProductToCart(Guid id)
+        {
+            List<StockProductVm> products = products = HttpContext.Session.Get<List<StockProductVm>>("products");
+            if (products != null)
+            {
+                var product = products.FirstOrDefault(c => c.Id == id);
+                if (product != null)
+                {
+                    products.Remove(product);
+                    HttpContext.Session.Set("products", products);
+                }
+            }
+            return RedirectToAction(nameof(Cart));
+        }
 
         [HttpGet]
         public async Task<IActionResult> Cart(Guid id)
@@ -105,6 +119,33 @@ namespace ERPManagementSystem.Areas.Shop.Controllers
             ViewBag.subTotal = subtotal;
             return View(products);
            
+        }
+        [HttpPost]
+        public async Task<IActionResult> Cart(List<StockProductVm>vm )
+        {
+            List<StockProductVm> products = HttpContext.Session.Get<List<StockProductVm>>("products");
+            if (products == null)
+            {
+                products = new List<StockProductVm>();
+                ViewBag.subTotal = 0.00;
+            }
+
+            foreach (var item in vm)
+            {
+                var updateCartItem = products.Where(c => c.Id == item.Id).FirstOrDefault();
+                updateCartItem.CartQuantity = item.CartQuantity;
+                updateCartItem.ProductTotal = item.ProductTotal;
+                
+            }
+            HttpContext.Session.Set("products", products);
+            decimal subtotal = 0;
+            foreach (var item in products)
+            {
+                subtotal = subtotal + item.ProductTotal;
+            }
+            ViewBag.subTotal = subtotal;
+            return View(products);
+
         }
     }
 }

@@ -179,90 +179,117 @@
 
 
  //cart quantity
-    var stockQuantity = $('.stockQuantity').val();
+    var stockQuantity = $('#stockQuantity').val();
     $('#cartQuantity').on('change', function () {
+        console.log(" this.defaultValue", this.defaultValue)
+
+
+        //var direction = this.defaultValue < this.value
+        //this.defaultValue = this.value;
+        //if (direction) alert("increase!");
+        //else alert("decrease!");
+
         var $tableBody = $('.cartTable').find("tbody");
         var $closest = $tableBody.find(".cartTr");
-        var $stockProduct = $tableBody.find("#stockQuantity").val();
 
         var cartQuentity = $closest.find("td").find('#cartQuantity').val();
-        if (cartQuentity < $stockProduct) {
-            console.log("cartTolat", $stockProduct)
-            var salePrice = $closest.find("td").find('#salePrice').val();
-            var updateProdutAmount = cartQuentity * salePrice;
-            $closest.find("td").find('#productTotalSpan').text(updateProdutAmount);
-            $closest.find("td").find('#productTotal').val(updateProdutAmount);
-            var productAmount = 0;
-            $(".cartTable .cartTr").each(function (row, tr) {
-                var amount = parseFloat($(this).closest('tr').find('#productTotal').val());
-                if (isNaN(amount)) {
-                    amount = 0;
-                }
-                console.log("amount", amount);
-                productAmount = amount + productAmount;
+        if (cartQuentity >=1) {
+            if (cartQuentity < stockQuantity) {
 
-            });
-            $('.cartSubtotal').text(productAmount);
-        } else {
-            console.log("cartTolat", stockProduct)
-            cartQuentity = $stockProduct;
-            var salePrice = $closest.find("td").find('#salePrice').val();
-            var updateProdutAmount = cartQuentity * salePrice;
-            $closest.find("td").find('#productTotalSpan').text(updateProdutAmount);
-            $closest.find("td").find('#productTotal').val(updateProdutAmount);
-            var productAmount = 0;
-            $(".cartTable .cartTr").each(function (row, tr) {
-                var amount = parseFloat($(this).closest('tr').find('#productTotal').val());
-                if (isNaN(amount)) {
-                    amount = 0;
-                }
-                console.log("amount", amount);
-                productAmount = amount + productAmount;
-            });
-            $('.cartSubtotal').text(productAmount);
+
+
+                console.log("cartTolat", stockQuantity)
+                var salePrice = $closest.find("td").find('#salePrice').val();
+                var updateProdutAmount = cartQuentity * salePrice;
+                $closest.find("td").find('#productTotalSpan').text(updateProdutAmount);
+                $closest.find("td").find('#productTotal').val(updateProdutAmount);
+                var productAmount = 0;
+                $(".cartTable .cartTr").each(function (row, tr) {
+                    var amount = parseFloat($(this).closest('tr').find('#productTotal').val());
+                    if (isNaN(amount)) {
+                        amount = 0;
+                    }
+                    console.log("amount", amount);
+                    productAmount = amount + productAmount;
+
+                });
+                $('.cartSubtotal').text(productAmount);
+            }
+            else {
+                console.log("$stockQuantity", stockQuantity)
+
+                $closest.find("td").find('#cartQuantity').val(stockQuantity)
+                var cartQuentity = $closest.find("td").find('#cartQuantity').val();
+                var salePrice = $closest.find("td").find('#salePrice').val();
+                var updateProdutAmount = cartQuentity * salePrice;
+                $closest.find("td").find('#productTotalSpan').text(updateProdutAmount);
+                $closest.find("td").find('#productTotal').val(updateProdutAmount);
+                var productAmount = 0;
+                $(".cartTable .cartTr").each(function (row, tr) {
+                    var amount = parseFloat($(this).closest('tr').find('#productTotal').val());
+                    if (isNaN(amount)) {
+                        amount = 0;
+                    }
+                    console.log("amount", amount);
+                    productAmount = amount + productAmount;
+                });
+                $('.cartSubtotal').text(productAmount);
+            }
         }
-
+        else {
+            var lowQnt = 1;
+            $closest.find("td").find('#cartQuantity').val(lowQnt)
+        }
     });
     $('#cartQuantity').on('keyup', function () {
         var $tableBody = $('.cartTable').find("tbody");
         var $closest = $tableBody.find(".cartTr");
-        var $stockProduct = $tableBody.find("#stockQuantity").val();
-        console.log("$stockProduct", stockProduct);
-        var cartQuentity = $closest.find("td").find('#cartQuantity').val();
-        if (cartQuentity < $stockProduct) {
-            var salePrice = $closest.find("td").find('#salePrice').val();
-            var updateProdutAmount = cartQuentity * salePrice;
-            $closest.find("td").find('#productTotalSpan').text(updateProdutAmount);
-            $closest.find("td").find('#productTotal').val(updateProdutAmount);
-            var productAmount = 0;
-            $(".cartTable .cartTr").each(function (row, tr) {
-                var amount = parseFloat($(this).closest('tr').find('#productTotal').val());
-                if (isNaN(amount)) {
-                    amount = 0;
-                }
-                console.log("amount", amount);
-                productAmount = amount + productAmount;
 
-            });
-            $('.cartSubtotal').text(productAmount);
-        } else {
-            cartQuentity = stockProduct;
-            var salePrice = $closest.find("td").find('#salePrice').val();
-            var updateProdutAmount = cartQuentity * salePrice;
-            $closest.find("td").find('#productTotalSpan').text(updateProdutAmount);
-            $closest.find("td").find('#productTotal').val(updateProdutAmount);
-            var productAmount = 0;
-            $(".cartTable .cartTr").each(function (row, tr) {
-                var amount = parseFloat($(this).closest('tr').find('#productTotal').val());
-                if (isNaN(amount)) {
-                    amount = 0;
-                }
-                console.log("amount", amount);
-                productAmount = amount + productAmount;
-            });
-            $('.cartSubtotal').text(productAmount);
+        var cartQuentity = $closest.find("td").find('#cartQuantity').val();
+        if (cartQuentity >= 1) {
+            if (cartQuentity < stockQuantity) {
+                console.log("cartTolat", stockQuantity)
+                var salePrice = $closest.find("td").find('#salePrice').val();
+                var updateProdutAmount = cartQuentity * salePrice;
+                $closest.find("td").find('#productTotalSpan').text(updateProdutAmount);
+                $closest.find("td").find('#productTotal').val(updateProdutAmount);
+                var productAmount = 0;
+                $(".cartTable .cartTr").each(function (row, tr) {
+                    var amount = parseFloat($(this).closest('tr').find('#productTotal').val());
+                    if (isNaN(amount)) {
+                        amount = 0;
+                    }
+                    console.log("amount", amount);
+                    productAmount = amount + productAmount;
+
+                });
+                $('.cartSubtotal').text(productAmount);
+            }
+            else {
+                console.log("$stockQuantity", stockQuantity)
+
+                $closest.find("td").find('#cartQuantity').val(stockQuantity)
+                var cartQuentity = $closest.find("td").find('#cartQuantity').val();
+                var salePrice = $closest.find("td").find('#salePrice').val();
+                var updateProdutAmount = cartQuentity * salePrice;
+                $closest.find("td").find('#productTotalSpan').text(updateProdutAmount);
+                $closest.find("td").find('#productTotal').val(updateProdutAmount);
+                var productAmount = 0;
+                $(".cartTable .cartTr").each(function (row, tr) {
+                    var amount = parseFloat($(this).closest('tr').find('#productTotal').val());
+                    if (isNaN(amount)) {
+                        amount = 0;
+                    }
+                    console.log("amount", amount);
+                    productAmount = amount + productAmount;
+                });
+                $('.cartSubtotal').text(productAmount);
+            }
         }
-        
+        else {
+            var lowQnt = null;
+            $closest.find("td").find('#cartQuantity').val(lowQnt)
+        }
     });
 /*-- Product Quantity --*/
 
