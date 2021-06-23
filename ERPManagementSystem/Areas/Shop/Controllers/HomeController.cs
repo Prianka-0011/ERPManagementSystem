@@ -51,6 +51,7 @@ namespace ERPManagementSystem.Areas.Shop.Controllers
             //  StockProduct product;
             List<StockProductVm> products;
             var stockProduct =await _context.StockProducts.Include(c=>c.Product).Where(d=>d.Id==stockProductVm.Id).FirstOrDefaultAsync();
+            var shipping = _context.ShippingCharges.FirstOrDefault();
             StockProductVm productVm = new StockProductVm();
             productVm.Id = stockProduct.Id;
             

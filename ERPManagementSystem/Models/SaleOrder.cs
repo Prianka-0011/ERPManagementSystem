@@ -8,6 +8,23 @@ namespace ERPManagementSystem.Models
     public class SaleOrder
     {
         public Guid Id { get; set; }
-        public int MyProperty { get; set; }
+        public string OderNo { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string CompanyName { get; set; }
+        public string OrderNote { get; set; }
+        public string Phone { get; set; }
+        public string PaymentMethod { get; set; }
+        public decimal OrderTotal { get; set; }
+        public decimal ShippingCost { get; set; }
+        public string Address { get; set; }
+        public Guid CountryId { get; set; }
+        public Country Country { get; set; }
+        public Guid StateId { get; set; }
+        public State State { get; set; }
+        public Guid CityId { get; set; }
+        public City City { get; set; }
+        
+
     }
 }

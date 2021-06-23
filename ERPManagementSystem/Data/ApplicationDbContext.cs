@@ -25,6 +25,14 @@ namespace ERPManagementSystem.Data
         public virtual DbSet<PurchaseOrder>PurchaseOrders { get; set; }
         public virtual DbSet<PurchaseOrderLineItem>PurchaseOrderLineItems { get; set; }
         public virtual DbSet<StockProduct>StockProducts { get; set; }
+        //shop 
+        public virtual DbSet<ShippingCharge> ShippingCharges { get; set; }
+        public virtual DbSet<Country> Countries { get; set; }
+        public virtual DbSet<State> States { get; set; }
+        public virtual DbSet<City> Cities { get; set; }
+        public virtual DbSet<AutoGenerateSerialNumber> AutoGenerateSerialNumbers { get; set; }
+        public virtual DbSet<SaleOrder> SaleOrders { get; set; }
+        public virtual DbSet<SaleOrderItem> SaleOrderItems { get; set; }
         //crm table
         public virtual DbSet<Vendor>Vendors { get; set; }
         public virtual DbSet<Customer>Customers { get; set; }
