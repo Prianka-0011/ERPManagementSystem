@@ -10,5 +10,6 @@ namespace ERPManagementSystem.Models
         public Guid Id { get; set; }
         public decimal  BaseCharge { get; set; }
         public decimal IncreaeChargePerProduct { get; set; }
+        public string ShippingChargeStatus { get; set; }
     }
 }
