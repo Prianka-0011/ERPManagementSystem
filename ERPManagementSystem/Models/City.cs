@@ -9,6 +9,7 @@ namespace ERPManagementSystem.Models
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
+        public string CityStatus { get; set; }
         public Guid StateId { get; set; }
         public State State { get; set; }
     }

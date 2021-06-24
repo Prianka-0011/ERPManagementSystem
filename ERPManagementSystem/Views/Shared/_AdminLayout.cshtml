@@ -120,6 +120,26 @@
                             DynamicUrl = "/Admin/LineItems/Index";
 
                         }
+                        else if ((Context.Request.Path.StartsWithSegments("/Admin/Countries/Index") == true))
+                        {
+                            DynamicUrl = "/Admin/Countries/Index";
+
+                        }
+                        else if ((Context.Request.Path.StartsWithSegments("/Admin/States/Index") == true))
+                        {
+                            DynamicUrl = "/Admin/States/Index";
+
+                        }
+                        else if ((Context.Request.Path.StartsWithSegments("/Admin/Cities/Index") == true))
+                        {
+                            DynamicUrl = "/Admin/Cities/Index";
+
+                        }
+                        else if ((Context.Request.Path.StartsWithSegments("/Admin/ShippingCharges/Index") == true))
+                        {
+                            DynamicUrl = "/Admin/ShippingCharges/Index";
+
+                        }
 
                     }
                     <li>
@@ -141,6 +161,14 @@
                             <li><a class="@(Context.Request.Path.StartsWithSegments(DynamicUrl) ? "active":null)" href="@DynamicUrl">Purchase Order</a></li>
                             @{ DynamicUrl = "/Admin/LineItems/Index";}
                             <li><a class="@(Context.Request.Path.StartsWithSegments(DynamicUrl) ? "active":null)" href="@DynamicUrl">Stock</a></li>
+                            @{ DynamicUrl = "/Admin/Countries/Index";}
+                            <li><a class="@(Context.Request.Path.StartsWithSegments(DynamicUrl) ? "active":null)" href="@DynamicUrl">Country</a></li>
+                            @{ DynamicUrl = "/Admin/States/Index";}
+                            <li><a class="@(Context.Request.Path.StartsWithSegments(DynamicUrl) ? "active":null)" href="@DynamicUrl">State</a></li>
+                            @{ DynamicUrl = "/Admin/Cities/Index";}
+                            <li><a class="@(Context.Request.Path.StartsWithSegments(DynamicUrl) ? "active":null)" href="@DynamicUrl">City</a></li>
+                            @{ DynamicUrl = "/Admin/ShippingCharges/Index";}
+                            <li><a class="@(Context.Request.Path.StartsWithSegments(DynamicUrl) ? "active":null)" href="@DynamicUrl">ShippingCharge</a></li>
                             <li><a href="#">Orders</a></li>
                         </ul>
                     </li>
