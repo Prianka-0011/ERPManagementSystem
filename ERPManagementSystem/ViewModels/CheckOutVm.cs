@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ERPManagementSystem.Models
+namespace ERPManagementSystem.ViewModels
 {
-    public class SaleOrder
+    public class CheckOutVm
     {
         public Guid Id { get; set; }
         public string OderNo { get; set; }
@@ -15,17 +15,17 @@ namespace ERPManagementSystem.Models
         public string OrderNote { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
+        public bool CreateAccount { get; set; }
+        public string Password { get; set; }
         public string PaymentMethod { get; set; }
         public decimal OrderTotal { get; set; }
         public decimal ShippingCost { get; set; }
         public string Address { get; set; }
         public Guid CountryId { get; set; }
-        public Country Country { get; set; }
-        public Guid StateId { get; set; }
-        public State State { get; set; }
-        public Guid CityId { get; set; }
-        public City City { get; set; }
         
-
+        public Guid StateId { get; set; }
+       
+        public Guid CityId { get; set; }
+        public List<StockProductVm> productVms { get; set; }
     }
 }

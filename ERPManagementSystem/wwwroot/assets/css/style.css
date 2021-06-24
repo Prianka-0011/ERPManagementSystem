@@ -29,7 +29,11 @@
 /*---------------------
   7. Login area
 -------------------------*/
-
+input[type="radio"] {
+    -ms-transform: scale(.5)!important; /* IE 9 */
+    -webkit-transform: scale(.5)!important; /* Chrome, Safari, Opera */
+    transform: scale(.5)!important;
+}
 .waraper {
     padding: 0 100px;
 }
