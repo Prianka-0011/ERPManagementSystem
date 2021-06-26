@@ -26,7 +26,10 @@ namespace ERPManagementSystem.Areas.Shop.Controllers
             ViewData["Countries"] = new SelectList(_context.Countries.ToList(), "Id", "Name");
             decimal subtotal = 0;
             int squantity = 0;
-            
+            if (products==null)
+            {
+                return View();
+            }
 
             foreach (var item in products)
             {
@@ -41,6 +44,19 @@ namespace ERPManagementSystem.Areas.Shop.Controllers
             CheckOutVm checkOutVm = new CheckOutVm();
             checkOutVm.productVms = products;
             return View(checkOutVm);
+        }
+    
+        [HttpGet("/CheckOut/GetAllState")]
+        public IActionResult GetAllState(Guid id)
+        {
+            var subCategory = _context.States.Where(c => c.CountryId == id).ToList();
+            return Json(subCategory);
+        }
+        [HttpGet("/CheckOut/GetAllCity")]
+        public IActionResult GetAllCity(Guid id)
+        {
+            var subCategory = _context.Cities.Where(c => c.StateId == id).ToList();
+            return Json(subCategory);
         }
     }
 }

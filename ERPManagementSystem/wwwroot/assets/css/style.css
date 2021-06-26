@@ -30,9 +30,17 @@
   7. Login area
 -------------------------*/
 input[type="radio"] {
-    -ms-transform: scale(.5)!important; /* IE 9 */
-    -webkit-transform: scale(.5)!important; /* Chrome, Safari, Opera */
-    transform: scale(.5)!important;
+    -ms-transform: scale(1.5) !important; /* IE 9 */
+    -webkit-transform: scale(1.5) !important; /* Chrome, Safari, Opera */
+    transform: scale(1.5 )!important;
+    background: #eceff8;
+     border: 2px solid #eceff8; 
+     height: 10px!important; 
+    box-shadow: none;
+    padding-left: 10px;
+    font-size: 14px;
+    color: #626262;
+    width: 5% !important;
 }
 .waraper {
     padding: 0 100px;
@@ -151,10 +159,9 @@ input[type="radio"] {
     color: #333;
 }
 /*----------------------------*/
-/*    8. Shopping cart
+    /*    8. Shopping cart
 /*----------------------------*/
-
-.shopping-cart-area {
+    .shopping-cart-area {
     border-bottom: 1px solid #ddd;
 }
 .shopping-cart-area .breadcrumb {
@@ -511,12 +518,12 @@ p.checkout-coupon input[type="submit"] {
 .country-select select {
     -moz-appearance: none;
     border: 1px solid #ddd;
-    height: 32px;
+    height: 39px;
     padding-left: 10px;
     width: 100%;
     background-color: transparent;
 }
-.country-select::before {
+/*.country-select::before {
     content: "";
     display: inline-block;
     font-family: fontawesome;
@@ -524,7 +531,7 @@ p.checkout-coupon input[type="submit"] {
     position: absolute;
     right: 12px;
     top: 27px;
-}
+}*/
 .checkout-form-list {
     margin-bottom: 30px;
 }

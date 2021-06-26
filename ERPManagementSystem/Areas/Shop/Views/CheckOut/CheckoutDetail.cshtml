@@ -77,7 +77,7 @@
                                 <div class="col-md-12">
                                     <div class="country-select">
                                         <label>Country <span class="required">*</span></label>
-                                        <select asp-for="CountryId" asp-items="@ViewBag.Countries"></select>
+                                        <select asp-for="CountryId" asp-items="@ViewBag.Countries" id="country"></select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -104,21 +104,17 @@
                                         <input asp-for="Address" type="text" placeholder="Street address" />
                                     </div>
                                 </div>
-                                @*<div class="col-md-12">
-                                        <div class="checkout-form-list">
-                                            <input type="text" placeholder="Apartment, suite, unit etc. (optional)" />
-                                        </div>
-                                    </div>*@
-                                <div class="col-md-12">
-                                    <div class="checkout-form-list">
-                                        <label>Town / City <span class="required">*</span></label>
-                                        <select asp-for="CityId"></select>
+
+                                <div class="col-md-6">
+                                    <div class="country-select">
+                                        <label>State <span class="required">*</span></label>
+                                        <select asp-for="StateId" id="state"></select>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="checkout-form-list">
-                                        <label>State / County <span class="required">*</span></label>
-                                        <select asp-for="StateId"></select>
+                                <div class="col-md-12">
+                                    <div class="country-select">
+                                        <label>Town / City <span class="required">*</span></label>
+                                        <select asp-for="CityId" id="city"></select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -143,7 +139,7 @@
                                     <div class="checkout-form-list create-acc">
                                         <input id="cbox" asp-for="CreateAccount" type="checkbox" />
                                         <label>Create an account?</label>
-                                    </div>
+                                    </div> 
                                     <div id="cbox_info" class="checkout-form-list create-account">
                                         <p>Create an account by entering the information below. If you are a returning customer please login at the top of the page.</p>
                                         <label>Account password  <span class="required">*</span></label>
@@ -175,19 +171,19 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        
-                                            @foreach (var item in Model.productVms)
-                                            {
-                                                <tr class="cart_item">
-                                                    <td class="product-name">
-                                                        @item.ProductName <strong class="product-quantity"> × @item.CartQuantity</strong>
-                                                    </td>
-                                                    <td class="product-total">
-                                                        <span class="amount">£@item.ProductTotal</span>
-                                                    </td>
-                                                </tr>
-                                            }
-                                        
+
+                                        @foreach (var item in Model.productVms)
+                                        {
+                                            <tr class="cart_item">
+                                                <td class="product-name">
+                                                    @item.ProductName <strong class="product-quantity"> × @item.CartQuantity</strong>
+                                                </td>
+                                                <td class="product-total">
+                                                    <span class="amount">£@item.ProductTotal</span>
+                                                </td>
+                                            </tr>
+                                        }
+
 
 
                                     </tbody>
@@ -207,29 +203,27 @@
                             </div>
                             <div class="payment-method">
                                 <div class="payment-accordion">
+
                                     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 
-                                        <div class="panel panel-default">                                          
-                                            <div class="panel-heading" role="tab" id="headingTwo">                                               
-                                            </div>                                           
-                                        </div>
                                         <div class="panel panel-default">
-                                            <div class="panel-heading" role="tab" id="headingThree">
-                                                <h4 class="panel-title">
-                                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                                         <label class="row">
-                                                            <input type="radio" name="priority" value="priority-medium">
-                                                            <span style="display:inline">Cash On Delivery</span>
-                                                        </label>
-                                                    </a>
-                                                </h4>
-                                            </div>
-                                            <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-                                                <div class="panel-body">
-                                                    <p>Pay via PayPal; you can pay with your credit card if you don’t have a PayPal account.</p>
+                                            <div class="panel-heading" role="tab" id="headingTwo">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" asp-for="PaymentMethod" value="CashOn" checked>
+                                                    <label class="form-check-label" for="exampleRadios1">
+                                                        Cash On Delivery
+                                                    </label>
                                                 </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" asp-for="PaymentMethod" value="Bkash">
+                                                    <label class="form-check-label" for="exampleRadios2">
+                                                        Bkash
+                                                    </label>
+                                                </div>
+                                             
                                             </div>
                                         </div>
+
                                     </div>
                                     <div class="order-button-payment">
                                         <input type="submit" value="Place order" />
@@ -244,4 +238,50 @@
     </div>
     <!-- checkout-area end -->
 }
+@section Scripts{
+    <script  language="javascript">
+        $(document).ready(function () {
+            $("#country").click(function (e) {
+                var selectedCountryId = $("#country option:selected").val();
 
+                $("#state").empty();
+                $("#city").empty();
+                $.ajax({
+                    url: '/CheckOut/GetAllState/?id=' + selectedCountryId,
+                    type: 'GET',
+                    dataType: 'JSON',
+                    success: function (data) {
+                        $.each(data, function (i, obj) {
+                            var s = '<option value="' + obj.id + '">' + obj.name + '</option>';
+                            console.log("ggg", obj);
+                            $("#state").append(s);
+                        });
+                    },
+                    error: function (res) {
+                        console.log(res);
+                    }
+                })
+                $("#state").click(function (e) {
+                    var selectedCountryId = $("#state option:selected").val();
+                    $("#city").empty();
+                    $.ajax({
+                        url: '/CheckOut/GetAllCity/?id=' + selectedCountryId,
+                        type: 'GET',
+                        dataType: 'JSON',
+                        success: function (data) {
+                            $.each(data, function (i, obj) {
+                                var s = '<option value="' + obj.id + '">' + obj.name + '</option>';
+                                console.log("ggg", obj);
+                                $("#city").append(s);
+                            });
+                        },
+                        error: function (res) {
+                            console.log(res);
+                        }
+                    })
+                })
+            })
+        })
+    </script>
+
+}

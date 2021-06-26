@@ -45,6 +45,10 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
         public IActionResult GetDesignationSalary(Guid id)
         {
             var employeeSalary = _context.Designations.Where(c => c.Id == id).FirstOrDefault();
+            if (employeeSalary==null)
+            {
+                 employeeSalary = new Designation();
+            }
             return Json(employeeSalary.Salary);
         }
         //AddOrEdit
