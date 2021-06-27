@@ -16,6 +16,7 @@ namespace ERPManagementSystem.ViewModels
         public decimal PerProductCost { get; set; }
         public int StockProduct { get; set; }
         public decimal PreviousPrice { get; set; }
+        public string ProductSerial { get; set; }
         public decimal Discount { get; set; }
         public decimal ProductTotal { get; set; }
         public int Quantity { get; set; }

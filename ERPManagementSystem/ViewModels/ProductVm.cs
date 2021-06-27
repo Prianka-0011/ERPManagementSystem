@@ -13,6 +13,7 @@ namespace ERPManagementSystem.ViewModels
         public string Name { get; set; }
         public string Description { get; set; }
         public string ImagePath { get; set; }
+        public string ProductSerial { get; set; }
         public string ProductStatus { get; set; }
         //Navigation
         public Guid CategoryId { get; set; }

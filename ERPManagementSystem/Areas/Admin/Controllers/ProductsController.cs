@@ -53,7 +53,11 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 ViewData["Category"] = new SelectList(_context.Categories.ToList(), "Id", "Name");
                 ViewData["SubCategory"] = new SelectList(_context.SubCategories.ToList(), "Id", "Name");
                 ViewData["Brand"] = new SelectList(_context.Brands.ToList(), "Id", "Name");
-                return View(new ProductVm());
+                var serialNo = _context.AutoGenerateSerialNumbers.Where(c => c.ModuleName == "PS").FirstOrDefault();
+
+                ProductVm vm = new ProductVm();
+                vm.ProductSerial = serialNo.ModuleName + "-000" + serialNo.SeialNo.ToString();
+                return View(vm);
             }
 
             else
@@ -75,6 +79,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 productVm.BrandId = product.BrandId;
                 productVm.ImagePath = product.ImagePath;
                 productVm.GalleryImagesPath = galleries;
+                
                 ViewData["Category"] = new SelectList(_context.Categories.ToList(), "Id", "Name");
                 ViewData["SubCategory"] = new SelectList(_context.SubCategories.ToList(), "Id", "Name");
                 ViewData["Brand"] = new SelectList(_context.Brands.ToList(), "Id", "Name");
@@ -103,6 +108,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     entity.CategoryId = productVm.CategoryId;
                     entity.SubCategoryId = productVm.SubCategoryId;
                     entity.BrandId = productVm.BrandId;
+                    entity.ProductSerial = productVm.ProductStatus;
                     _context.Add(entity);
                     await _context.SaveChangesAsync();
 
@@ -142,6 +148,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                         entity.CategoryId = productVm.CategoryId;
                         entity.SubCategoryId = productVm.SubCategoryId;
                         entity.BrandId = productVm.BrandId;
+                        entity.ProductSerial = productVm.ProductStatus;
                         if (productVm.Galleries != null && productVm.Galleries.Count > 0)
                         {
                             var oldProductImgcheck = _context.Galleries.Where(c => c.ProductId == entity.Id);

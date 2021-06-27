@@ -8,7 +8,7 @@ namespace ERPManagementSystem.Models
     public class SaleOrder
     {
         public Guid Id { get; set; }
-        public string OderNo { get; set; }
+        public string OrderNo { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string CompanyName { get; set; }
@@ -19,6 +19,7 @@ namespace ERPManagementSystem.Models
         public decimal OrderTotal { get; set; }
         public decimal ShippingCost { get; set; }
         public string Address { get; set; }
+        public string SaleOrderStatus { get; set; }
         public Guid CountryId { get; set; }
         public Country Country { get; set; }
         public Guid StateId { get; set; }

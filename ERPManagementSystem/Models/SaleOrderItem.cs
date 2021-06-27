@@ -9,6 +9,7 @@ namespace ERPManagementSystem.Models
     {
         public Guid Id { get; set; }
         public string ProductName { get; set; }
+        public string ProductSerial { get; set; }
         public int quantity { get; set; }
         public int ProductTotal { get; set; }
         public Guid SaleOrderId { get; set; }

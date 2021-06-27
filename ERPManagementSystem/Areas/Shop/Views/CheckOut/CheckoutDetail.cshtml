@@ -196,6 +196,7 @@
                                             <th>Order Total</th>
                                             <td>
                                                 <strong><span class="amount">£@ViewBag.subTotal</span></strong>
+                                                <input type="hidden" asp-for="OrderTotal" value="@ViewBag.subTotal"/>
                                             </td>
                                         </tr>
                                     </tfoot>

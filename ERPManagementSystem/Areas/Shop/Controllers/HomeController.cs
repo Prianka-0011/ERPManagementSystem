@@ -61,6 +61,7 @@ namespace ERPManagementSystem.Areas.Shop.Controllers
             productVm.Quantity = stockProduct.Quantity;
             productVm.SalePrice = stockProduct.SalePrice;
             productVm.StockProduct = stockProduct.Quantity;
+            productVm.ProductSerial= stockProduct.Product.ProductSerial;
             productVm.ProductTotal = stockProductVm.CartQuantity * stockProduct.SalePrice;
             //Start Session
             products = HttpContext.Session.Get<List<StockProductVm>>("products");

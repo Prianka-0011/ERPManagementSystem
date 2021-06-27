@@ -4,14 +4,16 @@ using ERPManagementSystem.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ERPManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210627182445_salestatus")]
+    partial class salestatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -254,9 +256,6 @@ namespace ERPManagementSystem.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ProductSerial")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProductStatus")
@@ -504,7 +503,7 @@ namespace ERPManagementSystem.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("OrderNo")
+                    b.Property<string>("OderNo")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OrderNote")
@@ -546,9 +545,6 @@ namespace ERPManagementSystem.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ProductName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ProductSerial")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ProductTotal")
