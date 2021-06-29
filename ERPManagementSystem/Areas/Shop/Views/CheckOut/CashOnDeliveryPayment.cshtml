@@ -1,0 +1,80 @@
+﻿@model ERPManagementSystem.Models.SaleOrder
+@{
+    ViewData["Title"] = "CashOnDeliveryPayment";
+}
+
+<div class="container">
+    <div class="cashOnDiv">
+        <div class="row">
+            <div class="col-md-8 col-lg-8 col-10">
+                <div class="cashonOrderNum">
+                    <h1>Order Number:<span>@Model.OrderNo</span></h1>
+                    <h2>Date:<span>@Model.OrderDate</span></h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-lg-8 col-10">
+                <div class="cashonAddress">
+                    <h1>Address</h1>
+                    <span>@Model.FirstName</span><br />
+                    <span>@Model.Phone</span><br />
+                    <p>@Model.Address</p>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-12">
+
+                <table class="table">
+                    <caption>Order Details</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Product</th>
+                            <th scope="col">Total</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (ViewBag.Products != null)
+                        {
+                            @foreach (var item in ViewBag.Products)
+                            {
+                                <tr>
+
+                                    <td> @item.ProductName <strong class="product-quantity"> × @item.CartQuantity</strong></td>
+                                    <td> <span class="amount">£@item.ProductTotal</span></td>
+
+                                </tr>
+                            }
+                        }
+
+                        <tr>
+
+                            <td> Shipping Cost: </td>
+                            <td> @Model.ShippingCost</td>
+
+                        </tr>
+                        <tr>
+
+                            <td> Payment Method: </td>
+                            <td> @Model.PaymentMethod</td>
+
+                        </tr>
+                        <tr>
+
+                            <td> Total: </td>
+                            <td> @Model.OrderTotal</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="CashOnBtns">
+                    <a asp-action="ConfirmAddress" asp-route-id="@Model.Id">Confirm Address</a>
+                    <a asp-action="CancleOrder" asp-route-id="@Model.Id">Cancle Order</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

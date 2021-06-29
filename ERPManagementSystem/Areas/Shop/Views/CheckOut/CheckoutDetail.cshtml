@@ -190,7 +190,11 @@
                                     <tfoot>
                                         <tr class="cart-subtotal">
                                             <th>Shipping Charge</th>
-                                            <td><span class="amount">£ @ViewBag.finalCharge</span></td>
+                                            <td>
+                                                <span class="amount">£ @ViewBag.shippingCharge </span>
+                                                <input type="hidden" asp-for="ShippingCost" value="@ViewBag.shippingCharge" />
+                                            </td>
+                                            
                                         </tr>
                                         <tr class="order-total">
                                             <th>Order Total</th>

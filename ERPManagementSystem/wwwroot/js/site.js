@@ -485,6 +485,47 @@ ShowInLargePopupPurchaQuotation = (url, title) => {
                 finalAmount = finalAmount - discountAmount;
                 $('#subtotalOfThisOrder').val(finalAmount.toFixed(2));
             });
+            $('.datatable').on('change', '#quantity', function () {
+                var curentrow = $(this).closest("tr");
+                var price = curentrow.find('#price').val();
+                var discount = curentrow.find('#discount').val();
+                var discountAmount = (discount / 100) * price;
+                var taxRate = curentrow.find('#rate').val();
+                var quantity = curentrow.find('#quantity').val();
+                var totalCost = curentrow.find('#totalCost');
+                var perProductCost = curentrow.find('#perProductCost');
+                var taxAmount = (taxRate / 100) * price;
+                var totalAmount = ((price - discountAmount) + taxAmount) * quantity;
+                var perProductCost1 = ((price - discountAmount) + taxAmount);
+                console.log("amount", totalAmount)
+                totalCost.val(totalAmount);
+                perProductCost.val(perProductCost1);
+
+                // final subtotal
+                var finalAmount = 0;
+                var productAmount = 0;
+                $(".datatable .define").each(function (row, tr) {
+                    var amount = parseFloat($(this).closest('tr').find('#totalCost').val());
+                    if (isNaN(amount)) {
+                        amount = 0;
+                    }
+                    console.log("amount", amount);
+                    productAmount = amount + productAmount;
+
+                });
+                console.log("productamount", productAmount);
+                var shippingCost = parseFloat($('.shippingcost').val());
+                var discount1 = parseFloat($('#discountOntotalOrder').val());
+                if (isNaN(discount1) || isNaN(shippingCost) || isNaN(productAmount)) {
+                    discount1 = 0;
+                    shippingCost = 0;
+                    productAmount = 0
+                }
+                finalAmount = productAmount + shippingCost;
+                var discountAmount = (discount1 / 100) * finalAmount;
+                finalAmount = finalAmount - discountAmount;
+                $('#subtotalOfThisOrder').val(finalAmount.toFixed(2));
+            });
             $('.shippingcost').keyup(function () {
                 var finalAmount = 0;
                 var productAmount = 0;

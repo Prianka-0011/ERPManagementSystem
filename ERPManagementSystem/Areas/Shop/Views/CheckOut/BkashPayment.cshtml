@@ -1,0 +1,26 @@
+﻿@model ERPManagementSystem.Models.SaleOrder
+@{
+    ViewData["Title"] = "BkashPayment";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-lg-8 col-10 ">
+            <div class="bashdesc">
+                <ul class="bkashul">
+                    <li>@Model.OrderNo</li>
+                    <li>@Model.OrderDate</li>
+                    <li>@Model.OrderTotal</li>
+                    <li>@Model.PaymentMethod</li>
+                   
+                </ul>
+                <p>Thank You For Your Order</p>
+                <div class="bkashbtns">
+                    <a asp-action="PayWithBkash">Pay With Bkash</a>
+                    <a asp-action="CancleOrder" asp-route-id="@Model.Id">Cancle Order</a>
+                </div>
+            </div>
+           
+        </div>
+    </div>
+</div>

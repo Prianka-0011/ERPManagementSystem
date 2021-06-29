@@ -9,6 +9,7 @@ namespace ERPManagementSystem.Models
     {
         public Guid Id { get; set; }
         public string OrderNo { get; set; }
+        public DateTime OrderDate { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string CompanyName { get; set; }

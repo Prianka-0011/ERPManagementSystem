@@ -29,19 +29,81 @@
 /*---------------------
   7. Login area
 -------------------------*/
-input[type="radio"] {
-    -ms-transform: scale(1.5) !important; /* IE 9 */
-    -webkit-transform: scale(1.5) !important; /* Chrome, Safari, Opera */
-    transform: scale(1.5 )!important;
-    background: #eceff8;
-     border: 2px solid #eceff8!important; 
-     height: 10px!important; 
-    box-shadow: none;
-    padding-left: 10px;
-    font-size: 14px;
-    color: #626262;
-    width: 5% !important;
+.bkashul li {
+    list-style-type: square !important;
 }
+
+.bashdesc {
+    padding: 50px 0 !important;
+}
+.bashdesc p{
+    margin-left:-16px;
+    font-size:16px!important;
+    font-weight:700;
+    padding:5px 0 0 0;
+}
+    .bashdesc a{
+        padding:6px 30px;
+        border:1px solid #000;
+        color:#fff;
+        background-color:#000;
+    }
+        .bashdesc a:hover{
+            color:#000;
+            background-color:#fff;
+        }
+        .bashdesc .bkashbtns {
+            margin-left: -16px;
+        }
+.cashOnDiv{
+    padding:20px 0 20px 0;
+}
+.cashonOrderNum h1 {
+    font-size: 20px !important;
+}
+.cashonOrderNum h2 {
+    font-size: 17px !important;
+}
+    .cashonOrderNum h2 span {
+        font-size: 15px !important;
+        font-weight: bold;
+        padding: 0 0 0 6px !important;
+    }
+    .cashonOrderNum h1 span{
+        padding:0 0 0 6px!important;
+    }
+.cashonAddress h1 {
+    font-size: 20px !important;
+}
+.CashOnBtns a {
+    padding: 6px 30px;
+    border: 1px solid #000;
+    color: #fff;
+    background-color: #000; 
+}
+    .CashOnBtns a:hover {
+        color: #000;
+        background-color:#fff;
+    }
+.thankyoudiv{
+    padding:50px!important;
+}
+    .thankyoudiv h1{
+        padding-bottom:20px!important;
+    }
+    input[type="radio"] {
+        -ms-transform: scale(1.5) !important; /* IE 9 */
+        -webkit-transform: scale(1.5) !important; /* Chrome, Safari, Opera */
+        transform: scale(1.5 ) !important;
+        background: #eceff8;
+        border: 2px solid #eceff8 !important;
+        height: 10px !important;
+        box-shadow: none;
+        padding-left: 10px;
+        font-size: 14px;
+        color: #626262;
+        width: 5% !important;
+    }
 .waraper {
     padding: 0 100px;
 }
@@ -246,6 +308,11 @@ h1.cart-heading {
 .table-content table td.product-thumbnail {
     width: 130px;
 }
+    .table-content table td.product-thumbnail img {
+        width: 100%;
+        height: 80px;
+        object-fit: contain;
+    }
 .table-content table td.product-remove i {
     color: #919191;
     display: inline-block;

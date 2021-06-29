@@ -41,7 +41,7 @@ namespace ERPManagementSystem.Areas.Shop.Controllers
             var shippingCharge = _context.ShippingCharges.FirstOrDefault();
             var scharge2 = ((squantity - 1) * shippingCharge.IncreaeChargePerProduct)+ shippingCharge.BaseCharge;
             var finalCharge =scharge2;
-            ViewBag.finalCharge = finalCharge;
+            ViewBag.shippingCharge = finalCharge;
             ViewBag.subTotal = subtotal+finalCharge;
             CheckOutVm checkOutVm = new CheckOutVm();
             checkOutVm.productVms = products;
@@ -51,18 +51,18 @@ namespace ERPManagementSystem.Areas.Shop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CheckoutDetail(CheckOutVm checkOutVm)
         {
-            if (checkOutVm!=null)
-            {
+            
                 SaleOrder order = new SaleOrder();
                 SaleOrderItem orderItem;
                 var serialNo = _context.AutoGenerateSerialNumbers.Where(c => c.ModuleName == "SO").FirstOrDefault();
-                
+
                 order.FirstName = checkOutVm.FirstName;
-                order.OrderNo = serialNo.ModuleName + "-000"+serialNo.SeialNo.ToString();
-                
+                order.OrderNo = serialNo.ModuleName + "-000" + serialNo.SeialNo.ToString();
+
                 order.LastName = checkOutVm.LastName;
                 order.CompanyName = checkOutVm.CompanyName;
                 order.Email = checkOutVm.Email;
+                order.OrderDate = DateTime.Now;
                 order.Phone = checkOutVm.Phone;
                 order.PaymentMethod = checkOutVm.PaymentMethod;
                 order.OrderTotal = checkOutVm.OrderTotal;
@@ -71,6 +71,7 @@ namespace ERPManagementSystem.Areas.Shop.Controllers
                 order.StateId = checkOutVm.StateId;
                 order.CityId = checkOutVm.CityId;
                 order.Address = checkOutVm.Address;
+                order.ShippingCost = checkOutVm.ShippingCost;
                 order.SaleOrderStatus = "Pending";
                 serialNo.SeialNo = serialNo.SeialNo + 1;
                 _context.Update(serialNo);
@@ -85,11 +86,82 @@ namespace ERPManagementSystem.Areas.Shop.Controllers
                     orderItem.ProductSerial = item.ProductSerial;
 
                 }
+                await _context.SaveChangesAsync();
+                HttpContext.Session.Set("order", order);
 
+
+                if (order.PaymentMethod == "Bkash")
+                {
+                  return  RedirectToAction(nameof(BkashPayment));
+                }
+                else
+                {
+                  return  RedirectToAction(nameof(CashOnDeliveryPayment));
+                }
+
+    
+        }
+        [HttpGet]
+        public IActionResult BkashPayment()
+        {
+            SaleOrder order= HttpContext.Session.Get<SaleOrder>("order");
+            return View(order);
+        }
+        [HttpGet]
+        public IActionResult CancleOrder(Guid id)
+        {
+            if (id!=null || id!=Guid.Parse("00000000-0000-0000-0000-000000000000"))
+            {
+               var order= _context.SaleOrders.Find(id);
+                _context.SaleOrders.Remove(order);
+                var orderItem = _context.SaleOrderItems.Where(c => c.SaleOrderId == id);
+                foreach (var item in orderItem)
+                {
+                    _context.SaleOrderItems.Remove(item);
+                }
+               
             }
-
-            return View();
-        }     
+            _context.SaveChanges();
+            return RedirectToAction("Cart","Home");
+        }
+        [HttpGet]
+        public IActionResult ConfirmAddress(Guid id)
+        {
+            if (id != null || id != Guid.Parse("00000000-0000-0000-0000-000000000000"))
+            {
+                var order = _context.SaleOrders.Find(id);
+                order.SaleOrderStatus = "Confirmed";
+                _context.SaleOrders.Update(order);
+                
+            }
+            _context.SaveChanges();
+            SaleOrder orderSession = HttpContext.Session.Get<SaleOrder>("order");
+            List<StockProductVm> products = HttpContext.Session.Get<List<StockProductVm>>("products");
+            orderSession = new SaleOrder();
+            products = new List<StockProductVm>();
+            HttpContext.Session.Set("order", orderSession);
+            HttpContext.Session.Set("products", products);
+            return View( "ThankYou");
+        }
+        [HttpGet]
+        public IActionResult ThankYou()
+        {
+           
+            return View("");
+        }
+        [HttpGet]
+        public IActionResult CashOnDeliveryPayment()
+        {
+            
+            SaleOrder order = HttpContext.Session.Get<SaleOrder>("order");
+            List<StockProductVm> products = HttpContext.Session.Get<List<StockProductVm>>("products");
+            if (products==null)
+            {
+                return NoContent();
+            }
+            ViewBag.Products = products;
+            return View(order);
+        }
         [HttpGet("/CheckOut/GetAllState")]
         public IActionResult GetAllState(Guid id)
         {
