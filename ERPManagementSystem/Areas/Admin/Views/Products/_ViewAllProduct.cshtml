@@ -21,14 +21,14 @@
     }
 
 }
-
+<p class="recordcount">@ViewBag.TotalRecord record exist</p>
 @if (Model != null)
 {
     <table class="table table-hover">
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Name</th>
+                <th scope="col"><a asp-action="Index" asp-controller="Products" asp-route-sortOrder="@ViewBag.productnam">Name</a></th>
                 <th scope="col">Brand</th>
                 <th scope="col">Category</th>
                 <th scope="col">Sub Category</th>

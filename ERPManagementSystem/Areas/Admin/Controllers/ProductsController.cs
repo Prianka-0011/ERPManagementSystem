@@ -28,19 +28,31 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public async Task<IActionResult> Index(int pg)
+        public async Task<IActionResult> Index(int pg , string sortOrder)
         {
+            ViewBag.productnam = string.IsNullOrEmpty(sortOrder) ? "prod_desc" : "";
             var product = _context.Products.Include(c => c.Category).Include(d => d.SubCategory).Include(e => e.Brand).Where(c => c.ProductStatus == "Enable");
-            const int pageSize = 10;
+            switch (sortOrder)
+            {
+                case "prod_desc":
+                    product = product.OrderByDescending(n => n.Name);
+                    break;
+                default:
+                    product = product.OrderBy(n => n.Name);
+                    break;
+            }
+            const int pageSize = 5;
             if (pg < 1)
             {
                 pg = 1;
             }
             var resCount = product.Count();
+            ViewBag.TotalRecord = resCount;
             var pager = new Pager(resCount, pg, pageSize);
             int resSkip = (pg - 1) * pageSize;
             var data = product.Skip(resSkip).Take(pager.PageSize);
             ViewBag.Pager = pager;
+            
             return View(await data.ToListAsync());
 
         }
@@ -198,6 +210,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 }
                 var resultProduct = _context.Products.Include(c => c.Category).Include(d => d.SubCategory).Include(e => e.Brand).Where(c => c.ProductStatus == "Enable").ToList();
                 var resCount = resultProduct.Count();
+                ViewBag.TotalRecord = resCount;
                 var pager = new Pager(resCount, pg, pageSize);
                 int resSkip = (pg - 1) * pageSize;
                 ViewBag.Pager = pager;
