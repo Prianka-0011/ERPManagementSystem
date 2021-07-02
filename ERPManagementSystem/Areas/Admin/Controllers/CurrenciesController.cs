@@ -2,7 +2,6 @@
 using ERPManagementSystem.Extensions;
 using ERPManagementSystem.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,42 +12,42 @@ using static ERPManagementSystem.Extensions.Helper;
 namespace ERPManagementSystem.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class BrandsController : Controller
+    public class CurrenciesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public BrandsController(ApplicationDbContext context)
+        public CurrenciesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
         public async Task<IActionResult> Index(int pg, string sortOrder, string searchString)
         {
-            ViewBag.brandnam = string.IsNullOrEmpty(sortOrder) ? "prod_desc" : "";
-            var brand = _context.Brands.Include(d=>d.Category).Where(c => c.BrandStatus == "Enable");
+            ViewBag.currencynam = string.IsNullOrEmpty(sortOrder) ? "prod_desc" : "";
+            var currency = _context.Currencies.Where(c => c.CurrencyStatus == "Enable");
             switch (sortOrder)
             {
                 case "prod_desc":
-                    brand = brand.OrderByDescending(n => n.Name);
+                    currency = currency.OrderByDescending(n => n.CurrencyName);
                     break;
                 default:
-                    brand = brand.OrderBy(n => n.Name);
+                    currency = currency.OrderBy(n => n.CurrencyName);
                     break;
             }
             if (!string.IsNullOrEmpty(searchString))
             {
-                brand = _context.Brands.Include(d => d.Category).Where(c => c.BrandStatus == "Enable" && c.Name.ToLower().Contains(searchString.ToLower()));
+                currency = _context.Currencies.Where(c => c.CurrencyStatus == "Enable" && c.CurrencyName.ToLower().Contains(searchString.ToLower()));
             }
             const int pageSize = 10;
             if (pg < 1)
             {
                 pg = 1;
             }
-            var resCount = brand.Count();
+            var resCount = currency.Count();
             ViewBag.TotalRecord = resCount;
             var pager = new Pager(resCount, pg, pageSize);
             int resSkip = (pg - 1) * pageSize;
-            var data = brand.Skip(resSkip).Take(pager.PageSize);
+            var data = currency.Skip(resSkip).Take(pager.PageSize);
             ViewBag.Pager = pager;
             return View(await data.ToListAsync());
         }
@@ -59,36 +58,34 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
         {
             if (id == Guid.Parse("00000000-0000-0000-0000-000000000000"))
             {
-                ViewData["Category"] = new SelectList(_context.Categories.ToList(), "Id", "Name");
-                return View(new Brand());
+               
+                return View(new Currency());
             }
 
             else
             {
-                var brand = await _context.Brands.FindAsync(id);
-                if (brand == null)
+                var currency = await _context.Currencies.FindAsync(id);
+                if (currency == null)
                 {
                     return NotFound();
                 }
-                ViewData["Category"] = new SelectList(_context.Categories.ToList(), "Id", "Name");
-                return View(brand);
+                return View(currency);
             }
 
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddOrEdit(Guid id, Brand brand)
+        public async Task<IActionResult> AddOrEdit(Guid id, Currency currency)
         {
             if (ModelState.IsValid)
             {
-                Brand entity;
+                Currency entity;
                 if (id == Guid.Parse("00000000-0000-0000-0000-000000000000"))
                 {
-                    entity = new Brand();
+                    entity = new Currency();
                     entity.Id = Guid.NewGuid();
-                    entity.Name = brand.Name;
-                    entity.CategoryId = brand.CategoryId;
-                    entity.BrandStatus = brand.BrandStatus;
+                    entity.CurrencyName = currency.CurrencyName;
+                    entity.CurrencyStatus = currency.CurrencyStatus;
                     _context.Add(entity);
                     await _context.SaveChangesAsync();
                 }
@@ -97,10 +94,9 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 {
                     try
                     {
-                        entity = await _context.Brands.FindAsync(brand.Id);
-                        entity.Name = brand.Name;
-                        entity.CategoryId = brand.CategoryId;
-                        entity.BrandStatus = brand.BrandStatus;
+                        entity = await _context.Currencies.FindAsync(currency.Id);
+                        entity.CurrencyName = currency.CurrencyName;
+                        entity.CurrencyStatus = currency.CurrencyStatus;
                         _context.Update(entity);
                         await _context.SaveChangesAsync();
                     }
@@ -109,22 +105,22 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
 
                     }
                 }
-                var brandData = _context.Brands.Include(d=>d.Category).Where(c => c.BrandStatus == "Enable");
+                var currencyData = _context.Currencies.Where(c => c.CurrencyStatus == "Enable");
                 int pg = 1;
                 const int pageSize = 10;
                 if (pg < 1)
                 {
                     pg = 1;
                 }
-                var resCount = brandData.Count();
+                var resCount = currencyData.Count();
                 ViewBag.TotalRecord = resCount;
                 var pager = new Pager(resCount, pg, pageSize);
                 int resSkip = (pg - 1) * pageSize;
-                var data = brandData.Skip(resSkip).Take(pager.PageSize);
+                var data = currencyData.Skip(resSkip).Take(pager.PageSize);
                 ViewBag.Pager = pager;
-                return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllBrand", data) });
+                return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllCurrency", data) });
             }
-            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEdit", brand) });
+            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEdit", currency) });
 
         }
         //delete category
@@ -134,11 +130,11 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            var brand = await _context.Brands.FindAsync(id);
-            brand.BrandStatus = "Disable";
+            var currency = await _context.Currencies.FindAsync(id);
+            currency.CurrencyStatus = "Disable";
             await _context.SaveChangesAsync();
 
-            return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllBrand", _context.Brands.Where(c => c.BrandStatus == "Enable").ToList()) });
+            return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllCurrency", _context.Currencies.Where(c => c.CurrencyStatus == "Enable").ToList()) });
 
         }
     }
