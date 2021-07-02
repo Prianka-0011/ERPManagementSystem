@@ -21,15 +21,30 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index(int pg)
+        public async Task<IActionResult> Index(int pg, string sortOrder, string searchString)
         {
+            ViewBag.taxRatenam = string.IsNullOrEmpty(sortOrder) ? "prod_desc" : "";
             var taxRate = _context.TaxRates.Where(c => c.TaxRateStatus == "Enable");
+            switch (sortOrder)
+            {
+                case "prod_desc":
+                    taxRate = taxRate.OrderByDescending(n => n.Name);
+                    break;
+                default:
+                    taxRate = taxRate.OrderBy(n => n.Name);
+                    break;
+            }
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                taxRate = _context.TaxRates.Where(c => c.TaxRateStatus == "Enable" && c.Name.ToLower().Contains(searchString.ToLower()));
+            }
             const int pageSize = 10;
             if (pg < 1)
             {
                 pg = 1;
             }
             var resCount = taxRate.Count();
+            ViewBag.TotalRecord = resCount;
             var pager = new Pager(resCount, pg, pageSize);
             int resSkip = (pg - 1) * pageSize;
             var data = taxRate.Skip(resSkip).Take(pager.PageSize);
@@ -99,6 +114,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     pg = 1;
                 }
                 var resCount = taxRateData.Count();
+                ViewBag.TotalRecord = resCount;
                 var pager = new Pager(resCount, pg, pageSize);
                 int resSkip = (pg - 1) * pageSize;
                 var data = taxRateData.Skip(resSkip).Take(pager.PageSize);

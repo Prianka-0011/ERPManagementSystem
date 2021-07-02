@@ -21,15 +21,30 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
         {
             _context = context;
         }
-        public async Task<IActionResult> Index(int pg)
+        public async Task<IActionResult> Index(int pg, string sortOrder, string searchString)
         {
+            ViewBag.citynam = string.IsNullOrEmpty(sortOrder) ? "prod_desc" : "";
             var city = _context.Cities.Include(c => c.State).Where(c => c.CityStatus == "Enable");
+            switch (sortOrder)
+            {
+                case "prod_desc":
+                    city = city.OrderByDescending(n => n.Name);
+                    break;
+                default:
+                    city = city.OrderBy(n => n.Name);
+                    break;
+            }
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                city = _context.Cities.Include(c => c.State).Where(c => c.CityStatus == "Enable" && c.Name.ToLower().Contains(searchString.ToLower()));
+            }
             const int pageSize = 10;
             if (pg < 1)
             {
                 pg = 1;
             }
             var resCount = city.Count();
+            ViewBag.TotalRecord = resCount;
             var pager = new Pager(resCount, pg, pageSize);
             int resSkip = (pg - 1) * pageSize;
             var data = city.Skip(resSkip).Take(pager.PageSize);
@@ -101,6 +116,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     pg = 1;
                 }
                 var resCount = cityData.Count();
+                ViewBag.TotalRecord = resCount;
                 var pager = new Pager(resCount, pg, pageSize);
                 int resSkip = (pg - 1) * pageSize;
                 var data = cityData.Skip(resSkip).Take(pager.PageSize);

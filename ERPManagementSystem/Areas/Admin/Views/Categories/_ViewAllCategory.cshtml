@@ -23,13 +23,24 @@
 }
 
 
+<div class="row">
+    <div class="col-md-4">
+        <p class="recordcount">@ViewBag.TotalRecord record exist</p>
+    </div>
+    <div class="col-md-4 offset-md-4">
+        <form ap-action="Index" asp-controller="Categories" method="get">
+            <input type="text" name="searchString" />
+            <button class="srcBtn" type="submit">Search</button>
+        </form>
+    </div>
+</div>
 @if (Model != null)
 {
     <table class="table table-hover">
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Name</th>
+                <th scope="col"><a asp-action="Index" asp-controller="Categories" asp-route-sortOrder="@ViewBag.categorynam">Name</a></th>
                 <th scope="col">Status</th>
             </tr>
         </thead>
