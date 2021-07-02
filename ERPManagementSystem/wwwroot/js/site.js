@@ -124,9 +124,9 @@ ShowInLargePopup = (url, title) => {
             $('#large-modal .modal-title').html(title);
             $('#large-modal').modal('show');
             
-            $(".subcategory").empty();
-            $(".brand").empty();
-            $(".category").click(function (e) {
+            //$(".subcategory").v.empty();
+            //$(".brand").empty();
+            $(".category").change(function (e) {
                 var selectedCategoryId = $(".category option:selected").val();
                 
                 $(".subcategory").empty();

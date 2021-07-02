@@ -27,8 +27,8 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
             _context = context;
             _webHostEnvironment = webHostEnvironment;
         }
-
-        public async Task<IActionResult> Index(int pg , string sortOrder)
+        [HttpGet]
+        public async Task<IActionResult> Index(int pg , string sortOrder,string searchString)
         {
             ViewBag.productnam = string.IsNullOrEmpty(sortOrder) ? "prod_desc" : "";
             var product = _context.Products.Include(c => c.Category).Include(d => d.SubCategory).Include(e => e.Brand).Where(c => c.ProductStatus == "Enable");
@@ -40,6 +40,10 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 default:
                     product = product.OrderBy(n => n.Name);
                     break;
+            }
+            if (!string.IsNullOrEmpty(searchString))
+            {
+              product=  _context.Products.Include(c => c.Category).Include(d => d.SubCategory).Include(e => e.Brand).Where(c => c.ProductStatus == "Enable"&& c.Name.ToLower().Contains(searchString.ToLower()));
             }
             const int pageSize = 5;
             if (pg < 1)

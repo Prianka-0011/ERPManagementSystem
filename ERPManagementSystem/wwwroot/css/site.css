@@ -13,6 +13,15 @@
     font-family: 'Poppins', sans-serif;
     margin: 0;
 }
+.srcBtn{
+    padding:7px 8px;
+    border:none;
+    font-size:12px;
+    background-color:#a7a5a5;
+    border-radius:3px;
+    outline:none!important;
+
+}
 /**for modal start**/
 /*.modal-dialog {
     overflow-x: initial !important
@@ -38,8 +47,8 @@
     margin-left: 50px;
 }*/
 /**for modal start**/
-.hideDisplayOnEdit{
-    display:none;
+.hideDisplayOnEdit {
+    display: none;
 }
 .nopadding{
     padding-left:3%!important;
@@ -127,7 +136,9 @@ table td {
 }
 input {
     font-size: 12px !important;
-    height:32px!important
+    height:32px!important;
+    outline:none;
+       
 }
 textarea {
     font-size: 12px !important;
