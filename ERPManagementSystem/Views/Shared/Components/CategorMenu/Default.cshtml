@@ -1,0 +1,13 @@
+﻿@model IEnumerable<ERPManagementSystem.Models.Category>
+@{
+    ViewData["Title"] = "Default";
+}
+
+<ul class="menu">
+    @foreach (var item in Model)
+    {
+        <li>
+            <a asp-area="Shop" asp-controller="Home" asp-action="GetAllProductByCategory" asp-route-categoryId="@item.Id">@item.Name</a>
+        </li>
+    }
+</ul>
