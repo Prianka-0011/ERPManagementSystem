@@ -20,12 +20,35 @@ namespace ERPManagementSystem.Areas.Shop.Controllers
         {
             _context = context;
         }
+        public async Task<IActionResult> GetAllProductByCategory(int pg,Guid categoryId)
+        {
+            var product = _context.StockProducts.Include(d => d.Product).Where(c=>c.Product.CategoryId==categoryId);
 
+            return View(await product.ToListAsync());
+        }
         public async Task<IActionResult> Index(int pg)
         {
             var product = _context.StockProducts.Include(d => d.Product);
 
             return View(await product.ToListAsync());
+        }
+        [HttpGet]
+        public async Task<IActionResult> ProductDetailInPopUp(Guid id)
+        {
+            //  StockProduct product;
+            var product = await _context.StockProducts.Include(d => d.Product).Where(s => s.Id == id).FirstOrDefaultAsync();
+            StockProductVm stockProductVm = new StockProductVm();
+            stockProductVm.Id = product.Id;
+            stockProductVm.ProductName = product.Product.Name;
+            stockProductVm.PreviousPrice = product.PreviousPrice;
+            stockProductVm.SalePrice = product.SalePrice;
+            stockProductVm.ShortDescription = product.ShortDescription;
+            stockProductVm.Description = product.Description;
+            stockProductVm.Color = product.Color;
+            stockProductVm.Size = product.Size;
+            stockProductVm.Quantity = product.Quantity;
+            ViewBag.gallery = _context.Galleries.Where(c => c.ProductId == product.ProductId);
+            return View(stockProductVm);
         }
         [HttpGet]
         public async Task<IActionResult> ProductDetail(Guid id)

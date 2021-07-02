@@ -27,6 +27,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
             _context = context;
             _webHostEnvironment = webHostEnvironment;
         }
+
         [HttpGet]
         public async Task<IActionResult> Index(int pg , string sortOrder,string searchString)
         {

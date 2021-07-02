@@ -56,27 +56,15 @@
                                 <nav>
                                     <ul class="menu">
                                         <li>
-                                            <a href="index.html">HOME <i class="pe-7s-angle-down"></i></a>
-                                            <ul>
-                                                <li><a href="index-3.html">home version 3</a></li>
-                                            </ul>
+                                            <a asp-action="Index" asp-controller="Home" asp-area="Shop">HOME </a>
+                                            
                                         </li>
                                         <li><a href="about-us.html">ABOUT US</a></li>
                                         <li>
-                                            <a href="#">pages <i class="pe-7s-angle-down"></i></a>
-                                            <ul>
-                                                <li><a href="about-us.html">about us</a></li>
-                                                <li><a href="shop.html">shop</a></li>
-                                                <li><a href="cart.html">cart</a></li>
-                                                <li><a href="login.html">login</a></li>
-                                                <li><a href="register.html">register</a></li>
-                                                <li><a href="checkout.html">checkout</a></li>
-                                                <li><a href="wishlist.html">wishlist</a></li>
-                                                <li><a href="preduct-details.html">shop details</a></li>
-                                                <li><a href="contact-us.html">contact us</a></li>
-                                            </ul>
+                                            <a href="#">Category <i class="pe-7s-angle-down"></i></a>
+                                            @await Component.InvokeAsync("CategorMenu")
                                         </li>
-                                        <li><a href="shop.html">shop</a></li>
+                                    
                                         <li>
                                             <a href="blog.html">BLOG <i class="pe-7s-angle-down"></i></a>
                                             <ul>
