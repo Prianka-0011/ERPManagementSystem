@@ -1,0 +1,92 @@
+﻿@model ERPManagementSystem.ViewModels.StockProductVm
+@{
+    ViewData["Title"] = "ProductDetailInPopUp";
+    Layout = null;
+}
+@using ERPManagementSystem.Extensions
+@using ERPManagementSystem.ViewModels
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+
+    List<StockProductVm> products = HttpContextAccessor.HttpContext.Session.Get<List<StockProductVm>>("products");
+
+
+    StockProductVm product = null;
+    if (products != null)
+    {
+        product = products.FirstOrDefault(c => c.Id == Model.Id);
+
+
+    }
+}
+<div class="modal-img">
+    <a href="shop.html"><img src="~/@Model.ImgPath" alt="" /></a>
+</div>
+<div class="modal-pro-content">
+    <h3><a href="single-product.html">@Model.ProductName</a></h3>
+    <div class="pro-rating">
+        <i class="fa fa-star"></i>
+        <i class="fa fa-star"></i>
+        <i class="fa fa-star"></i>
+        <i class="fa fa-star"></i>
+        <i class="fa fa-star-o"></i>
+    </div>
+    <span>(2 customer reviews)</span>
+    <div class="price">
+        <span>$@Model.SalePrice</span>
+        <span class="old">$@Model.PreviousPrice</span>
+    </div>
+    <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet.</p>
+    @if (product == null)
+    {
+
+        <form class="m-5" asp-action="ProductDetail" method="post">
+            <!-- Quantity Cart -->
+            <input type="hidden" asp-for="Id" />
+            <div class="quantity-cart section">
+                <input class="quatityDDD" type="hidden" asp-for="Quantity" />
+
+                <div class="product-quantity2">
+
+                    <input asp-for="CartQuantity" value="1">
+
+                </div>
+
+                <button class="add-to-cart">add to cart</button>
+
+
+            </div>
+        </form>
+    }
+    else
+    {
+        <form class="m-5" asp-action="RemoveToCart" method="post">
+            <!-- Quantity Cart -->
+            <input type="hidden" asp-for="Id" />
+            <div class="quantity-cart section">
+                <input class="quatityDDD" type="hidden" asp-for="Quantity" />
+
+                <div class="product-quantity2">
+
+                    <input asp-for="CartQuantity" value="1">
+
+                </div>
+
+                <button class="add-to-cart">remove to cart</button>
+
+
+            </div>
+        </form>
+    }
+    <div class="product_meta">
+        <span class="posted_in">Categories: <a rel="tag" href="#">Albums</a>, <a rel="tag" href="#">Music</a></span> <span class="tagged_as">Tags: <a rel="tag" href="#">Albums</a>, <a rel="tag" href="#">Music</a></span>
+    </div>
+    <div class="social">
+        <a href="https://www.facebook.com/devitems/?ref=bookmarks"><i class="fa fa-facebook"></i></a>
+        <a href="https://twitter.com/devitemsllc"><i class="fa fa-twitter"></i></a>
+        <a href="https://www.google.com/"><i class="fa fa-google-plus"></i></a>
+        <a href="https://www.instagram.com/"><i class="fa fa-instagram"></i></a>
+        <a href="https://www.pinterest.com/devitemsllc/"><i class="fa fa-pinterest"></i></a>
+    </div>
+</div>

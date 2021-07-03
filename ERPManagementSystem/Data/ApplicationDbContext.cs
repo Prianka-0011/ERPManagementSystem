@@ -33,7 +33,7 @@ namespace ERPManagementSystem.Data
         public virtual DbSet<AutoGenerateSerialNumber> AutoGenerateSerialNumbers { get; set; }
         public virtual DbSet<SaleOrder> SaleOrders { get; set; }
         public virtual DbSet<SaleOrderItem> SaleOrderItems { get; set; }
-        public virtual DbSet<Currency> Currencies { get; set; }
+        public virtual DbSet<Currency> Currencies  { get; set; }
         //crm table
         public virtual DbSet<Vendor>Vendors { get; set; }
         public virtual DbSet<Customer>Customers { get; set; }
