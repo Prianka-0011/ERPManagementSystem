@@ -21,15 +21,30 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index(int pg)
+        public async Task<IActionResult> Index(int pg, string sortOrder, string searchString)
         {
+            ViewBag.brandnam = string.IsNullOrEmpty(sortOrder) ? "prod_desc" : "";
             var country = _context.Countries.Where(c => c.CountryStatus == "Enable");
+            switch (sortOrder)
+            {
+                case "prod_desc":
+                    country = country.OrderByDescending(n => n.Name);
+                    break;
+                default:
+                    country = country.OrderBy(n => n.Name);
+                    break;
+            }
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                country = _context.Countries.Where(c => c.CountryStatus == "Enable" && c.Name.ToLower().Contains(searchString.ToLower()));
+            }
             const int pageSize = 10;
             if (pg < 1)
             {
                 pg = 1;
             }
             var resCount = country.Count();
+            ViewBag.TotalRecord = resCount;
             var pager = new Pager(resCount, pg, pageSize);
             int resSkip = (pg - 1) * pageSize;
             var data = country.Skip(resSkip).Take(pager.PageSize);
@@ -97,6 +112,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     pg = 1;
                 }
                 var resCount = countryData.Count();
+                ViewBag.TotalRecord = resCount;
                 var pager = new Pager(resCount, pg, pageSize);
                 int resSkip = (pg - 1) * pageSize;
                 var data = countryData.Skip(resSkip).Take(pager.PageSize);

@@ -23,16 +23,30 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index(int pg)
+        public async Task<IActionResult> Index(int pg, string sortOrder, string searchString)
         {
-           
+            ViewBag.employeenam = string.IsNullOrEmpty(sortOrder) ? "prod_desc" : "";
             var employee = _context.Employees.Include(c=>c.Designation).Where(c => c.EmployeeStatus == "Enable");
+            switch (sortOrder)
+            {
+                case "prod_desc":
+                    employee = employee.OrderByDescending(n => n.FirstName);
+                    break;
+                default:
+                    employee = employee.OrderBy(n => n.FirstName);
+                    break;
+            }
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                employee = _context.Employees.Include(c => c.Designation).Where(c => c.EmployeeStatus == "Enable" && c.FirstName.ToLower().Contains(searchString.ToLower()));
+            }
             const int pageSize = 10;
             if (pg < 1)
             {
                 pg = 1;
             }
             var resCount = employee.Count();
+            ViewBag.TotalRecord = resCount;
             var pager = new Pager(resCount, pg, pageSize);
             int resSkip = (pg - 1) * pageSize;
             var data = employee.Skip(resSkip).Take(pager.PageSize);
@@ -130,6 +144,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     pg = 1;
                 }
                 var resCount = employeeData.Count();
+                ViewBag.TotalRecord = resCount;
                 var pager = new Pager(resCount, pg, pageSize);
                 int resSkip = (pg - 1) * pageSize;
                 var data = employeeData.Skip(resSkip).Take(pager.PageSize);

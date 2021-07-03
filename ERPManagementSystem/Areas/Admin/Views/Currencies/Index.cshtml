@@ -1,0 +1,26 @@
+﻿
+@model IEnumerable<ERPManagementSystem.Models.Currency>
+@using ERPManagementSystem.Extensions;
+@{
+    ViewData["Title"] = "Currencies";
+
+}
+
+<div class="action">
+    <div class="row">
+        <div class="col-md-3 col-12 col-lg-3">
+            <a class="create" onclick="ShowInSmallPopup('@Url.Action("AddOrEdit","Currencies",null,Context.Request.Scheme)','New Currency' )"><i class="fas fa-plus"></i><span>New</span></a>
+
+        </div>
+    </div>
+</div>
+<div class="body">
+    <div class="row">
+        <div class="col-md-12 col-12 col-lg-12">
+            <div id="view-all">
+                @await Html.PartialAsync("_ViewAllCurrency", Model)
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -12,42 +12,42 @@ using static ERPManagementSystem.Extensions.Helper;
 namespace ERPManagementSystem.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class DesignationsController : Controller
+    public class CurrenciesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public DesignationsController(ApplicationDbContext context)
+        public CurrenciesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
         public async Task<IActionResult> Index(int pg, string sortOrder, string searchString)
         {
-            ViewBag.designationnam = string.IsNullOrEmpty(sortOrder) ? "prod_desc" : "";
-            var designation = _context.Designations.Where(c => c.DesignationStatus == "Enable");
+            ViewBag.currencynam = string.IsNullOrEmpty(sortOrder) ? "prod_desc" : "";
+            var currency = _context.Currencies.Where(c => c.CurrencyStatus == "Enable");
             switch (sortOrder)
             {
                 case "prod_desc":
-                    designation = designation.OrderByDescending(n => n.Name);
+                    currency = currency.OrderByDescending(n => n.CurrencyName);
                     break;
                 default:
-                    designation = designation.OrderBy(n => n.Name);
+                    currency = currency.OrderBy(n => n.CurrencyName);
                     break;
             }
             if (!string.IsNullOrEmpty(searchString))
             {
-                designation = _context.Designations.Where(c => c.DesignationStatus == "Enable" && c.Name.ToLower().Contains(searchString.ToLower()));
+                currency = _context.Currencies.Where(c => c.CurrencyStatus == "Enable" && c.CurrencyName.ToLower().Contains(searchString.ToLower()));
             }
             const int pageSize = 10;
             if (pg < 1)
             {
                 pg = 1;
             }
-            var resCount = designation.Count();
+            var resCount = currency.Count();
             ViewBag.TotalRecord = resCount;
             var pager = new Pager(resCount, pg, pageSize);
             int resSkip = (pg - 1) * pageSize;
-            var data = designation.Skip(resSkip).Take(pager.PageSize);
+            var data = currency.Skip(resSkip).Take(pager.PageSize);
             ViewBag.Pager = pager;
             return View(await data.ToListAsync());
         }
@@ -58,34 +58,34 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
         {
             if (id == Guid.Parse("00000000-0000-0000-0000-000000000000"))
             {
-                return View(new Designation());
+               
+                return View(new Currency());
             }
 
             else
             {
-                var designation = await _context.Designations.FindAsync(id);
-                if (designation == null)
+                var currency = await _context.Currencies.FindAsync(id);
+                if (currency == null)
                 {
                     return NotFound();
                 }
-                return View(designation);
+                return View(currency);
             }
 
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddOrEdit(Guid id, Designation designation)
+        public async Task<IActionResult> AddOrEdit(Guid id, Currency currency)
         {
             if (ModelState.IsValid)
             {
-                Designation entity;
+                Currency entity;
                 if (id == Guid.Parse("00000000-0000-0000-0000-000000000000"))
                 {
-                    entity = new Designation();
+                    entity = new Currency();
                     entity.Id = Guid.NewGuid();
-                    entity.Name = designation.Name;
-                    entity.Salary = designation.Salary;
-                    entity.DesignationStatus = designation.DesignationStatus;
+                    entity.CurrencyName = currency.CurrencyName;
+                    entity.CurrencyStatus = currency.CurrencyStatus;
                     _context.Add(entity);
                     await _context.SaveChangesAsync();
                 }
@@ -94,10 +94,9 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 {
                     try
                     {
-                        entity = await _context.Designations.FindAsync(designation.Id);
-                        entity.Name = designation.Name;
-                        entity.Salary = designation.Salary;
-                        entity.DesignationStatus = designation.DesignationStatus;
+                        entity = await _context.Currencies.FindAsync(currency.Id);
+                        entity.CurrencyName = currency.CurrencyName;
+                        entity.CurrencyStatus = currency.CurrencyStatus;
                         _context.Update(entity);
                         await _context.SaveChangesAsync();
                     }
@@ -106,22 +105,22 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
 
                     }
                 }
-                var designationData = _context.Designations.Where(c => c.DesignationStatus == "Enable");
+                var currencyData = _context.Currencies.Where(c => c.CurrencyStatus == "Enable");
                 int pg = 1;
                 const int pageSize = 10;
                 if (pg < 1)
                 {
                     pg = 1;
                 }
-                var resCount = designationData.Count();
+                var resCount = currencyData.Count();
                 ViewBag.TotalRecord = resCount;
                 var pager = new Pager(resCount, pg, pageSize);
                 int resSkip = (pg - 1) * pageSize;
-                var data = designationData.Skip(resSkip).Take(pager.PageSize);
+                var data = currencyData.Skip(resSkip).Take(pager.PageSize);
                 ViewBag.Pager = pager;
-                return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllDesignation", data) });
+                return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllCurrency", data) });
             }
-            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEdit", designation) });
+            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEdit", currency) });
 
         }
         //delete category
@@ -131,11 +130,11 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            var designation = await _context.Designations.FindAsync(id);
-            designation.DesignationStatus = "Disable";
+            var currency = await _context.Currencies.FindAsync(id);
+            currency.CurrencyStatus = "Disable";
             await _context.SaveChangesAsync();
 
-            return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllDesignation", _context.Designations.Where(c => c.DesignationStatus == "Enable").ToList()) });
+            return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllCurrency", _context.Currencies.Where(c => c.CurrencyStatus == "Enable").ToList()) });
 
         }
     }

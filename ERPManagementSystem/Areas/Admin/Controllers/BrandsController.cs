@@ -22,15 +22,30 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index(int pg)
+        public async Task<IActionResult> Index(int pg, string sortOrder, string searchString)
         {
+            ViewBag.brandnam = string.IsNullOrEmpty(sortOrder) ? "prod_desc" : "";
             var brand = _context.Brands.Include(d=>d.Category).Where(c => c.BrandStatus == "Enable");
+            switch (sortOrder)
+            {
+                case "prod_desc":
+                    brand = brand.OrderByDescending(n => n.Name);
+                    break;
+                default:
+                    brand = brand.OrderBy(n => n.Name);
+                    break;
+            }
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                brand = _context.Brands.Include(d => d.Category).Where(c => c.BrandStatus == "Enable" && c.Name.ToLower().Contains(searchString.ToLower()));
+            }
             const int pageSize = 10;
             if (pg < 1)
             {
                 pg = 1;
             }
             var resCount = brand.Count();
+            ViewBag.TotalRecord = resCount;
             var pager = new Pager(resCount, pg, pageSize);
             int resSkip = (pg - 1) * pageSize;
             var data = brand.Skip(resSkip).Take(pager.PageSize);
@@ -84,6 +99,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     {
                         entity = await _context.Brands.FindAsync(brand.Id);
                         entity.Name = brand.Name;
+                        entity.CategoryId = brand.CategoryId;
                         entity.BrandStatus = brand.BrandStatus;
                         _context.Update(entity);
                         await _context.SaveChangesAsync();
@@ -101,6 +117,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     pg = 1;
                 }
                 var resCount = brandData.Count();
+                ViewBag.TotalRecord = resCount;
                 var pager = new Pager(resCount, pg, pageSize);
                 int resSkip = (pg - 1) * pageSize;
                 var data = brandData.Skip(resSkip).Take(pager.PageSize);

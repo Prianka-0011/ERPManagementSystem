@@ -21,15 +21,30 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
         {
             _context = context;
         }
-        public async Task<IActionResult> Index(int pg)
+        public async Task<IActionResult> Index(int pg, string sortOrder, string searchString)
         {
+            ViewBag.subCategorynam = string.IsNullOrEmpty(sortOrder) ? "prod_desc" : "";
             var subCategory = _context.SubCategories.Include(c => c.Category).Where(c => c.SubCategoryStatus == "Enable");
+            switch (sortOrder)
+            {
+                case "prod_desc":
+                    subCategory = subCategory.OrderByDescending(n => n.Name);
+                    break;
+                default:
+                    subCategory = subCategory.OrderBy(n => n.Name);
+                    break;
+            }
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                subCategory = _context.SubCategories.Include(c => c.Category).Where(c => c.SubCategoryStatus == "Enable" && c.Name.ToLower().Contains(searchString.ToLower()));
+            }
             const int pageSize = 10;
             if (pg < 1)
             {
                 pg = 1;
             }
             var resCount = subCategory.Count();
+            ViewBag.TotalRecord = resCount;
             var pager = new Pager(resCount, pg, pageSize);
             int resSkip = (pg - 1) * pageSize;
             var data = subCategory.Skip(resSkip).Take(pager.PageSize);
@@ -101,6 +116,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     pg = 1;
                 }
                 var resCount = subCategoryData.Count();
+                ViewBag.TotalRecord = resCount;
                 var pager = new Pager(resCount, pg, pageSize);
                 int resSkip = (pg - 1) * pageSize;
                 var data = subCategoryData.Skip(resSkip).Take(pager.PageSize);

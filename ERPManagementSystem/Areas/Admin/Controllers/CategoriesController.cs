@@ -21,15 +21,30 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index(int pg)
+        public async Task<IActionResult> Index(int pg, string sortOrder, string searchString)
         {
+            ViewBag.categorynam = string.IsNullOrEmpty(sortOrder) ? "prod_desc" : "";
             var category = _context.Categories.Where(c => c.CategoryStatus == "Enable");
+            switch (sortOrder)
+            {
+                case "prod_desc":
+                    category = category.OrderByDescending(n => n.Name);
+                    break;
+                default:
+                    category = category.OrderBy(n => n.Name);
+                    break;
+            }
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                category = _context.Categories.Where(c => c.CategoryStatus == "Enable" && c.Name.ToLower().Contains(searchString.ToLower()));
+            }
             const int pageSize = 10;
             if (pg < 1)
             {
                 pg = 1;
             }
             var resCount = category.Count();
+            ViewBag.TotalRecord = resCount;
             var pager = new Pager(resCount, pg, pageSize);
             int resSkip = (pg - 1) * pageSize;
             var data = category.Skip(resSkip).Take(pager.PageSize);
@@ -97,6 +112,8 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     pg = 1;
                 }
                 var resCount = categoryData.Count();
+                ViewBag.TotalRecord = resCount;
+                ViewBag.TotalRecord = resCount;
                 var pager = new Pager(resCount, pg, pageSize);
                 int resSkip = (pg - 1) * pageSize;
                 var data = categoryData.Skip(resSkip).Take(pager.PageSize);

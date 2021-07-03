@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ERPManagementSystem.Models.Category>
+﻿@model IEnumerable<ERPManagementSystem.Models.Currency>
 @using ERPManagementSystem.Extensions;
 @{
 
@@ -22,13 +22,12 @@
 
 }
 
-
 <div class="row">
     <div class="col-md-4">
         <p class="recordcount">@ViewBag.TotalRecord record exist</p>
     </div>
     <div class="col-md-4 offset-md-4">
-        <form ap-action="Index" asp-controller="Categories" method="get">
+        <form ap-action="Index" asp-controller="Currencies" method="get">
             <input type="text" name="searchString" />
             <button class="srcBtn" type="submit">Search</button>
         </form>
@@ -40,17 +39,17 @@
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col"><a asp-action="Index" asp-controller="Categories" asp-route-sortOrder="@ViewBag.categorynam">Name</a></th>
+                <th scope="col"><a asp-action="Index" asp-controller="Currencies" asp-route-sortOrder="@ViewBag.currencynam">CurrencyName</a></th>
                 <th scope="col">Status</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-                <tr onclick="ShowInSmallPopup('@Url.Action("AddOrEdit","Categories",new { id=item.Id},Context.Request.Scheme)','Update Category' )">
+                <tr onclick="ShowInSmallPopup('@Url.Action("AddOrEdit","Currencies",new { id=item.Id},Context.Request.Scheme)','Update Currency' )">
                     <td scope="row">@i</td>
-                    <td>@item.Name</td>
-                    <td>@item.CategoryStatus</td>
+                    <td>@item.CurrencyName</td>
+                    <td>@item.CurrencyStatus</td>
                 </tr>
                 i++;
             }
@@ -65,25 +64,25 @@
                         @if (pager.CurrentPage > 1)
                         {
                             <li class="page-item">
-                                <a class="page-link" asp-controller="Categories" asp-action="Index" asp-route-pg="1">Frist</a>
+                                <a class="page-link" asp-controller="Currencies" asp-action="Index" asp-route-pg="1">Frist</a>
                             </li>
                             <li class="page-item">
-                                <a class="page-link" asp-controller="Categories" asp-action="Index" asp-route-pg="@(pager.CurrentPage-1)">Prev</a>
+                                <a class="page-link" asp-controller="Currencies" asp-action="Index" asp-route-pg="@(pager.CurrentPage-1)">Prev</a>
                             </li>
                         }
                         @for (var pge = pager.StartPage; pge <= pager.EndPage; pge++)
                         {
                             <li class="page-item @( pge==pager.CurrentPage?"active":"")">
-                                <a class="page-link" asp-controller="Categories" asp-action="Index" asp-route-pg="@pge">@pge</a>
+                                <a class="page-link" asp-controller="Currencies" asp-action="Index" asp-route-pg="@pge">@pge</a>
                             </li>
                         }
                         @if (pager.CurrentPage < pager.TotalPages)
                         {
                             <li class="page-item">
-                                <a class="page-link" asp-controller="Categories" asp-action="Index" asp-route-pg="@(pager.CurrentPage+1)">Next</a>
+                                <a class="page-link" asp-controller="Currencies" asp-action="Index" asp-route-pg="@(pager.CurrentPage+1)">Next</a>
                             </li>
                             <li class="page-item">
-                                <a class="page-link" asp-controller="Categories" asp-action="Index" asp-route-pg="@pager.TotalPages">Last</a>
+                                <a class="page-link" asp-controller="Currencies" asp-action="Index" asp-route-pg="@pager.TotalPages">Last</a>
                             </li>
                         }
                     </ul>

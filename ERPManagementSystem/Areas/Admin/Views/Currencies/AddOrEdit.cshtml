@@ -1,4 +1,4 @@
-﻿@model ERPManagementSystem.Models.City
+﻿@model ERPManagementSystem.Models.Currency
 @{
     ViewData["Title"] = "AddOrEdit";
     Layout = null;
@@ -7,25 +7,17 @@
 <div class="container-fluid">
     <form asp-action="AddOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPost(this);" autocomplete="off">
         <div class="row">
-            <div class="col-md-10 offset-1 col-10 col-lg-10 offset-lg-1">
-                <div class="form-group">
-                    <label>State</label>
-                    <select asp-for="StateId" class="form-control" asp-items="ViewBag.StateId" id="Designation">                        
-                    </select>
-                </div>
-            </div>
-
             <div class="col-md-10 offset-1 col-10 offset-md-1 col-lg-10 offset-lg-1">
                 <div class="form-group">
                     <input type="hidden" asp-for="Id" />
                     <label>Name</label>
-                    <input asp-for="Name" class="form-control" />
+                    <input asp-for="CurrencyName" class="form-control" />
                 </div>
             </div>
             <div class="col-md-10 offset-1 col-10 col-lg-10 offset-lg-1">
                 <div class="form-group">
                     <label>Status</label>
-                    <select asp-for="CityStatus" class="form-control">
+                    <select asp-for="CurrencyStatus" class="form-control">
                         <option value="Enable">Enable</option>
                         <option value="Disable">Disable</option>
                     </select>
