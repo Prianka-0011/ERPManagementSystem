@@ -141,6 +141,8 @@
 }
 .modal-img img {
     width: 100%;
+    height:250px;
+    object-fit:contain;
 }
 .price .old {
     font-size: 14px;

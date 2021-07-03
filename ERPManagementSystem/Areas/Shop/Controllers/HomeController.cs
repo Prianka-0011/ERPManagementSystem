@@ -47,7 +47,9 @@ namespace ERPManagementSystem.Areas.Shop.Controllers
             stockProductVm.Color = product.Color;
             stockProductVm.Size = product.Size;
             stockProductVm.Quantity = product.Quantity;
+            stockProductVm.ImgPath = product.ImgPath;
             ViewBag.gallery = _context.Galleries.Where(c => c.ProductId == product.ProductId);
+          
             return View(stockProductVm);
         }
         [HttpGet]
@@ -86,14 +88,30 @@ namespace ERPManagementSystem.Areas.Shop.Controllers
             productVm.StockProduct = stockProduct.Quantity;
             productVm.ProductSerial = stockProduct.Product.ProductSerial;
             productVm.ProductTotal = stockProductVm.CartQuantity * stockProduct.SalePrice;
+            
             //Start Session
             products = HttpContext.Session.Get<List<StockProductVm>>("products");
             if (products == null)
             {
                 products = new List<StockProductVm>();
             }
+            decimal subtotal = 0;
+            int squantity = 0;
+            foreach (var item in products)
+            {
+                subtotal = subtotal + item.ProductTotal;
+                squantity = item.CartQuantity + squantity;
+            }
+            var shippingCharge = _context.ShippingCharges.FirstOrDefault();
+            var scharge2 = ((squantity - 1) * shippingCharge.IncreaeChargePerProduct) + shippingCharge.BaseCharge;
+            var finalCharge = scharge2;
+          
             products.Add(productVm);
             HttpContext.Session.Set("products", products);
+              ShippingTotal shippingTotal = new ShippingTotal();
+            shippingTotal.ShippingCost = finalCharge;
+            shippingTotal.SubTotal = subtotal;
+            HttpContext.Session.Set("shippingTotal", shippingTotal);
             return RedirectToAction(nameof(Index));
         }
         //Remove fom cart

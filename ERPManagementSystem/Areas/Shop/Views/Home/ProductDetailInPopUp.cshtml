@@ -21,7 +21,7 @@
     }
 }
 <div class="modal-img">
-    <a href="shop.html"><img src="~/@Model.ImgPath" alt="" /></a>
+    <a asp-action="ProductDetail" asp-controller="Home" asp-route-id="@Model.Id"><img src="~/@Model.ImgPath" alt="" /></a>
 </div>
 <div class="modal-pro-content">
     <h3><a href="single-product.html">@Model.ProductName</a></h3>
@@ -43,20 +43,18 @@
 
         <form class="m-5" asp-action="ProductDetail" method="post">
             <!-- Quantity Cart -->
+
             <input type="hidden" asp-for="Id" />
-            <div class="quantity-cart section">
-                <input class="quatityDDD" type="hidden" asp-for="Quantity" />
 
-                <div class="product-quantity2">
-
-                    <input asp-for="CartQuantity" value="1">
-
-                </div>
-
-                <button class="add-to-cart">add to cart</button>
+            <input id="quickStockQuantity" type="hidden" asp-for="Quantity" />
 
 
-            </div>
+
+            <input asp-for="CartQuantity" id="quickCardQuantity" value="1">
+
+
+
+            <button class="add-to-cart">add to cart</button>
         </form>
     }
     else
@@ -64,19 +62,13 @@
         <form class="m-5" asp-action="RemoveToCart" method="post">
             <!-- Quantity Cart -->
             <input type="hidden" asp-for="Id" />
-            <div class="quantity-cart section">
-                <input class="quatityDDD" type="hidden" asp-for="Quantity" />
 
-                <div class="product-quantity2">
-
-                    <input asp-for="CartQuantity" value="1">
-
-                </div>
-
-                <button class="add-to-cart">remove to cart</button>
+            <input id="quickStockQuantity" type="hidden" asp-for="Quantity" />
 
 
-            </div>
+            <input asp-for="CartQuantity" id="quickCardQuantity" value="1">
+
+            <button class="add-to-cart">remove to cart</button>
         </form>
     }
     <div class="product_meta">

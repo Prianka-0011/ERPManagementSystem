@@ -54,7 +54,7 @@
                                             <div class="product-cart-3">
                                                 <div class="product-cart-center">
                                                     <a asp-action="Cart" asp-controller="Home"><i class="pe-7s-cart"></i></a>
-                                                    <a  onclick="ShowInLargePopup('@Url.Action("AddOrEdit","Products",null,Context.Request.Scheme)','New Product' )" ><i class="pe-7s-look"></i></a>
+                                                    <a onclick="ShowInQuickCard('@Url.Action("ProductDetailInPopUp","Home",new { id=item.Id},Context.Request.Scheme)','New Product' )"><i class="pe-7s-look"></i></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -74,8 +74,8 @@
             </div>
         </div>
         @*<div class="view-more text-center mt-30">
-           //auto load img <a href="shop.html">view more</a>
-        </div>*@
+               //auto load img <a href="shop.html">view more</a>
+            </div>*@
     </div>
 </div>
 <!-- shop area end -->

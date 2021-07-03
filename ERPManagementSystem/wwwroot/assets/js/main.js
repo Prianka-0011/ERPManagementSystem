@@ -175,8 +175,8 @@
             stickey.addClass("stick");
         }
     });
-
-
+    //popup
+    
 
  //cart quantity
     var stockQuantity = $('#stockQuantity').val();
@@ -328,3 +328,51 @@
 
 
 })(jQuery);
+
+
+ShowInQuickCard = (url, title) => {
+    $.ajax({
+        type: 'GET',
+        url: url,
+        success: function (res) {
+            $('#productModal .modal-body').html(res);
+            $('#productModal').modal('show');
+            $('#quickCardQuantity').on('keyup', function () {
+
+                var cardQuantity = $('#quickCardQuantity').val();
+
+                var quickCardStockQuantity = $('#quickStockQuantity').val();
+                if (cardQuantity >= 1) {
+                    if (cardQuantity < quickCardStockQuantity) {
+                        console.log("cart Quantity", cardQuantity, quickCardStockQuantity);
+                    }
+                    else {
+                        $('#quickCardQuantity').val(quickCardStockQuantity);
+                    }
+                } else {
+                    var lowQunty = null;
+                    $('#quickCardQuantity').val(lowQunty);
+                }
+            });
+            $('#quickCardQuantity').on('change', function () {
+
+                var cardQuantity = $('#quickCardQuantity').val();
+
+                var quickCardStockQuantity = $('#quickStockQuantity').val();
+                if (cardQuantity >= 1) {
+                    if (cardQuantity < quickCardStockQuantity) {
+                        console.log("cart Quantity", cardQuantity, quickCardStockQuantity);
+                    }
+                    else {
+                        $('#quickCardQuantity').val(quickCardStockQuantity);
+                    }
+                } else {
+                    var lowQunty = 1;
+                    $('#quickCardQuantity').val(lowQunty);
+                } 
+            });
+        }
+    });
+
+}
+
