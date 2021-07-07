@@ -147,6 +147,16 @@
                             DynamicUrl = "/Admin/Currencies/Index";
 
                         }
+                        else if ((Context.Request.Path.StartsWithSegments("/Admin/Banners/Index") == true))
+                        {
+                            DynamicUrl = "/Admin/Banners/Index";
+
+                        }
+                        else if ((Context.Request.Path.StartsWithSegments("/Admin/Blogs/Index") == true))
+                        {
+                            DynamicUrl = "/Admin/Blogs/Index";
+
+                        }
 
                     }
                     <li>
@@ -178,6 +188,10 @@
                             <li><a class="@(Context.Request.Path.StartsWithSegments(DynamicUrl) ? "active":null)" href="@DynamicUrl">ShippingCharge</a></li>
                             @{ DynamicUrl = "/Admin/Currencies/Index";}
                             <li><a class="@(Context.Request.Path.StartsWithSegments(DynamicUrl) ? "active":null)" href="@DynamicUrl">Currency</a></li>
+                            @{ DynamicUrl = "/Admin/Banners/Index";}
+                            <li><a class="@(Context.Request.Path.StartsWithSegments(DynamicUrl) ? "active":null)" href="@DynamicUrl">Banner</a></li>
+                            @{ DynamicUrl = "/Admin/Blogs/Index";}
+                            <li><a class="@(Context.Request.Path.StartsWithSegments(DynamicUrl) ? "active":null)" href="@DynamicUrl">Blog</a></li>
                             <li><a href="#">Orders</a></li>
                         </ul>
                     </li>

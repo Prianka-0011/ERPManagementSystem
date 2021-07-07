@@ -1,0 +1,78 @@
+﻿@model ERPManagementSystem.Models.Blog
+@{
+    ViewData["Title"] = "AddOrEdit";
+    Layout = null;
+}
+
+<div class="container-fluid">
+    <form asp-action="AddOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPostLargeModal(this);" enctype="multipart/form-data" autocomplete="off">
+        <div class="row">
+            <div class="col-md-6 col-lg-6 col-10 offset-md-0 offset-lg-0 offset-1">
+                <div class="form-group">
+                    <input type="hidden" asp-for="Id" />
+                    <label>Name</label>
+                    <input asp-for="Name" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-10 offset-md-0 offset-lg-0 offset-1">
+                <div class="form-group">
+                    <label>Date</label>
+                    <input asp-for="Date" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-lg-6 col-10 offset-md-0 offset-lg-0 offset-1">
+                <div class="form-group">
+                    <label>BlogHeader</label>
+                    <input asp-for="BlogHeader" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-10 offset-md-0 offset-lg-0 offset-1">
+                <div class="form-group">
+                    <label>BlogDetails</label>
+                    <textarea asp-for="BlogDetails" class="form-control"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-lg-6 col-10 offset-md-0 offset-lg-0 offset-1">
+                <div class="form-group">
+                    <label>BlockQuote</label>
+                    <textarea asp-for="BlockQuote" class="form-control"></textarea>
+
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-10 offset-md-0 offset-lg-0 offset-1">
+                <div class="form-group">
+                    <label>BlockQuoteDetails</label>
+                    <textarea asp-for="BlockQuoteDetails" class="form-control"></textarea>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6 col-lg-6 col-10 offset-md-0 offset-lg-0 offset-1">
+                <div class="form-group">
+                    <label>Image</label>
+                    <input type="file" class="form-control" asp-for="ImagePath" />
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-10 offset-md-0 offset-lg-0 offset-1">
+                <div class="form-group">
+                    <label>Status</label>
+                    <select asp-for="BlogStatus" class="form-control">
+                        <option value="Enable">Enable</option>
+                        <option value="Disable">Disable</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="container d-flex justify-content-center align-items-center">
+                <button type="submit" class="savebtn">Save</button>
+            </div>
+        </div>
+    </form>
+</div>
+
