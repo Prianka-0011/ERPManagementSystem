@@ -26,6 +26,7 @@ namespace ERPManagementSystem.ViewModels
         public string ImgPath { get; set; }
         public string StockProductStatus { get; set; }
         public string ProductName { get; set; }
+        public string Currencyname { get; set; }
         public decimal SubTotal { get; set; }
         public decimal ShippingCost { get; set; }
 

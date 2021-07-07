@@ -10,6 +10,7 @@ namespace ERPManagementSystem.Models
         public Guid Id { get; set; }
         public string Color { get; set; }
         public string Size { get; set; }
+        public string CurrencyName { get; set; }
 
         public decimal SalePrice { get; set; }
 

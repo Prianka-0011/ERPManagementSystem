@@ -46,7 +46,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 Quotation quotationVm = new Quotation();
                 quotationVm.QuotationLineItems = new List<QuotationLineItem>{ new QuotationLineItem{ Id = Guid.Parse("00000000-0000-0000-0000-000000000000"), ImgPath = "images/noimg.png" } };
                 ViewData["Products"] = new SelectList(_context.Products.ToList(), "Id", "Name");
-                
+                ViewData["Currency"] = new SelectList(_context.Currencies.ToList(), "Id", "CurrencyName");
                 ViewData["Tax"] = new SelectList(_context.TaxRates.ToList(), "Id", "Name");
                 ViewData["Vendor"] = new SelectList(_context.Vendors.ToList(), "Id", "DisplayName");
                 return View(quotationVm);
@@ -67,9 +67,11 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 quotationVm.VendorId = quotation.VendorId;
                 quotationVm.Date = quotation.Date;
                 quotationVm.ShippingCost = quotation.ShippingCost;
+                quotationVm.CurrencyId = quotation.CurrencyId;
                 quotationVm.QuotationLineItems = QuotationLineItems;
                 ViewData["Products"] = new SelectList(_context.Products.ToList(), "Id", "Name");
                 ViewData["Tax"] = new SelectList(_context.TaxRates.ToList(), "Id", "Name");
+                ViewData["Currency"] = new SelectList(_context.Currencies.ToList(), "Id", "CurrencyName");
                 ViewData["Vendor"] = new SelectList(_context.Vendors.ToList(), "Id", "DisplayName");
                 return View(quotationVm);
             }
@@ -92,6 +94,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     entity.ShippingCost = quotationVm.ShippingCost;
                     entity.Date = DateTime.Now;
                     entity.QuotatonStatus = quotationVm.QuotatonStatus;
+                    entity.CurrencyId = quotationVm.CurrencyId;
                     _context.Quotations.Add(entity);
                   
                     foreach (var item in quotationVm.QuotationLineItems)
@@ -124,7 +127,8 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                         entity.VendorId = quotationVm.VendorId;
                         entity.ShippingCost = quotationVm.ShippingCost;
                         entity.QuotatonStatus = quotationVm.QuotatonStatus;
-                        var oldLineIetm =await _context.QuotationLineItems.Where(c => c.QuotationId == id).ToListAsync();
+                        entity.CurrencyId = quotationVm.CurrencyId;
+                    var oldLineIetm =await _context.QuotationLineItems.Where(c => c.QuotationId == id).ToListAsync();
                         foreach (var item in oldLineIetm)
                         {
                             _context.Remove(item);
@@ -155,8 +159,8 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
 
                     }
                 }
-            await _context.SaveChangesAsync();
-            const int pageSize = 10;
+               await _context.SaveChangesAsync();
+               const int pageSize = 10;
                 int pg = 1;
                 if (pg < 1)
                 {

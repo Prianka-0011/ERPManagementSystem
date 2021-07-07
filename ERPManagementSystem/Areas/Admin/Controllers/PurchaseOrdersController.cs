@@ -21,15 +21,30 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
         {
             _context = context;
         }
-        public async Task<IActionResult> Index(int pg)
+        public async Task<IActionResult> Index(int pg, string sortOrder, string searchString)
         {
-            var purchaseOrder = _context.PurchaseOrders.Include(c => c.Vendor);
+            ViewBag.serialnum = string.IsNullOrEmpty(sortOrder) ? "prod_desc" : "";
+            var purchaseOrder = _context.PurchaseOrders.Include(c => c.Vendor).Where(c=>c.PurchaseOrderStatus== "Enable");
+            switch (sortOrder)
+            {
+                case "prod_desc":
+                    purchaseOrder = purchaseOrder.OrderByDescending(n => n.PurchaseNo);
+                    break;
+                default:
+                    purchaseOrder = purchaseOrder.OrderBy(n => n.PurchaseNo);
+                    break;
+            }
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                purchaseOrder = _context.PurchaseOrders.Include(c => c.Vendor).Where(c => c.PurchaseOrderStatus == "Enable" && c.PurchaseNo.ToLower().Contains(searchString.ToLower()));
+            }
             const int pageSize = 10;
             if (pg < 1)
             {
                 pg = 1;
             }
             var resCount = purchaseOrder.Count();
+            ViewBag.TotalRecord = resCount;
             var pager = new Pager(resCount, pg, pageSize);
             int resSkip = (pg - 1) * pageSize;
             var data = purchaseOrder.Skip(resSkip).Take(pager.PageSize);
@@ -45,7 +60,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 PurchaseOrder purchaseOrderVm = new PurchaseOrder();
                 purchaseOrderVm.PurchaseOrderLineItems = new List<PurchaseOrderLineItem> { new PurchaseOrderLineItem { Id = Guid.Parse("00000000-0000-0000-0000-000000000000"), ImgPath = "images/noimg.png" } };
                 ViewData["Products"] = new SelectList(_context.Products.ToList(), "Id", "Name");
-
+                ViewData["Currency"] = new SelectList(_context.Currencies.ToList(), "Id", "CurrencyName");
                 ViewData["Tax"] = new SelectList(_context.TaxRates.ToList(), "Id", "Name");
                 ViewData["Vendor"] = new SelectList(_context.Vendors.ToList(), "Id", "DisplayName");
                 return View(purchaseOrderVm);
@@ -60,7 +75,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     return NotFound();
                 }
                 PurchaseOrder purchaseOrderVm = new PurchaseOrder();
-                var PurchaseOrderLineItems = _context.PurchaseOrderLineItems.Where(c => c.PurchaseOrderId == purchaseOrder.Id).ToList();
+                //var PurchaseOrderLineItems = _context.PurchaseOrderLineItems.Where(c => c.PurchaseOrderId == purchaseOrder.Id).ToList();
                 purchaseOrderVm.Id = purchaseOrder.Id;
                 purchaseOrderVm.PurchaseNo = purchaseOrder.PurchaseNo;
                 purchaseOrderVm.VendorId = purchaseOrder.VendorId;
@@ -69,10 +84,12 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 purchaseOrderVm.ShippingCost = purchaseOrder.ShippingCost;
                 purchaseOrderVm.Discont = purchaseOrder.Discont;
                 purchaseOrderVm.TotalAmount = purchaseOrder.TotalAmount;
-                purchaseOrderVm.PurchaseOrderLineItems = PurchaseOrderLineItems;
+                purchaseOrderVm.PurchaseOrderLineItems = purchaseOrder.PurchaseOrderLineItems;
+                purchaseOrderVm.CurrencyId = purchaseOrder.CurrencyId;
                 ViewData["Products"] = new SelectList(_context.Products.ToList(), "Id", "Name");
                 ViewData["Tax"] = new SelectList(_context.TaxRates.ToList(), "Id", "Name");
                 ViewData["Vendor"] = new SelectList(_context.Vendors.ToList(), "Id", "DisplayName");
+                ViewData["Currency"] = new SelectList(_context.Currencies.ToList(), "Id", "CurrencyName");
                 return View(purchaseOrderVm);
             }
 
@@ -97,7 +114,10 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 entity.PurchaseOrderStatus = purchaseOrderVm.PurchaseOrderStatus;
                 entity.Discont = purchaseOrderVm.Discont;
                 entity.TotalAmount = purchaseOrderVm.TotalAmount;
+                entity.CurrencyId = purchaseOrderVm.CurrencyId;
+                entity.PurchaseOrderStatus = "Enable";
                 _context.PurchaseOrders.Add(entity);
+
                 //await _context.SaveChangesAsync();
                 foreach (var item in purchaseOrderVm.PurchaseOrderLineItems)
                 {
@@ -117,7 +137,8 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     lineItem.Description = item.Description;
                     lineItem.ImgPath = item.ImgPath;
                     lineItem.TotalCost = item.TotalCost;
-                    lineItem.ItemStatus = item.ItemStatus;
+
+                    lineItem.ItemStatus ="Enable";
                     _context.PurchaseOrderLineItems.Add(lineItem);
                 }
              
@@ -134,7 +155,9 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     entity.PurchaseOrderStatus = purchaseOrderVm.PurchaseOrderStatus;
                     entity.Discont = purchaseOrderVm.Discont;
                     entity.DeliveryDate = purchaseOrderVm.DeliveryDate;
+                    entity.PurchaseOrderStatus = "Enable";
                     entity.TotalAmount = purchaseOrderVm.TotalAmount;
+                    entity.CurrencyId = purchaseOrderVm.CurrencyId;
                     var oldLineIetm = await _context.PurchaseOrderLineItems.Where(c => c.PurchaseOrderId == id).ToListAsync();
                     foreach (var item in oldLineIetm)
                     {
@@ -156,7 +179,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                         lineItem.Description = item.Description;
                         lineItem.ImgPath = item.ImgPath;
                         lineItem.TotalCost = item.TotalCost;
-                        lineItem.ItemStatus = item.ItemStatus;
+                        lineItem.ItemStatus ="Enable";
                         _context.PurchaseOrderLineItems.Add(lineItem);
                     }
                     _context.Update(entity);
@@ -174,8 +197,9 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
             {
                 pg = 1;
             }
-            var resultPurchaseOrder = _context.PurchaseOrders.Include(d=>d.Vendor).ToList();
+            var resultPurchaseOrder = _context.PurchaseOrders.Include(d=>d.Vendor).Where(c => c.PurchaseOrderStatus == "Enable").ToList();
             var resCount = resultPurchaseOrder.Count();
+            ViewBag.TotalRecord = resCount;
             var pager = new Pager(resCount, pg, pageSize);
             int resSkip = (pg - 1) * pageSize;
             ViewBag.Pager = pager;

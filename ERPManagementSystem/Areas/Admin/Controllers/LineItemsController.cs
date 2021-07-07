@@ -23,15 +23,30 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index(int pg)
+        public async Task<IActionResult> Index(int pg, string sortOrder, string searchString)
         {
-            var lineItem = _context.PurchaseOrderLineItems.Include(d => d.Product);
+            ViewBag.productnam = string.IsNullOrEmpty(sortOrder) ? "prod_desc" : "";
+            var lineItem = _context.PurchaseOrderLineItems.Include(d => d.Product).Where(c => c.ItemStatus == "Enable"); ;
+            switch (sortOrder)
+            {
+                case "prod_desc":
+                    lineItem = lineItem.OrderByDescending(n => n.Product.Name);
+                    break;
+                default:
+                    lineItem = lineItem.OrderBy(n => n.Product.Name);
+                    break;
+            }
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                lineItem = _context.PurchaseOrderLineItems.Include(c => c.Product).Where(c => c.ItemStatus == "Enable" && c.Product.Name.ToLower().Contains(searchString.ToLower()));
+            }
             const int pageSize = 10;
             if (pg < 1)
             {
                 pg = 1;
             }
             var resCount = lineItem.Count();
+            ViewBag.TotalRecord = resCount;
             var pager = new Pager(resCount, pg, pageSize);
             int resSkip = (pg - 1) * pageSize;
             var data = lineItem.Skip(resSkip).Take(pager.PageSize);
@@ -64,7 +79,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 StockProduct stockProduct;
                 try
                 {
-                    entity = await _context.PurchaseOrderLineItems.FindAsync(lineItem.Id);
+                    entity = await _context.PurchaseOrderLineItems.Include(o=>o.PurchaseOrder).ThenInclude(c=>c.Currency).Where(c=>c.Id==lineItem.Id).FirstOrDefaultAsync();
                     entity.SalePrice = lineItem.SalePrice;
                     entity.ReceiveQuantity =entity.ReceiveQuantity + lineItem.ReceiveQuantity;
                     entity.DueQuantity = entity.OrderQuantity - entity.ReceiveQuantity;
@@ -86,6 +101,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                         stockProduct.Color = entity.Color;
                         stockProduct.Size = entity.Size;
                         stockProduct.Description = lineItem.ShortDescription;
+                        stockProduct.CurrencyName = entity.PurchaseOrder.Currency.CurrencyName;
                         _context.Add(stockProduct);
                     }
                     else
@@ -103,6 +119,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                         stockProduct.Color = entity.Color;
                         stockProduct.Size = entity.Size;
                         stockProduct.Description = lineItem.ShortDescription;
+                        stockProduct.CurrencyName = entity.PurchaseOrder.Currency.CurrencyName;
                         _context.Update(stockProduct);
                     }
                     await _context.SaveChangesAsync();
@@ -120,6 +137,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 pg = 1;
             }
             var resCount = brandData.Count();
+            ViewBag.TotalRecord = resCount;
             var pager = new Pager(resCount, pg, pageSize);
             int resSkip = (pg - 1) * pageSize;
             var data = brandData.Skip(resSkip).Take(pager.PageSize);

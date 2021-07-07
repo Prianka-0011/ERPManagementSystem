@@ -30,6 +30,13 @@
                 </div>
             </div>
             <div class="col-md-4 col-lg-4 col-12">
+                <input type="hidden" asp-for="Id" />
+                <div class="form-group">
+                    <label>Currency</label>
+                    <select asp-for="CurrencyId" asp-items="ViewBag.Currency" class="form-control"></select>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4 col-12">
                 <div class="form-group">
                     <label>Status</label>
                     <select asp-for="QuotatonStatus" class="form-control">

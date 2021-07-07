@@ -48,6 +48,7 @@ namespace ERPManagementSystem.Areas.Shop.Controllers
             stockProductVm.Size = product.Size;
             stockProductVm.Quantity = product.Quantity;
             stockProductVm.ImgPath = product.ImgPath;
+            stockProductVm.Currencyname = product.CurrencyName;
             ViewBag.gallery = _context.Galleries.Where(c => c.ProductId == product.ProductId);
           
             return View(stockProductVm);
@@ -67,6 +68,7 @@ namespace ERPManagementSystem.Areas.Shop.Controllers
             stockProductVm.Color = product.Color;
             stockProductVm.Size = product.Size;
             stockProductVm.Quantity = product.Quantity;
+            stockProductVm.Currencyname = product.CurrencyName;
             ViewBag.gallery = _context.Galleries.Where(c => c.ProductId == product.ProductId);
             return View(stockProductVm);
         }
@@ -88,7 +90,7 @@ namespace ERPManagementSystem.Areas.Shop.Controllers
             productVm.StockProduct = stockProduct.Quantity;
             productVm.ProductSerial = stockProduct.Product.ProductSerial;
             productVm.ProductTotal = stockProductVm.CartQuantity * stockProduct.SalePrice;
-            
+            productVm.Currencyname = stockProductVm.Currencyname;
             //Start Session
             products = HttpContext.Session.Get<List<StockProductVm>>("products");
             if (products == null)

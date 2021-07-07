@@ -21,7 +21,17 @@
     }
 
 }
-
+<div class="row">
+    <div class="col-md-4">
+        <p class="recordcount">@ViewBag.TotalRecord record exist</p>
+    </div>
+    <div class="col-md-4 offset-md-4">
+        <form ap-action="Index" asp-controller="PurchaseOrders" method="get">
+            <input type="text" name="searchString" />
+            <button class="srcBtn" type="submit">Search</button>
+        </form>
+    </div>
+</div>
 
 @if (Model != null)
 {
@@ -30,7 +40,7 @@
             <tr>
                 @*<th scope="col"><i class="fas fa-plus"></i></th>*@
                 <th scope="col">#</th>
-                <th scope="col">Reference No</th>
+                <th scope="col"><a asp-action="Index" asp-controller="PurchaseOrders" asp-route-sortOrder="@ViewBag.serialnum">Reference No</a></th>
                 <th scope="col">Vendor</th>
                 <th scope="col">Discout</th>
                 <th scope="col">Shipping Cost</th>
