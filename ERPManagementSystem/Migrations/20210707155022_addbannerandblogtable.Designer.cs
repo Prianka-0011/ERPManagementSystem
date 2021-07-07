@@ -4,14 +4,16 @@ using ERPManagementSystem.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ERPManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210707155022_addbannerandblogtable")]
+    partial class addbannerandblogtable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -358,9 +360,6 @@ namespace ERPManagementSystem.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CurrencyId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("DeliveryDate")
                         .HasColumnType("datetime2");
 
@@ -386,8 +385,6 @@ namespace ERPManagementSystem.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CurrencyId");
 
                     b.HasIndex("VendorId");
 
@@ -479,9 +476,6 @@ namespace ERPManagementSystem.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CurrencyId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
@@ -499,8 +493,6 @@ namespace ERPManagementSystem.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CurrencyId");
 
                     b.HasIndex("VendorId");
 
@@ -705,9 +697,6 @@ namespace ERPManagementSystem.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Color")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CurrencyName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
@@ -1098,12 +1087,6 @@ namespace ERPManagementSystem.Migrations
 
             modelBuilder.Entity("ERPManagementSystem.Models.PurchaseOrder", b =>
                 {
-                    b.HasOne("ERPManagementSystem.Models.Currency", "Currency")
-                        .WithMany()
-                        .HasForeignKey("CurrencyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("ERPManagementSystem.Models.Vendor", "Vendor")
                         .WithMany()
                         .HasForeignKey("VendorId")
@@ -1132,12 +1115,6 @@ namespace ERPManagementSystem.Migrations
 
             modelBuilder.Entity("ERPManagementSystem.Models.Quotation", b =>
                 {
-                    b.HasOne("ERPManagementSystem.Models.Currency", "Currency")
-                        .WithMany()
-                        .HasForeignKey("CurrencyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("ERPManagementSystem.Models.Vendor", "Vendor")
                         .WithMany()
                         .HasForeignKey("VendorId")
