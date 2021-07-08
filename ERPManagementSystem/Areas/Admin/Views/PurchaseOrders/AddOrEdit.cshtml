@@ -31,8 +31,8 @@
             </div>
             <div class="col-md-4 col-lg-4 col-12">
                 <div class="form-group">
-                    <label>Shipping Cost</label>
-                    <input asp-for="DeliveryDate" class="form-control" />
+                    <label>Currency</label>
+                    <select asp-for="CurrencyId" asp-items="ViewBag.Currency" class="form-control"></select>
                 </div>
             </div>
         </div>
@@ -43,6 +43,12 @@
                     <select asp-for="PurchaseOrderStatus" class="form-control">
                         <option value="value">text</option>
                     </select>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4 col-12">
+                <div class="form-group">
+                    <label>Delivery Date</label>
+                    <input asp-for="DeliveryDate" class="form-control" />
                 </div>
             </div>
         </div>

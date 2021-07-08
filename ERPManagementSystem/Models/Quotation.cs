@@ -20,6 +20,8 @@ namespace ERPManagementSystem.Models
         //Navigation
         public Guid VendorId { get; set; }
         public Vendor Vendor { get; set; }
+        public Guid CurrencyId { get; set; }
+        public Currency Currency { get; set; }
         public List<QuotationLineItem> QuotationLineItems { get; set; }
         public List<PurchaseOrderLineItem> PurchaseOrderLineItems { get; set; }
     }
