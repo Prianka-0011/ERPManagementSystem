@@ -23,6 +23,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index(int pg, string sortOrder, string searchString)
         {
+            ViewBag.srcString = searchString;
             ViewBag.categorynam = string.IsNullOrEmpty(sortOrder) ? "prod_desc" : "";
             var category = _context.Categories.Where(c => c.CategoryStatus == "Enable");
             switch (sortOrder)
@@ -54,6 +55,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
 
         //AddOrEdit
         [NoDirectAccess]
+        [HttpGet]
         public async Task<IActionResult> AddOrEdit(Guid id)
         {
             if (id == Guid.Parse("00000000-0000-0000-0000-000000000000"))
