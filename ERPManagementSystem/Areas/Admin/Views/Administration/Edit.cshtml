@@ -1,0 +1,39 @@
+﻿@model ERPManagementSystem.ViewModels.CreateRoleVm
+@{
+    ViewData["Title"] = "Edit";
+    Layout = null;
+}
+
+<div class="container-fluid">
+    <form asp-action="AddOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPost(this);" autocomplete="off">
+        <div class="row">
+            <div class="col-md-10 offset-1 col-10 offset-md-1 col-lg-10 offset-lg-1">
+                <div class="form-group">
+                    <input type="hidden" asp-for="Id" />
+                    <label>Name</label>
+                    <input asp-for="RoleName" class="form-control" />
+                </div>
+            </div>
+            <div class="container d-flex justify-content-center align-items-center">
+                <button type="submit" class="savebtn">Save</button>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+
+        <d;iv class="card">
+            <div class="card-header">
+                <h1 class="card-title">User in this role</h1>
+            </div>
+            <div class="card-body">
+                @if (Model.Users.Any())
+                {
+                    foreach (var user in Model.Users)
+                    {
+                        <h2>@user</h2>
+                    }
+                }
+            </div>
+            </d;iv>
+        </div>
+    </div>

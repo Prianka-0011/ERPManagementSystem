@@ -12,7 +12,6 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>@ViewBag.Title</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,800;0,900;1,100;1,600;1,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -209,23 +208,23 @@
                         </ul>
                     </li>
 
-                    @{if ((Context.Request.Path.StartsWithSegments("/Admin/Roles/Index") == true))
+                    @{if ((Context.Request.Path.StartsWithSegments("/Admin/Administration/Index") == true))
                         {
-                            DynamicUrlSetting = "/Admin/Roles/Index";
+                            DynamicUrlSetting = "/Admin/Administration/Index";
 
                         }
-                        else if ((Context.Request.Path.StartsWithSegments("/Admin/AssignRoles/Index") == true))
+                        else if ((Context.Request.Path.StartsWithSegments("/Admin/Administration/AssignRoleIndex") == true))
                         {
-                            DynamicUrlSetting = "/Admin/AssignRoles/Index";
+                            DynamicUrlSetting = "/Admin/Administration/AssignRoleIndex";
 
                         }
                     }
                     <li class="bottom-menue">
                         <a class="dropdown5"><i class="fas fa-cog"></i><span>Settings</span><i class="fas fa-caret-down"></i></a>
                         <ul class="dropdown-menu5">
-                            @{ DynamicUrlSetting = "/Admin/Roles/Index";}
+                            @{ DynamicUrlSetting = "/Admin/Administration/Index";}
                             <li><a class="@(Context.Request.Path.StartsWithSegments(DynamicUrlSetting) ? "active":null)" href="@DynamicUrlSetting">Roles</a></li>
-                            @{ DynamicUrlSetting = "/Admin/AssignRoles/Index";}
+                            @{ DynamicUrlSetting = "/Admin/Administration/AssignRoleIndex";}
                             <li><a class="@(Context.Request.Path.StartsWithSegments(DynamicUrlSetting) ? "active":null)" href="@DynamicUrlSetting">Assign Role</a></li>
                             <li><a href="#">Bank</a></li>
                             <li><a href="#">Branch</a></li>
@@ -289,6 +288,7 @@
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/bccc7b239b.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
