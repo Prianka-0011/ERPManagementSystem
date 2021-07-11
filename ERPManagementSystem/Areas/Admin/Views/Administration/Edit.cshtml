@@ -5,7 +5,7 @@
 }
 
 <div class="container-fluid">
-    <form asp-action="AddOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPost(this);" autocomplete="off">
+    <form asp-action="Edit" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPost(this);" autocomplete="off">
         <div class="row">
             <div class="col-md-10 offset-1 col-10 offset-md-1 col-lg-10 offset-lg-1">
                 <div class="form-group">
@@ -20,20 +20,22 @@
         </div>
     </form>
     <div class="row">
-
-        <d;iv class="card">
-            <div class="card-header">
-                <h1 class="card-title">User in this role</h1>
-            </div>
-            <div class="card-body">
-                @if (Model.Users.Any())
-                {
-                    foreach (var user in Model.Users)
+        <div class="col-md-10 offset-1 col-10 offset-md-1 col-lg-10 offset-lg-1">
+            <div class="card">
+                <div class="card-header">
+                    <h1 class="card-title">User in this role</h1>
+                </div>
+                <div class="card-body">
+                    @if (Model.Users.Any())
                     {
-                        <h2>@user</h2>
+                        foreach (var user in Model.Users)
+                        {
+                            <h2>@user</h2>
+                        }
                     }
-                }
+                </div>
+                </div>
             </div>
-            </d;iv>
         </div>
-    </div>
+        </div>
+ 
