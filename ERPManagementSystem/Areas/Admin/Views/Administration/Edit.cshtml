@@ -14,28 +14,41 @@
                     <input asp-for="RoleName" class="form-control" />
                 </div>
             </div>
-            <div class="container d-flex justify-content-center align-items-center">
-                <button type="submit" class="savebtn">Save</button>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-10 offset-1 col-10 offset-md-1 col-lg-10 offset-lg-1">
+                <div class="card mt-2">
+                    <div class="card-header ">
+                        <h1>User in this role</h1>
+                    </div>
+                    <div class="card-body">
+                       
+                            @if (Model.Users.Any())
+                            {
+                                int j = 0;
+                                foreach (var user in Model.Users)
+                                {
+                                    <div class="form-check m-1">
+                                        <input asp-for="@Model.Users[j].IsSelected" class="form-check-input" />
+                                        <input type="hidden" asp-for="@Model.Users[j].UserId" class="form-check-input" />
+                                        <input type="hidden" asp-for="@Model.Users[j].RoleId" class="form-check-input" />
+                                        <input type="hidden" asp-for="@Model.Users[j].UserName" class="form-check-input" />
+                                        <label class="form-check-label">@Model.Users[j].UserName</label>
+                                    </div>
+                                    j++;
+                                }
+                            }
+                        </div>
+                      
+                    </div>
+                </div>
             </div>
+        
+        <div class="container d-flex justify-content-center align-items-center mt-2">
+            <button type="submit" class="savebtn">Save</button>
         </div>
     </form>
-    <div class="row">
-        <div class="col-md-10 offset-1 col-10 offset-md-1 col-lg-10 offset-lg-1">
-            <div class="card">
-                <div class="card-header">
-                    <h1 class="card-title">User in this role</h1>
-                </div>
-                <div class="card-body">
-                    @if (Model.Users.Any())
-                    {
-                        foreach (var user in Model.Users)
-                        {
-                            <h2>@user</h2>
-                        }
-                    }
-                </div>
-                </div>
-            </div>
-        </div>
-        </div>
- 
+</div>
+

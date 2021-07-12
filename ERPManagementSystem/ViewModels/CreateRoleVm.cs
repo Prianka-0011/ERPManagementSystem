@@ -10,11 +10,11 @@ namespace ERPManagementSystem.ViewModels
     {
         public CreateRoleVm()
         {
-            Users=new List<string>();
+            Users=new List<UserInRoleVm>();
         }
         public string Id { get; set; }
         [Required]
         public string RoleName { get; set; }
-        public List<string> Users { get; set; }
+        public List<UserInRoleVm> Users { get; set; }
     }
 }

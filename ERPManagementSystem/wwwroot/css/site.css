@@ -531,3 +531,7 @@ label #sidebar-btn{
 /**Main CSS End**/
 
 /**Wrapper CSS End**/
+.card-header h1{
+    font-size:12px;
+    text-align:left;
+}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ERPManagementSystem.Extensions;
+using ERPManagementSystem.Models;
 using ERPManagementSystem.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,10 +15,10 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
     [Area("Admin")]
     public class AdministrationController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         //private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        public AdministrationController(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager)
+        public AdministrationController(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -133,14 +134,26 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 return NotFound();
             }
             CreateRoleVm roleVm = new CreateRoleVm();
+            UserInRoleVm userInRole;
             roleVm.Id = role.Id;
             roleVm.RoleName = role.Name;
             foreach (var user in _userManager.Users)
             {
+                userInRole = new UserInRoleVm();
                 if (await _userManager.IsInRoleAsync(user, role.Name))
                 {
-                    roleVm.Users.Add(user.UserName);
+                   
+                    userInRole.UserId=user.Id;
+                    userInRole.UserName=user.UserName;
+                    userInRole.RoleId=role.Id;
+                    userInRole.IsSelected=true;
+                    
                 }
+                else
+                {
+                    userInRole.IsSelected = true;
+                }
+                roleVm.Users.Add(userInRole);
             }
             return View(roleVm);
 
@@ -167,8 +180,32 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 {
                     result.Name=vm.RoleName;
                   await  _roleManager.UpdateAsync(result);
-
+                    for (int i = 0; i < vm.Users.Count(); i++)
+                    {
+                        var user=await _userManager.FindByIdAsync(vm.Users[i].UserId);
+                        IdentityResult res=null;
+                        if (vm.Users[i].IsSelected && !(await _userManager.IsInRoleAsync(user, result.Id)))
+                        {
+                            res =await _userManager.AddToRoleAsync(user,result.Id);
+                        }
+                        if (!vm.Users[i].IsSelected && (await _userManager.IsInRoleAsync(user, result.Id)))
+                        {
+                            res = await _userManager.RemoveFromRoleAsync(user, result.Id);
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                        if (res.Succeeded)
+                        {
+                            if (i<(vm.Users.Count-1))
+                            {
+                                continue;
+                            }
+                        }
+                    }
                 }
+
                 if (pg < 1)
                 {
                     pg = 1;
@@ -188,10 +225,6 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 var data = createRoleVms.Take(pager.PageSize);
                 ViewBag.Pager = pager;
                 return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllRole", data) });
-
-
-
-
             }
             return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEdit", vm) });
 
