@@ -1,0 +1,54 @@
+﻿@model ERPManagementSystem.ViewModels.CreateRoleVm
+@{
+    ViewData["Title"] = "Edit";
+    Layout = null;
+}
+
+<div class="container-fluid">
+    <form asp-action="Edit" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPost(this);" autocomplete="off">
+        <div class="row">
+            <div class="col-md-10 offset-1 col-10 offset-md-1 col-lg-10 offset-lg-1">
+                <div class="form-group">
+                    <input type="hidden" asp-for="Id" />
+                    <label>Name</label>
+                    <input asp-for="RoleName" class="form-control" />
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-10 offset-1 col-10 offset-md-1 col-lg-10 offset-lg-1">
+                <div class="card mt-2">
+                    <div class="card-header ">
+                        <h1>User in this role</h1>
+                    </div>
+                    <div class="card-body">
+                       
+                            @if (Model.Users.Any())
+                            {
+                                int j = 0;
+                                foreach (var user in Model.Users)
+                                {
+                                    <div class="form-check m-1">
+                                        <input asp-for="@Model.Users[j].IsSelected" class="form-check-input" />
+                                        <input type="hidden" asp-for="@Model.Users[j].UserId" class="form-check-input" />
+                                        <input type="hidden" asp-for="@Model.Users[j].RoleId" class="form-check-input" />
+                                        <input type="hidden" asp-for="@Model.Users[j].UserName" class="form-check-input" />
+                                        <label class="form-check-label">@Model.Users[j].UserName</label>
+                                    </div>
+                                    j++;
+                                }
+                            }
+                        </div>
+                      
+                    </div>
+                </div>
+            </div>
+        
+        <div class="container d-flex justify-content-center align-items-center mt-2">
+            <button type="submit" class="savebtn">Save</button>
+        </div>
+    </form>
+</div>
+
