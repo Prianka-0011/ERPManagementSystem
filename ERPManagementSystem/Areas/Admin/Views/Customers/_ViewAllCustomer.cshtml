@@ -26,12 +26,6 @@
     <div class="col-md-4">
         <p class="recordcount">@ViewBag.TotalRecord record exist</p>
     </div>
-    <div class="col-md-4 offset-md-4">
-        <form ap-action="Index" asp-controller="Customers" method="get">
-            <input type="text" name="searchString" />
-            <button class="srcBtn" type="submit">Search</button>
-        </form>
-    </div>
 </div>
 @if (Model != null)
 {
