@@ -6,9 +6,15 @@
 
 <div class="action">
     <div class="row">
-        <div class="col-md-3 col-12 col-lg-3">
+        <div class="col-md-2 col-12 col-lg-2">
             <a class="create" onclick="ShowInLargePopupPurchaQuotation('@Url.Action("AddOrEdit","PurchaseOrders",null,Context.Request.Scheme)','New Purchase Order' )"><i class="fas fa-plus"></i><span>New</span></a>
             @*<p class="recordcount">@Model.Count() record exist</p>*@
+        </div>
+        <div class="col-md-4 offset-md-6 col-lg-4 offset-lg-6 col-12">
+            <form ap-action="Index" asp-controller="PurchaseOrders" method="get">
+                <input type="text" class="searchStringInput" value="@ViewBag.srcString" name="searchString" />
+                <button class="srcBtn" type="submit">Search</button>
+            </form>
         </div>
     </div>
 </div>
