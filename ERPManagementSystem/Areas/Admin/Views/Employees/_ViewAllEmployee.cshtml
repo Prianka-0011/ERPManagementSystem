@@ -52,7 +52,7 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr onclick="ShowInSmallPopup('@Url.Action("AddOrEdit","Employees",new { id=item.Id},Context.Request.Scheme)','Update Employee' )">
+                <tr onclick="ShowInSmallPopup('@Url.Action("Edit","Employees",new { id=item.Id},Context.Request.Scheme)','Update Employee' )">
                     <td scope="row">@i</td>
                     <td>@item.FirstName</td>
                     <td>@item.LastName</td>

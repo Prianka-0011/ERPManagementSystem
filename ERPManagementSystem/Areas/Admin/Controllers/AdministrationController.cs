@@ -226,7 +226,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 ViewBag.Pager = pager;
                 return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllRole", data) });
             }
-            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEdit", vm) });
+            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "Edit", vm) });
 
         }
     }

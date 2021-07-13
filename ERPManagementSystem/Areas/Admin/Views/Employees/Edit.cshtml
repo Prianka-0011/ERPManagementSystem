@@ -1,6 +1,6 @@
 ﻿@model ERPManagementSystem.ViewModels.EmployeeVm
 @{
-    ViewData["Title"] = "AddOrEdit";
+    ViewData["Title"] = "Edit";
     Layout = null;
 }
 
@@ -12,14 +12,12 @@
                     <input type="hidden" asp-for="Id" />
                     <label>FirstName</label>
                     <input asp-for="FirstName" class="form-control" />
-                    <span asp-validation-for="FirstName" class="text-danger"></span>
                 </div>
             </div>
             <div class="col-md-6 col-lg-6 col-10 offset-md-0 offset-lg-0 offset-1">
                 <div class="form-group">
                     <label>LastName</label>
                     <input asp-for="LastName" class="form-control" />
-                    <span asp-validation-for="LastName" class="text-danger"></span>
                 </div>
             </div>
         </div>
@@ -28,40 +26,12 @@
                 <div class="form-group">
                     <label>Phone</label>
                     <input asp-for="Phone" class="form-control" />
-                    <span asp-validation-for="Phone" class="text-danger"></span>
                 </div>
             </div>
             <div class="col-md-6 col-lg-6 col-10 offset-md-0 offset-lg-0 offset-1">
                 <div class="form-group">
                     <label>Email</label>
                     <input asp-for="Email" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-lg-6 col-10 offset-md-0 offset-lg-0 offset-1">
-                <div class="form-group">
-                    <label>UserName</label>
-                    <input asp-for="UserName" class="form-control" />
-                    <span asp-validation-for="UserName" class="text-danger"></span>
-                </div>
-            </div>
-           
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-lg-6 col-10 offset-md-0 offset-lg-0 offset-1">
-                <div class="form-group">
-                    <label>Password</label>
-                    <input asp-for="Password" class="form-control" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-6 col-10 offset-md-0 offset-lg-0 offset-1">
-                <div class="form-group">
-                    <label>Confirm Password</label>
-                    <input asp-for="ConfirmPassword" class="form-control" />
-                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                 </div>
             </div>
         </div>
@@ -70,7 +40,6 @@
                 <div class="form-group">
                     <label>Designation</label>
                     <select asp-for="DesignationId" class="form-control" asp-items="ViewBag.DesignationId" id="Designation"></select>
-                    <span asp-validation-for="DesignationId" class="text-danger"></span>
                 </div>
             </div>
 
@@ -78,7 +47,6 @@
                 <div class="form-group">
                     <label>Salary</label>
                     <input asp-for="Salary" type="number" id="Salary" class="form-control" />
-                    <span asp-validation-for="Salary" class="text-danger"></span>
                 </div>
             </div>
         </div>
@@ -94,14 +62,7 @@
 
                 </div>
             </div>
-            <div class="col-md-6 col-lg-6 col-10 offset-md-0 offset-lg-0 offset-1">
-                <div class="form-group">
-                    <label>Role</label>
-                    <select asp-for="RoleId" asp-items="@ViewBag.RoleId" class="form-control">
-                    </select>
-                    <span asp-validation-for="RoleId" class="text-danger"></span>
-                </div>
-            </div>
+
             <div class="col-md-6 col-lg-6 col-10 offset-md-0 offset-lg-0 offset-1">
                 <div class="form-group">
                     <label>Status</label>

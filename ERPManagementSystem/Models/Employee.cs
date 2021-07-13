@@ -8,6 +8,7 @@ namespace ERPManagementSystem.Models
     public class Employee
     {
         public Guid Id { get; set; }
+
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
@@ -17,7 +18,7 @@ namespace ERPManagementSystem.Models
         public decimal ReviewSalary { get; set; }
         public string EmployeeStatus { get; set; }
         //Navigaton
-        public Guid RoleId { get; set; }
+        public string RoleId { get; set; }
         public Guid DesignationId { get; set; }
         public Designation Designation { get; set; }
     }

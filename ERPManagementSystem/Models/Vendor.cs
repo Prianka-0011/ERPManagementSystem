@@ -19,6 +19,7 @@ namespace ERPManagementSystem.Models
         public string Email { get; set; }
         [Required]
         public string Phone { get; set; }
+        public string RoleId { get; set; }
         public string WebSite { get; set; }
         public string Address { get; set; }
         public string VendorStatus { get; set; }
