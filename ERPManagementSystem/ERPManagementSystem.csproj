@@ -18,6 +18,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\Reports\PurchaseOrder.rdlc" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="wwwroot\Reports\PurchaseOrder.rdlc" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AspNetCore.Reporting" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.9" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.15" />
@@ -30,6 +38,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
     <PackageReference Include="System.CodeDom" Version="5.0.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
     <PackageReference Include="X.PagedList.Mvc.Core" Version="7.6.0" />
   </ItemGroup>
 
@@ -45,5 +54,27 @@
     <None Include="Areas\Admin\Views\TaxRates\_ViewAllTaxRate.cshtml" />
     <None Include="wwwroot\lib\admin-das\adminlte.min.css.map" />
    </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="ReportDataSate\dsPurchaseOrder.Designer.cs">
+      <DependentUpon>dsPurchaseOrder.xsd</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ReportDataSate\dsPurchaseOrder.xsc">
+      <DependentUpon>dsPurchaseOrder.xsd</DependentUpon>
+    </None>
+    <None Update="ReportDataSate\dsPurchaseOrder.xsd">
+      <SubType>Designer</SubType>
+      <LastGenOutput>dsPurchaseOrder.Designer.cs</LastGenOutput>
+      <Generator>MSDataSetGenerator</Generator>
+    </None>
+    <None Update="ReportDataSate\dsPurchaseOrder.xss">
+      <DependentUpon>dsPurchaseOrder.xsd</DependentUpon>
+    </None>
+  </ItemGroup>
 
 </Project>

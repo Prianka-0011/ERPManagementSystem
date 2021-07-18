@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsPurchaseOrder" targetNamespace="http://tempuri.org/dsPurchaseOrder.xsd" xmlns:mstns="http://tempuri.org/dsPurchaseOrder.xsd" xmlns="http://tempuri.org/dsPurchaseOrder.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsPurchaseOrder" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="dsPurchaseOrder" msprop:Generator_UserDSName="dsPurchaseOrder">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="PurchaseOrderList" msprop:Generator_TableClassName="PurchaseOrderListDataTable" msprop:Generator_TableVarName="tablePurchaseOrderList" msprop:Generator_TablePropName="PurchaseOrderList" msprop:Generator_RowDeletingName="PurchaseOrderListRowDeleting" msprop:Generator_RowChangingName="PurchaseOrderListRowChanging" msprop:Generator_RowEvHandlerName="PurchaseOrderListRowChangeEventHandler" msprop:Generator_RowDeletedName="PurchaseOrderListRowDeleted" msprop:Generator_UserTableName="PurchaseOrderList" msprop:Generator_RowChangedName="PurchaseOrderListRowChanged" msprop:Generator_RowEvArgName="PurchaseOrderListRowChangeEvent" msprop:Generator_RowClassName="PurchaseOrderListRow">
+          <xs:complexType>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

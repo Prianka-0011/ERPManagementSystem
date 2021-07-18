@@ -30,7 +30,7 @@
                                 int j = 0;
                                 foreach (var user in Model.Users)
                                 {
-                                    <div class="form-check m-1">
+                                    <div class="form-check">
                                         <input asp-for="@Model.Users[j].IsSelected" class="form-check-input" />
                                         <input type="hidden" asp-for="@Model.Users[j].UserId" class="form-check-input" />
                                         <input type="hidden" asp-for="@Model.Users[j].RoleId" class="form-check-input" />
