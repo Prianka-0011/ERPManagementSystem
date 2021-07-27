@@ -210,6 +210,11 @@
                             DynamicUrlSetting = "/Admin/Cities/Index";
 
                         }
+                        else if ((Context.Request.Path.StartsWithSegments("/Admin/Report/Index") == true))
+                        {
+                            DynamicUrlSetting = "/Admin/Report/Index";
+
+                        }
                     }
                     <li class="bottom-menue">
                         <a class="@(Context.Request.Path.StartsWithSegments(DynamicUrlSetting) ? "parentMenu":null) dropdown5"><i class="fas fa-cog"></i><span>Settings</span><i class="fas fa-caret-down"></i></a>
@@ -228,7 +233,8 @@
                             <li><a class="@(Context.Request.Path.StartsWithSegments(DynamicUrlSetting) ? "active":null)" href="@DynamicUrlSetting">State</a></li>
                             @{ DynamicUrlSetting = "/Admin/Cities/Index";}
                             <li><a class="@(Context.Request.Path.StartsWithSegments(DynamicUrlSetting) ? "active":null)" href="@DynamicUrlSetting">City</a></li>
-                            <li><a href="#">Bank</a></li>
+                            @{ DynamicUrlSetting = "/Admin/Report/Index";}
+                            <li><a class="@(Context.Request.Path.StartsWithSegments(DynamicUrlSetting) ? "active":null)" href="@DynamicUrlSetting">Report</a></li>
                             <li><a href="#">Branch</a></li>
                         </ul>
                     </li>

@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Report Name</th>
+            <th scope="col">List Report</th>
+            <th scope="col">Detail Report</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><label class="mt-1">Purchase Order</label></td>
+            <td>
+                <form asp-action="PurchaseOrderListReport" asp-controller="Report" asp-area="Admin" method="post">
+                    <div class="form-group">
+                        <label class="form-la">From Date</label>
+                        <input type="date" class="searchStringInputReport form-control" name="fromDate" />
+                    </div>
+               
+                    <div class="form-group">
+                        <label>To Date</label>
+                        <input type="date" class="searchStringInputReport form-control" name="toDate" />
+
+                    </div>
+                    <div class="form-group">
+                        <button class="srcBtn" type="submit">Load Report</button>
+                    </div>
+
+                </form>
+
+            </td>
+            <td>
+                <form asp-action="PurchaseOrderMDReport" asp-controller="Report" method="post">
+                    <div class="form-group">
+                        <label>Purchase No</label>
+                        <input type="text" class="searchStringInputReport form-control" value="@ViewBag.srcString" name="searchPurchaseOrder" />
+                    </div>
+
+                    <div class="form-group">
+                        <button class="srcBtn" type="submit">Load Report</button>
+                    </div>
+                </form>
+            </td>
+
+        </tr>
+    </tbody>
+</table>
+

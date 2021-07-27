@@ -19,10 +19,12 @@
 
   <ItemGroup>
     <Content Remove="wwwroot\Reports\PurchaseOrder.rdlc" />
+    <Content Remove="wwwroot\Reports\PurchaseOrderMasterDetail.rdlc" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="wwwroot\Reports\PurchaseOrder.rdlc" />
+    <EmbeddedResource Include="wwwroot\Reports\PurchaseOrderMasterDetail.rdlc" />
   </ItemGroup>
 
   <ItemGroup>
@@ -56,6 +58,11 @@
    </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="ERPDatabaseDataSet.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ERPDatabaseDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Update="ReportDataSate\dsPurchaseOrder.Designer.cs">
       <DependentUpon>dsPurchaseOrder.xsd</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -64,6 +71,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="ERPDatabaseDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ERPDatabaseDataSet.Designer.cs</LastGenOutput>
+    </None>
     <None Update="ReportDataSate\dsPurchaseOrder.xsc">
       <DependentUpon>dsPurchaseOrder.xsd</DependentUpon>
     </None>

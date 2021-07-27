@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using ERPManagementSystem.Data;
@@ -24,12 +25,13 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
         }
         public async Task<IActionResult> Index(int pg)
         {
-            var quotation = _context.Quotations.Include(c=>c.Vendor);
+            var quotation = _context.Quotations.Include(c=>c.Vendor).AsQueryable();
             const int pageSize = 10;
             if (pg < 1)
             {
                 pg = 1;
             }
+           
             var resCount = quotation.Count();
             var pager = new Pager(resCount, pg, pageSize);
             int resSkip = (pg - 1) * pageSize;

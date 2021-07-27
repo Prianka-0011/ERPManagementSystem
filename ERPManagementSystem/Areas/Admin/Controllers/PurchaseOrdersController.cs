@@ -63,6 +63,10 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 ViewData["Currency"] = new SelectList(_context.Currencies.ToList(), "Id", "CurrencyName");
                 ViewData["Tax"] = new SelectList(_context.TaxRates.ToList(), "Id", "Name");
                 ViewData["Vendor"] = new SelectList(_context.Vendors.ToList(), "Id", "DisplayName");
+                var serialNo = _context.AutoGenerateSerialNumbers.Where(c => c.ModuleName == "PO").FirstOrDefault();               
+                purchaseOrderVm.PurchaseNo = serialNo.ModuleName + "-000" + serialNo.SeialNo.ToString();
+                serialNo.SeialNo = serialNo.SeialNo + 1;
+                _context.SaveChanges();
                 return View(purchaseOrderVm);
             }
 
@@ -84,7 +88,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 purchaseOrderVm.ShippingCost = purchaseOrder.ShippingCost;
                 purchaseOrderVm.Discont = purchaseOrder.Discont;
                 purchaseOrderVm.TotalAmount = purchaseOrder.TotalAmount;
-                purchaseOrderVm.PurchaseOrderLineItems = purchaseOrder.PurchaseOrderLineItems;
+                purchaseOrderVm.PurchaseOrderLineItems =_context.PurchaseOrderLineItems.Include(c=>c.Product).Where(c=>c.PurchaseOrderId==purchaseOrder.Id).ToList();
                 purchaseOrderVm.CurrencyId = purchaseOrder.CurrencyId;
                 ViewData["Products"] = new SelectList(_context.Products.ToList(), "Id", "Name");
                 ViewData["Tax"] = new SelectList(_context.TaxRates.ToList(), "Id", "Name");

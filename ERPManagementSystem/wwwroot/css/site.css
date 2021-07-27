@@ -25,7 +25,13 @@
 .searchStringInput {
     font-size: 12px !important;
     height: 25px !important;
-    
+   
+    outline: none;
+}
+.searchStringInputReport {
+    font-size: 12px !important;
+    height: 25px !important;
+    width: 140px !important;
     outline: none;
 }
 /**for modal start**/
