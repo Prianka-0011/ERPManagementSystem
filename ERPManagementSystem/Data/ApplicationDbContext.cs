@@ -29,6 +29,8 @@ namespace ERPManagementSystem.Data
         public virtual DbSet<Blog> Blogs { get; set; }
         //shop 
         public virtual DbSet<ShippingCharge> ShippingCharges { get; set; }
+        public virtual DbSet<InvoiceModel> InvoiceModels { get; set; }
+        public virtual DbSet<InvoiceItemModel> InvoiceItemModels { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
         public virtual DbSet<State> States { get; set; }
         public virtual DbSet<City> Cities { get; set; }

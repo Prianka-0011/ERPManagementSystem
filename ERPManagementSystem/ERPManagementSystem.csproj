@@ -23,6 +23,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Models\InvoiceModel.cs~RF179e342.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Include="wwwroot\Reports\PurchaseOrder.rdlc" />
     <EmbeddedResource Include="wwwroot\Reports\PurchaseOrderMasterDetail.rdlc" />
   </ItemGroup>

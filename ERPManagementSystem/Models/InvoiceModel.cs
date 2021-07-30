@@ -16,6 +16,8 @@ namespace ERPManagementSystem.Models
         public decimal Discont { get; set; }
         public decimal TotalAmount { get; set; }
         //Navigation
+        public Guid PurchaseOrderId { get; set; }
+        public PurchaseOrder PurchaseOrder { get; set; }
         public Guid VendorId { get; set; }
         public Vendor Vendor { get; set; }
         public Guid? CurrencyId { get; set; }
