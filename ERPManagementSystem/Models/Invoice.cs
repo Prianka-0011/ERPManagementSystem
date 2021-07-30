@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace ERPManagementSystem.Models
 {
-    public class InvoiceModel
+    public class Invoice
     {
         public Guid Id { get; set; }
-        public string PurchaseNo { get; set; }
+        public string InvoiceNo { get; set; }
         public DateTime OrderDate { get; set; }
         public DateTime DeliveryDate { get; set; }
         public decimal ShippingCost { get; set; }

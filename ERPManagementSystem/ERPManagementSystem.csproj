@@ -13,11 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20210702063928_addalltable.cs" />
-    <Compile Remove="Migrations\20210702063928_addalltable.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Remove="wwwroot\Reports\PurchaseOrder.rdlc" />
     <Content Remove="wwwroot\Reports\PurchaseOrderMasterDetail.rdlc" />
   </ItemGroup>
@@ -43,6 +38,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
+    <PackageReference Include="MySql.EntityFrameworkCore" Version="3.1.14" />
     <PackageReference Include="System.CodeDom" Version="5.0.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
     <PackageReference Include="X.PagedList.Mvc.Core" Version="7.6.0" />
