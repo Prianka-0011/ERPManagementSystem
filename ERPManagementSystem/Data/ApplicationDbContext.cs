@@ -45,6 +45,8 @@ namespace ERPManagementSystem.Data
         //Account 
         public virtual DbSet<Invoice> Invoices { get; set; }
         public virtual DbSet<InvoiceItem> InvoiceItems { get; set; }
+        public virtual DbSet<VendordBill> VendordBills { get; set; }
+        public virtual DbSet<VendorBillsItem> VendorBillsItems { get; set; }
 
 
     }

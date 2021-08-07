@@ -3,14 +3,16 @@ using System;
 using ERPManagementSystem.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ERPManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210805070454_script")]
+    partial class script
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -794,9 +796,6 @@ namespace ERPManagementSystem.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<decimal>("Discount")
-                        .HasColumnType("decimal(65,30)");
-
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(65,30)");
 
@@ -818,12 +817,14 @@ namespace ERPManagementSystem.Migrations
                     b.Property<Guid>("SaleOrderId")
                         .HasColumnType("char(36)");
 
-                    b.Property<decimal>("TaxRate")
-                        .HasColumnType("decimal(65,30)");
+                    b.Property<Guid>("TaxRateId")
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("SaleOrderId");
+
+                    b.HasIndex("TaxRateId");
 
                     b.ToTable("SaleOrderItems");
                 });
@@ -1430,8 +1431,14 @@ namespace ERPManagementSystem.Migrations
             modelBuilder.Entity("ERPManagementSystem.Models.SaleOrderItem", b =>
                 {
                     b.HasOne("ERPManagementSystem.Models.SaleOrder", "SaleOrder")
-                        .WithMany()
+                        .WithMany("SaleOrderItems")
                         .HasForeignKey("SaleOrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ERPManagementSystem.Models.TaxRate", "TaxRate")
+                        .WithMany()
+                        .HasForeignKey("TaxRateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

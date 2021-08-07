@@ -36,16 +36,17 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-12 col-md-6 col-lg-6">
-                        <div class="form-group">
-                            <label>Brand</label>
-                            <select asp-for="BrandId" asp-items="@ViewBag.Brand" class="form-control brand"> </select>
-                        </div>
-                    </div>
+
                     <div class="col-12 col-md-6 col-lg-6">
                         <div class="form-group">
                             <label>Sub Category</label>
                             <select asp-for="SubCategoryId" asp-items="@ViewBag.SubCategory" class="form-control subcategory"></select>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <label>Brand</label>
+                            <select asp-for="BrandId" asp-items="@ViewBag.Brand" class="form-control brand"> </select>
                         </div>
                     </div>
                 </div>

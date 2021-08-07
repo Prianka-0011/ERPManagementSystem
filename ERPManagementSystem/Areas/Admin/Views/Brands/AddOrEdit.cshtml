@@ -7,6 +7,12 @@
 <div class="container-fluid">
     <form asp-action="AddOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPost(this);" autocomplete="off">
         <div class="row">
+            <div class="col-md-10 offset-1 col-10 col-lg-10 offset-lg-1">
+                <div class="form-group">
+                    <label>Sub Category</label>
+                    <select asp-for="SubCategoryId" class="form-control" asp-items="ViewBag.SubCategory">   </select>
+                </div>
+            </div>
             <div class="col-md-10 offset-1 col-10 offset-md-1 col-lg-10 offset-lg-1">
                 <div class="form-group">
                     <input type="hidden" asp-for="Id" />
@@ -14,13 +20,8 @@
                     <input asp-for="Name" class="form-control" />
                 </div>
             </div>
-            <div class="col-md-10 offset-1 col-10 col-lg-10 offset-lg-1">
-                <div class="form-group">
-                    <label>Category</label>
-                    <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Category">   </select>
-                </div>
-            </div>
-            
+
+
         </div>
         <div class="row">
             <div class="col-md-10 offset-1 col-10 col-lg-10 offset-lg-1">

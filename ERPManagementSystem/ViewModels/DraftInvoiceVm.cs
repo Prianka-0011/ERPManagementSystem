@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ERPManagementSystem.ViewModels
 {
-    public class CheckOutVm
+    public class DraftInvoiceVm
     {
         public Guid Id { get; set; }
         public string OrderNo { get; set; }
@@ -21,12 +21,13 @@ namespace ERPManagementSystem.ViewModels
         public string PaymentMethod { get; set; }
         public decimal OrderTotal { get; set; }
         public decimal ShippingCost { get; set; }
+        public decimal GrossTotal { get; set; }
         public string Address { get; set; }
         public Guid CountryId { get; set; }
-        
+
         public Guid StateId { get; set; }
-       
+
         public Guid CityId { get; set; }
-        public List<StockProductVm> productVms { get; set; }
+        public List<StockProductVm> ProductVms { get; set; }
     }
 }

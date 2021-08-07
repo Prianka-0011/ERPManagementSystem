@@ -30,6 +30,7 @@ namespace ERPManagementSystem
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+           
             //start Session
             services.AddSession(options =>
             {
@@ -38,9 +39,9 @@ namespace ERPManagementSystem
                 options.Cookie.IsEssential = true;
             });
             services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseMySQL(Configuration.GetConnectionString("DefaultConnection")));
-                //options.UseSqlServer(
-                //    Configuration.GetConnectionString("DefaultConnection")));
+            options.UseMySql("server=localhost;port=3306;user=root;password=01985100851;database=ERPDatabase;"));
+            //options.UseSqlServer(
+            //    Configuration.GetConnectionString("DefaultConnection")));
             services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();

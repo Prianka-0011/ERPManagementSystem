@@ -1,0 +1,127 @@
+﻿@*@model ERPManagementSystem.Models.SaleOrder
+
+@{
+    ViewData["Title"] = "DraftInvoice";
+    Layout = null;
+}
+
+<div class="container-fluid">
+    <form asp-action="AddOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPostLargeModal(this);" enctype="multipart/form-data" autocomplete="off">
+        <div class="row">
+            <div class="col-md-4 col-lg-4 col-12">
+                <input type="hidden" asp-for="Id" />
+                <div class="form-group">
+                    <label>Customer</label>
+                    <input class="form-control" asp-for="DisplayName" />
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4 col-12">
+                <div class="form-group">
+                    <label>Sales Order No</label>
+                    <input asp-for="OrderNo" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-lg-4 col-12">
+                <div class="form-group">
+                    <label>Shipping Cost</label>
+                    <input asp-for="ShippingCost" class="form-control shippingcost" />
+                </div>
+            </div>
+           
+        </div>
+        <div class="row">
+           
+            <div class="col-md-4 col-lg-4 col-12">
+                <div class="form-group">
+                    <label>Delivery Date</label>
+                    <input asp-for="OrderDate" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+        </div>
+        <div class="lineitem">
+            <p>Add Line Item</p>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-lg-12 col-12">
+
+                @if (Model.SaleOrderItems != null && Model.SaleOrderItems.Count() > 0)
+                {
+                    <div class="table-wrapper-scroll-y custom-scrollbar">
+                        <table class="table datatable table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Product</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Tax Rate</th>
+                                    <th scope="col">Discount</th>
+                                    <th scope="col">Order Quantity</th>
+                                    <th scope="col">Sub Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int j = 0;
+                                }
+                                @foreach (var item in Model.SaleOrderItems)
+                                {
+                                  
+                                        <tr class="define">
+
+                                            <td>
+                                                <input type="hidden" asp-for="@Model.SaleOrderItems[j].Id" />
+                                            </td>
+                                            <td style="width: 13%">
+                                                <div class="form-group">
+                                                    <select asp-for="@Model.SaleOrderItems[j].ProductName" asp-items="ViewBag.Products" id="product" class="form-control"></select>
+                                                </div>
+                                            </td>
+                                           
+                                            <td>
+                                                <input asp-for="@Model.SaleOrderItems[j].Quantity" id="price" class="form-control" />
+                                            </td>
+                                            <td style="width: 13%">
+                                                <input type="hidden" asp-for="@Model.SaleOrderItems[j].ProductTotal" id="rate" class="form-control" />
+                                            </td>
+                                        </tr>
+                                    
+                                   
+
+                                    j++;
+                                }
+
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-1 col-3 col-lg-1">
+                            <a class="addBtn" id="addAnother"><i class="fas fa-plus"></i><span>Add</span></a>
+
+                        </div>
+                        <div class="col-md-1 col-3 col-lg-1 nopadding">
+                            <button type="submit" class="savebtn">Save</button>
+                        </div>
+
+                        <div class="col-md-2 col-lg-2 col-3  ml-auto">
+                            
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-3">
+                            <div class="form-group">
+                                <label>Net Total</label>
+                                <input id="subtotalOfThisOrder" readonly class="form-control" asp-for="OrderTotal" />
+                            </div>
+
+                        </div>
+                    </div>
+
+                }
+            </div>
+        </div>
+    </form>
+</div>*@

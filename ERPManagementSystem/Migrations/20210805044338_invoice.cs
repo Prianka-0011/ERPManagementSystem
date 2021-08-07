@@ -1,6 +1,6 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using MySql.EntityFrameworkCore.Metadata;
 
 namespace ERPManagementSystem.Migrations
 {
@@ -53,7 +53,7 @@ namespace ERPManagementSystem.Migrations
                 name: "AutoGenerateSerialNumbers",
                 columns: table => new
                 {
-                    Id = table.Column<byte[]>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
                     ModuleName = table.Column<string>(nullable: true),
                     SeialNo = table.Column<int>(nullable: false)
                 },
@@ -66,7 +66,7 @@ namespace ERPManagementSystem.Migrations
                 name: "Banners",
                 columns: table => new
                 {
-                    Id = table.Column<byte[]>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: false),
                     ImagePath = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
@@ -81,7 +81,7 @@ namespace ERPManagementSystem.Migrations
                 name: "Blogs",
                 columns: table => new
                 {
-                    Id = table.Column<byte[]>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Date = table.Column<string>(nullable: true),
                     ImagePath = table.Column<string>(nullable: true),
@@ -100,7 +100,7 @@ namespace ERPManagementSystem.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    Id = table.Column<byte[]>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: false),
                     CategoryStatus = table.Column<string>(nullable: true)
                 },
@@ -113,7 +113,7 @@ namespace ERPManagementSystem.Migrations
                 name: "Countries",
                 columns: table => new
                 {
-                    Id = table.Column<byte[]>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     CountryStatus = table.Column<string>(nullable: true)
                 },
@@ -126,7 +126,7 @@ namespace ERPManagementSystem.Migrations
                 name: "Currencies",
                 columns: table => new
                 {
-                    Id = table.Column<byte[]>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
                     CurrencyName = table.Column<string>(nullable: true),
                     CurrencyStatus = table.Column<string>(nullable: true)
                 },
@@ -139,7 +139,7 @@ namespace ERPManagementSystem.Migrations
                 name: "Customers",
                 columns: table => new
                 {
-                    Id = table.Column<byte[]>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
                     FirstName = table.Column<string>(nullable: false),
                     LastName = table.Column<string>(nullable: false),
                     Email = table.Column<string>(nullable: true),
@@ -157,7 +157,7 @@ namespace ERPManagementSystem.Migrations
                 name: "Designations",
                 columns: table => new
                 {
-                    Id = table.Column<byte[]>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Salary = table.Column<decimal>(nullable: false),
                     DesignationStatus = table.Column<string>(nullable: true)
@@ -168,10 +168,35 @@ namespace ERPManagementSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Invoices",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    InvoiceNo = table.Column<string>(nullable: true),
+                    InvoiceDate = table.Column<DateTime>(nullable: false),
+                    DueDate = table.Column<DateTime>(nullable: false),
+                    CustomerName = table.Column<string>(nullable: true),
+                    OrderNote = table.Column<string>(nullable: true),
+                    Phone = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    PaymentMethod = table.Column<string>(nullable: true),
+                    PaymentStatus = table.Column<string>(nullable: true),
+                    TotalAmount = table.Column<decimal>(nullable: false),
+                    DueAmount = table.Column<decimal>(nullable: false),
+                    ShippingCost = table.Column<decimal>(nullable: false),
+                    Address = table.Column<string>(nullable: true),
+                    SaleOrderStatus = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Invoices", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ShippingCharges",
                 columns: table => new
                 {
-                    Id = table.Column<byte[]>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
                     BaseCharge = table.Column<decimal>(nullable: false),
                     IncreaeChargePerProduct = table.Column<decimal>(nullable: false),
                     ShippingChargeStatus = table.Column<string>(nullable: true)
@@ -185,7 +210,7 @@ namespace ERPManagementSystem.Migrations
                 name: "TaxRates",
                 columns: table => new
                 {
-                    Id = table.Column<byte[]>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Rate = table.Column<decimal>(nullable: false),
                     TaxRateStatus = table.Column<string>(nullable: true)
@@ -199,7 +224,7 @@ namespace ERPManagementSystem.Migrations
                 name: "Vendors",
                 columns: table => new
                 {
-                    Id = table.Column<byte[]>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
                     FristName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     CompanyName = table.Column<string>(nullable: false),
@@ -221,7 +246,7 @@ namespace ERPManagementSystem.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     RoleId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -242,7 +267,7 @@ namespace ERPManagementSystem.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -323,33 +348,13 @@ namespace ERPManagementSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Brands",
-                columns: table => new
-                {
-                    Id = table.Column<byte[]>(nullable: false),
-                    Name = table.Column<string>(nullable: false),
-                    BrandStatus = table.Column<string>(nullable: true),
-                    CategoryId = table.Column<byte[]>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Brands", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Brands_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "SubCategories",
                 columns: table => new
                 {
-                    Id = table.Column<byte[]>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: false),
                     SubCategoryStatus = table.Column<string>(nullable: true),
-                    CategoryId = table.Column<byte[]>(nullable: false)
+                    CategoryId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -366,10 +371,10 @@ namespace ERPManagementSystem.Migrations
                 name: "States",
                 columns: table => new
                 {
-                    Id = table.Column<byte[]>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     StateStatus = table.Column<string>(nullable: true),
-                    CountryId = table.Column<byte[]>(nullable: false)
+                    CountryId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -386,7 +391,7 @@ namespace ERPManagementSystem.Migrations
                 name: "Employees",
                 columns: table => new
                 {
-                    Id = table.Column<byte[]>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
@@ -396,7 +401,7 @@ namespace ERPManagementSystem.Migrations
                     ReviewSalary = table.Column<decimal>(nullable: false),
                     EmployeeStatus = table.Column<string>(nullable: true),
                     RoleId = table.Column<string>(nullable: true),
-                    DesignationId = table.Column<byte[]>(nullable: false)
+                    DesignationId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -410,33 +415,24 @@ namespace ERPManagementSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Invoices",
+                name: "InvoiceItems",
                 columns: table => new
                 {
-                    Id = table.Column<byte[]>(nullable: false),
-                    InvoiceNo = table.Column<string>(nullable: true),
-                    OrderDate = table.Column<DateTime>(nullable: false),
-                    DeliveryDate = table.Column<DateTime>(nullable: false),
-                    ShippingCost = table.Column<decimal>(nullable: false),
-                    PurchaseOrderStatus = table.Column<string>(nullable: true),
-                    Discont = table.Column<decimal>(nullable: false),
-                    TotalAmount = table.Column<decimal>(nullable: false),
-                    VendorId = table.Column<byte[]>(nullable: false),
-                    CurrencyId = table.Column<byte[]>(nullable: true)
+                    Id = table.Column<Guid>(nullable: false),
+                    ProductName = table.Column<string>(nullable: true),
+                    ProductPrice = table.Column<string>(nullable: true),
+                    ProductSerial = table.Column<string>(nullable: true),
+                    Quantity = table.Column<int>(nullable: false),
+                    ProductTotal = table.Column<int>(nullable: false),
+                    InvoiceId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Invoices", x => x.Id);
+                    table.PrimaryKey("PK_InvoiceItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Invoices_Currencies_CurrencyId",
-                        column: x => x.CurrencyId,
-                        principalTable: "Currencies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Invoices_Vendors_VendorId",
-                        column: x => x.VendorId,
-                        principalTable: "Vendors",
+                        name: "FK_InvoiceItems_Invoices_InvoiceId",
+                        column: x => x.InvoiceId,
+                        principalTable: "Invoices",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -445,7 +441,7 @@ namespace ERPManagementSystem.Migrations
                 name: "PurchaseOrders",
                 columns: table => new
                 {
-                    Id = table.Column<byte[]>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
                     PurchaseNo = table.Column<string>(nullable: true),
                     OrderDate = table.Column<DateTime>(nullable: false),
                     DeliveryDate = table.Column<DateTime>(nullable: false),
@@ -453,8 +449,8 @@ namespace ERPManagementSystem.Migrations
                     PurchaseOrderStatus = table.Column<string>(nullable: true),
                     Discont = table.Column<decimal>(nullable: false),
                     TotalAmount = table.Column<decimal>(nullable: false),
-                    VendorId = table.Column<byte[]>(nullable: false),
-                    CurrencyId = table.Column<byte[]>(nullable: true)
+                    VendorId = table.Column<Guid>(nullable: false),
+                    CurrencyId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -477,13 +473,13 @@ namespace ERPManagementSystem.Migrations
                 name: "Quotations",
                 columns: table => new
                 {
-                    Id = table.Column<byte[]>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
                     QuotationNo = table.Column<string>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false),
                     ShippingCost = table.Column<decimal>(nullable: false),
                     QuotatonStatus = table.Column<string>(nullable: true),
-                    VendorId = table.Column<byte[]>(nullable: false),
-                    CurrencyId = table.Column<byte[]>(nullable: false)
+                    VendorId = table.Column<Guid>(nullable: false),
+                    CurrencyId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -503,18 +499,90 @@ namespace ERPManagementSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "VendordBills",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    InvoiceNo = table.Column<string>(nullable: true),
+                    OrderDate = table.Column<DateTime>(nullable: false),
+                    DeliveryDate = table.Column<DateTime>(nullable: false),
+                    ShippingCost = table.Column<decimal>(nullable: false),
+                    PurchaseOrderStatus = table.Column<string>(nullable: true),
+                    Discont = table.Column<decimal>(nullable: false),
+                    TotalAmount = table.Column<decimal>(nullable: false),
+                    VendorId = table.Column<Guid>(nullable: false),
+                    CurrencyId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VendordBills", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_VendordBills_Currencies_CurrencyId",
+                        column: x => x.CurrencyId,
+                        principalTable: "Currencies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_VendordBills_Vendors_VendorId",
+                        column: x => x.VendorId,
+                        principalTable: "Vendors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Brands",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
+                    BrandStatus = table.Column<string>(nullable: true),
+                    SubCategoryId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Brands", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Brands_SubCategories_SubCategoryId",
+                        column: x => x.SubCategoryId,
+                        principalTable: "SubCategories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Cities",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    CityStatus = table.Column<string>(nullable: true),
+                    StateId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cities", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Cities_States_StateId",
+                        column: x => x.StateId,
+                        principalTable: "States",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
-                    Id = table.Column<byte[]>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: false),
                     ProductSerial = table.Column<string>(nullable: true),
                     ImagePath = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     ProductStatus = table.Column<string>(nullable: true),
-                    CategoryId = table.Column<byte[]>(nullable: false),
-                    SubCategoryId = table.Column<byte[]>(nullable: false),
-                    BrandId = table.Column<byte[]>(nullable: false)
+                    CategoryId = table.Column<Guid>(nullable: false),
+                    SubCategoryId = table.Column<Guid>(nullable: false),
+                    BrandId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -540,221 +608,15 @@ namespace ERPManagementSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Cities",
-                columns: table => new
-                {
-                    Id = table.Column<byte[]>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    CityStatus = table.Column<string>(nullable: true),
-                    StateId = table.Column<byte[]>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Cities", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Cities_States_StateId",
-                        column: x => x.StateId,
-                        principalTable: "States",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Galleries",
-                columns: table => new
-                {
-                    Id = table.Column<byte[]>(nullable: false),
-                    ImagePath = table.Column<string>(nullable: true),
-                    Status = table.Column<string>(nullable: true),
-                    ProductId = table.Column<byte[]>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Galleries", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Galleries_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "InvoiceItems",
-                columns: table => new
-                {
-                    Id = table.Column<byte[]>(nullable: false),
-                    Color = table.Column<string>(nullable: true),
-                    Size = table.Column<string>(nullable: true),
-                    Price = table.Column<decimal>(nullable: true),
-                    Discount = table.Column<decimal>(nullable: true),
-                    Rate = table.Column<decimal>(nullable: true),
-                    SalePrice = table.Column<decimal>(nullable: true),
-                    PreviousPrice = table.Column<decimal>(nullable: true),
-                    PerProductCost = table.Column<decimal>(nullable: true),
-                    OrderQuantity = table.Column<int>(nullable: true),
-                    ReceiveQuantity = table.Column<int>(nullable: true),
-                    DueQuantity = table.Column<int>(nullable: true),
-                    TotalCost = table.Column<decimal>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    ShortDescription = table.Column<string>(nullable: true),
-                    ImgPath = table.Column<string>(nullable: true),
-                    ItemStatus = table.Column<string>(nullable: true),
-                    PurchaseOrderId = table.Column<byte[]>(nullable: true),
-                    ProductId = table.Column<byte[]>(nullable: true),
-                    TaxRateId = table.Column<byte[]>(nullable: true),
-                    QuotationId = table.Column<byte[]>(nullable: true),
-                    InvoiceId = table.Column<byte[]>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_InvoiceItems", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_InvoiceItems_Invoices_InvoiceId",
-                        column: x => x.InvoiceId,
-                        principalTable: "Invoices",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_InvoiceItems_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_InvoiceItems_PurchaseOrders_PurchaseOrderId",
-                        column: x => x.PurchaseOrderId,
-                        principalTable: "PurchaseOrders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_InvoiceItems_Quotations_QuotationId",
-                        column: x => x.QuotationId,
-                        principalTable: "Quotations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_InvoiceItems_TaxRates_TaxRateId",
-                        column: x => x.TaxRateId,
-                        principalTable: "TaxRates",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PurchaseOrderLineItems",
-                columns: table => new
-                {
-                    Id = table.Column<byte[]>(nullable: false),
-                    Color = table.Column<string>(nullable: true),
-                    Size = table.Column<string>(nullable: true),
-                    Price = table.Column<decimal>(nullable: true),
-                    Discount = table.Column<decimal>(nullable: true),
-                    Rate = table.Column<decimal>(nullable: true),
-                    SalePrice = table.Column<decimal>(nullable: true),
-                    PreviousPrice = table.Column<decimal>(nullable: true),
-                    PerProductCost = table.Column<decimal>(nullable: true),
-                    OrderQuantity = table.Column<int>(nullable: true),
-                    ReceiveQuantity = table.Column<int>(nullable: true),
-                    DueQuantity = table.Column<int>(nullable: true),
-                    TotalCost = table.Column<decimal>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    ShortDescription = table.Column<string>(nullable: true),
-                    ImgPath = table.Column<string>(nullable: true),
-                    ItemStatus = table.Column<string>(nullable: true),
-                    PurchaseOrderId = table.Column<byte[]>(nullable: true),
-                    ProductId = table.Column<byte[]>(nullable: true),
-                    TaxRateId = table.Column<byte[]>(nullable: true),
-                    QuotationId = table.Column<byte[]>(nullable: true),
-                    InvoiceId = table.Column<byte[]>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PurchaseOrderLineItems", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_PurchaseOrderLineItems_Invoices_InvoiceId",
-                        column: x => x.InvoiceId,
-                        principalTable: "Invoices",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_PurchaseOrderLineItems_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_PurchaseOrderLineItems_PurchaseOrders_PurchaseOrderId",
-                        column: x => x.PurchaseOrderId,
-                        principalTable: "PurchaseOrders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_PurchaseOrderLineItems_Quotations_QuotationId",
-                        column: x => x.QuotationId,
-                        principalTable: "Quotations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_PurchaseOrderLineItems_TaxRates_TaxRateId",
-                        column: x => x.TaxRateId,
-                        principalTable: "TaxRates",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "QuotationLineItems",
-                columns: table => new
-                {
-                    Id = table.Column<byte[]>(nullable: false),
-                    Color = table.Column<string>(nullable: true),
-                    Size = table.Column<string>(nullable: true),
-                    Price = table.Column<decimal>(nullable: false),
-                    Discount = table.Column<decimal>(nullable: false),
-                    Rate = table.Column<decimal>(nullable: false),
-                    PerProductCost = table.Column<decimal>(nullable: false),
-                    Quantity = table.Column<int>(nullable: false),
-                    TotalCost = table.Column<decimal>(nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    ImgPath = table.Column<string>(nullable: true),
-                    ProductId = table.Column<byte[]>(nullable: false),
-                    QuotationId = table.Column<byte[]>(nullable: false),
-                    TaxRateId = table.Column<byte[]>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_QuotationLineItems", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_QuotationLineItems_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_QuotationLineItems_Quotations_QuotationId",
-                        column: x => x.QuotationId,
-                        principalTable: "Quotations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_QuotationLineItems_TaxRates_TaxRateId",
-                        column: x => x.TaxRateId,
-                        principalTable: "TaxRates",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "SaleOrders",
                 columns: table => new
                 {
-                    Id = table.Column<byte[]>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
                     OrderNo = table.Column<string>(nullable: true),
                     OrderDate = table.Column<DateTime>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
-                    CompanyName = table.Column<string>(nullable: true),
+                    DisplayName = table.Column<string>(nullable: true),
                     OrderNote = table.Column<string>(nullable: true),
                     Phone = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
@@ -763,9 +625,9 @@ namespace ERPManagementSystem.Migrations
                     ShippingCost = table.Column<decimal>(nullable: false),
                     Address = table.Column<string>(nullable: true),
                     SaleOrderStatus = table.Column<string>(nullable: true),
-                    CountryId = table.Column<byte[]>(nullable: false),
-                    StateId = table.Column<byte[]>(nullable: false),
-                    CityId = table.Column<byte[]>(nullable: false)
+                    CountryId = table.Column<Guid>(nullable: false),
+                    StateId = table.Column<Guid>(nullable: false),
+                    CityId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -791,10 +653,227 @@ namespace ERPManagementSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Galleries",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    ImagePath = table.Column<string>(nullable: true),
+                    Status = table.Column<string>(nullable: true),
+                    ProductId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Galleries", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Galleries_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PurchaseOrderLineItems",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Color = table.Column<string>(nullable: true),
+                    Size = table.Column<string>(nullable: true),
+                    Price = table.Column<decimal>(nullable: true),
+                    Discount = table.Column<decimal>(nullable: true),
+                    Rate = table.Column<decimal>(nullable: true),
+                    SalePrice = table.Column<decimal>(nullable: true),
+                    PreviousPrice = table.Column<decimal>(nullable: true),
+                    PerProductCost = table.Column<decimal>(nullable: true),
+                    OrderQuantity = table.Column<int>(nullable: true),
+                    ReceiveQuantity = table.Column<int>(nullable: true),
+                    DueQuantity = table.Column<int>(nullable: true),
+                    TotalCost = table.Column<decimal>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    ShortDescription = table.Column<string>(nullable: true),
+                    ImgPath = table.Column<string>(nullable: true),
+                    ItemStatus = table.Column<string>(nullable: true),
+                    PurchaseOrderId = table.Column<Guid>(nullable: true),
+                    ProductId = table.Column<Guid>(nullable: true),
+                    TaxRateId = table.Column<Guid>(nullable: true),
+                    QuotationId = table.Column<Guid>(nullable: true),
+                    VendordBillId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PurchaseOrderLineItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PurchaseOrderLineItems_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PurchaseOrderLineItems_PurchaseOrders_PurchaseOrderId",
+                        column: x => x.PurchaseOrderId,
+                        principalTable: "PurchaseOrders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PurchaseOrderLineItems_Quotations_QuotationId",
+                        column: x => x.QuotationId,
+                        principalTable: "Quotations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PurchaseOrderLineItems_TaxRates_TaxRateId",
+                        column: x => x.TaxRateId,
+                        principalTable: "TaxRates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PurchaseOrderLineItems_VendordBills_VendordBillId",
+                        column: x => x.VendordBillId,
+                        principalTable: "VendordBills",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "QuotationLineItems",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Color = table.Column<string>(nullable: true),
+                    Size = table.Column<string>(nullable: true),
+                    Price = table.Column<decimal>(nullable: false),
+                    Discount = table.Column<decimal>(nullable: false),
+                    Rate = table.Column<decimal>(nullable: false),
+                    PerProductCost = table.Column<decimal>(nullable: false),
+                    Quantity = table.Column<int>(nullable: false),
+                    TotalCost = table.Column<decimal>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    ImgPath = table.Column<string>(nullable: true),
+                    ProductId = table.Column<Guid>(nullable: false),
+                    QuotationId = table.Column<Guid>(nullable: false),
+                    TaxRateId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuotationLineItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_QuotationLineItems_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_QuotationLineItems_Quotations_QuotationId",
+                        column: x => x.QuotationId,
+                        principalTable: "Quotations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_QuotationLineItems_TaxRates_TaxRateId",
+                        column: x => x.TaxRateId,
+                        principalTable: "TaxRates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "VendorBillsItems",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Color = table.Column<string>(nullable: true),
+                    Size = table.Column<string>(nullable: true),
+                    Price = table.Column<decimal>(nullable: true),
+                    Discount = table.Column<decimal>(nullable: true),
+                    Rate = table.Column<decimal>(nullable: true),
+                    SalePrice = table.Column<decimal>(nullable: true),
+                    PreviousPrice = table.Column<decimal>(nullable: true),
+                    PerProductCost = table.Column<decimal>(nullable: true),
+                    OrderQuantity = table.Column<int>(nullable: true),
+                    ReceiveQuantity = table.Column<int>(nullable: true),
+                    DueQuantity = table.Column<int>(nullable: true),
+                    TotalCost = table.Column<decimal>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    ShortDescription = table.Column<string>(nullable: true),
+                    ImgPath = table.Column<string>(nullable: true),
+                    ItemStatus = table.Column<string>(nullable: true),
+                    PurchaseOrderId = table.Column<Guid>(nullable: true),
+                    ProductId = table.Column<Guid>(nullable: true),
+                    TaxRateId = table.Column<Guid>(nullable: true),
+                    QuotationId = table.Column<Guid>(nullable: true),
+                    InvoiceId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VendorBillsItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_VendorBillsItems_Invoices_InvoiceId",
+                        column: x => x.InvoiceId,
+                        principalTable: "Invoices",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_VendorBillsItems_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_VendorBillsItems_PurchaseOrders_PurchaseOrderId",
+                        column: x => x.PurchaseOrderId,
+                        principalTable: "PurchaseOrders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_VendorBillsItems_Quotations_QuotationId",
+                        column: x => x.QuotationId,
+                        principalTable: "Quotations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_VendorBillsItems_TaxRates_TaxRateId",
+                        column: x => x.TaxRateId,
+                        principalTable: "TaxRates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SaleOrderItems",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    ProductName = table.Column<string>(nullable: true),
+                    ProductSerial = table.Column<string>(nullable: true),
+                    Price = table.Column<decimal>(nullable: false),
+                    Quantity = table.Column<int>(nullable: false),
+                    ProductTotal = table.Column<int>(nullable: false),
+                    SaleItemStatus = table.Column<string>(nullable: true),
+                    SaleOrderId = table.Column<Guid>(nullable: false),
+                    TaxRateId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SaleOrderItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SaleOrderItems_SaleOrders_SaleOrderId",
+                        column: x => x.SaleOrderId,
+                        principalTable: "SaleOrders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SaleOrderItems_TaxRates_TaxRateId",
+                        column: x => x.TaxRateId,
+                        principalTable: "TaxRates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "StockProducts",
                 columns: table => new
                 {
-                    Id = table.Column<byte[]>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
                     Color = table.Column<string>(nullable: true),
                     Size = table.Column<string>(nullable: true),
                     CurrencyName = table.Column<string>(nullable: true),
@@ -807,8 +886,8 @@ namespace ERPManagementSystem.Migrations
                     Description = table.Column<string>(nullable: true),
                     ImgPath = table.Column<string>(nullable: true),
                     StockProductStatus = table.Column<string>(nullable: true),
-                    PurchaseOrderLineItemId = table.Column<byte[]>(nullable: false),
-                    ProductId = table.Column<byte[]>(nullable: false)
+                    PurchaseOrderLineItemId = table.Column<Guid>(nullable: false),
+                    ProductId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -823,28 +902,6 @@ namespace ERPManagementSystem.Migrations
                         name: "FK_StockProducts_PurchaseOrderLineItems_PurchaseOrderLineItemId",
                         column: x => x.PurchaseOrderLineItemId,
                         principalTable: "PurchaseOrderLineItems",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "SaleOrderItems",
-                columns: table => new
-                {
-                    Id = table.Column<byte[]>(nullable: false),
-                    ProductName = table.Column<string>(nullable: true),
-                    ProductSerial = table.Column<string>(nullable: true),
-                    quantity = table.Column<int>(nullable: false),
-                    ProductTotal = table.Column<int>(nullable: false),
-                    SaleOrderId = table.Column<byte[]>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SaleOrderItems", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_SaleOrderItems_SaleOrders_SaleOrderId",
-                        column: x => x.SaleOrderId,
-                        principalTable: "SaleOrders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -887,9 +944,9 @@ namespace ERPManagementSystem.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Brands_CategoryId",
+                name: "IX_Brands_SubCategoryId",
                 table: "Brands",
-                column: "CategoryId");
+                column: "SubCategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cities_StateId",
@@ -912,36 +969,6 @@ namespace ERPManagementSystem.Migrations
                 column: "InvoiceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_InvoiceItems_ProductId",
-                table: "InvoiceItems",
-                column: "ProductId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_InvoiceItems_PurchaseOrderId",
-                table: "InvoiceItems",
-                column: "PurchaseOrderId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_InvoiceItems_QuotationId",
-                table: "InvoiceItems",
-                column: "QuotationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_InvoiceItems_TaxRateId",
-                table: "InvoiceItems",
-                column: "TaxRateId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Invoices_CurrencyId",
-                table: "Invoices",
-                column: "CurrencyId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Invoices_VendorId",
-                table: "Invoices",
-                column: "VendorId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Products_BrandId",
                 table: "Products",
                 column: "BrandId");
@@ -955,11 +982,6 @@ namespace ERPManagementSystem.Migrations
                 name: "IX_Products_SubCategoryId",
                 table: "Products",
                 column: "SubCategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PurchaseOrderLineItems_InvoiceId",
-                table: "PurchaseOrderLineItems",
-                column: "InvoiceId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PurchaseOrderLineItems_ProductId",
@@ -980,6 +1002,11 @@ namespace ERPManagementSystem.Migrations
                 name: "IX_PurchaseOrderLineItems_TaxRateId",
                 table: "PurchaseOrderLineItems",
                 column: "TaxRateId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PurchaseOrderLineItems_VendordBillId",
+                table: "PurchaseOrderLineItems",
+                column: "VendordBillId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PurchaseOrders_CurrencyId",
@@ -1022,6 +1049,11 @@ namespace ERPManagementSystem.Migrations
                 column: "SaleOrderId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SaleOrderItems_TaxRateId",
+                table: "SaleOrderItems",
+                column: "TaxRateId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SaleOrders_CityId",
                 table: "SaleOrders",
                 column: "CityId");
@@ -1055,6 +1087,41 @@ namespace ERPManagementSystem.Migrations
                 name: "IX_SubCategories_CategoryId",
                 table: "SubCategories",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VendorBillsItems_InvoiceId",
+                table: "VendorBillsItems",
+                column: "InvoiceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VendorBillsItems_ProductId",
+                table: "VendorBillsItems",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VendorBillsItems_PurchaseOrderId",
+                table: "VendorBillsItems",
+                column: "PurchaseOrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VendorBillsItems_QuotationId",
+                table: "VendorBillsItems",
+                column: "QuotationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VendorBillsItems_TaxRateId",
+                table: "VendorBillsItems",
+                column: "TaxRateId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VendordBills_CurrencyId",
+                table: "VendordBills",
+                column: "CurrencyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VendordBills_VendorId",
+                table: "VendordBills",
+                column: "VendorId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -1108,6 +1175,9 @@ namespace ERPManagementSystem.Migrations
                 name: "StockProducts");
 
             migrationBuilder.DropTable(
+                name: "VendorBillsItems");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -1123,10 +1193,10 @@ namespace ERPManagementSystem.Migrations
                 name: "PurchaseOrderLineItems");
 
             migrationBuilder.DropTable(
-                name: "Cities");
+                name: "Invoices");
 
             migrationBuilder.DropTable(
-                name: "Invoices");
+                name: "Cities");
 
             migrationBuilder.DropTable(
                 name: "Products");
@@ -1141,13 +1211,13 @@ namespace ERPManagementSystem.Migrations
                 name: "TaxRates");
 
             migrationBuilder.DropTable(
+                name: "VendordBills");
+
+            migrationBuilder.DropTable(
                 name: "States");
 
             migrationBuilder.DropTable(
                 name: "Brands");
-
-            migrationBuilder.DropTable(
-                name: "SubCategories");
 
             migrationBuilder.DropTable(
                 name: "Currencies");
@@ -1157,6 +1227,9 @@ namespace ERPManagementSystem.Migrations
 
             migrationBuilder.DropTable(
                 name: "Countries");
+
+            migrationBuilder.DropTable(
+                name: "SubCategories");
 
             migrationBuilder.DropTable(
                 name: "Categories");

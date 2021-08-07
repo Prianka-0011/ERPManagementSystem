@@ -9,18 +9,23 @@ namespace ERPManagementSystem.Models
     {
         public Guid Id { get; set; }
         public string InvoiceNo { get; set; }
-        public DateTime OrderDate { get; set; }
-        public DateTime DeliveryDate { get; set; }
-        public decimal ShippingCost { get; set; }
-        public string PurchaseOrderStatus { get; set; }
-        public decimal Discont { get; set; }
+        public DateTime InvoiceDate { get; set; }
+        public DateTime DueDate { get; set; }
+     
+        public string CustomerName { get; set; }
+        public string OrderNote { get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
+        public string PaymentMethod { get; set; }
+        public string PaymentStatus { get; set; }
         public decimal TotalAmount { get; set; }
-        //Navigation
-        public Guid VendorId { get; set; }
-        public Vendor Vendor { get; set; }
-        public Guid? CurrencyId { get; set; }
+        public decimal DueAmount { get; set; }
 
-        public Currency Currency { get; set; }
-        public List<PurchaseOrderLineItem> PurchaseOrderLineItems { get; set; }
+        public decimal ShippingCost { get; set; }
+        public string Address { get; set; }
+        public string SaleOrderStatus { get; set; }
+        public List<InvoiceItem> InvoiceItems { get; set; }
+
+
     }
 }
