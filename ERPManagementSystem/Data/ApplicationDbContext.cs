@@ -42,6 +42,11 @@ namespace ERPManagementSystem.Data
         //hrm table
         public virtual DbSet<Designation> Designations { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
+        //Account 
+        public virtual DbSet<Invoice> Invoices { get; set; }
+        public virtual DbSet<InvoiceItem> InvoiceItems { get; set; }
+        public virtual DbSet<VendordBill> VendordBills { get; set; }
+        public virtual DbSet<VendorBillsItem> VendorBillsItems { get; set; }
 
 
     }

@@ -235,7 +235,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
         [HttpGet("/Products/GetAllBrand")]
         public IActionResult GetAllBrand(Guid id)
         {
-            var brand = _context.Brands.Where(c => c.CategoryId == id).ToList();
+            var brand = _context.Brands.Where(c => c.SubCategoryId == id).ToList();
             return Json(brand);
         }
     }

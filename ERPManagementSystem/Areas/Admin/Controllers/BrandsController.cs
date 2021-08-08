@@ -25,7 +25,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
         public async Task<IActionResult> Index(int pg, string sortOrder, string searchString)
         {
             ViewBag.brandnam = string.IsNullOrEmpty(sortOrder) ? "prod_desc" : "";
-            var brand = _context.Brands.Include(d=>d.Category).Where(c => c.BrandStatus == "Enable");
+            var brand = _context.Brands.Include(d=>d.SubCategory).Where(c => c.BrandStatus == "Enable");
             switch (sortOrder)
             {
                 case "prod_desc":
@@ -37,7 +37,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
             }
             if (!string.IsNullOrEmpty(searchString))
             {
-                brand = _context.Brands.Include(d => d.Category).Where(c => c.BrandStatus == "Enable" && c.Name.ToLower().Contains(searchString.ToLower()));
+                brand = _context.Brands.Include(d => d.SubCategory).Where(c => c.BrandStatus == "Enable" && c.Name.ToLower().Contains(searchString.ToLower()));
             }
             const int pageSize = 10;
             if (pg < 1)
@@ -59,7 +59,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
         {
             if (id == Guid.Parse("00000000-0000-0000-0000-000000000000"))
             {
-                ViewData["Category"] = new SelectList(_context.Categories.ToList(), "Id", "Name");
+                ViewData["SubCategory"] = new SelectList(_context.SubCategories.ToList(), "Id", "Name");
                 return View(new Brand());
             }
 
@@ -70,7 +70,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 {
                     return NotFound();
                 }
-                ViewData["Category"] = new SelectList(_context.Categories.ToList(), "Id", "Name");
+                ViewData["SubCategory"] = new SelectList(_context.SubCategories.ToList(), "Id", "Name");
                 return View(brand);
             }
 
@@ -87,7 +87,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     entity = new Brand();
                     entity.Id = Guid.NewGuid();
                     entity.Name = brand.Name;
-                    entity.CategoryId = brand.CategoryId;
+                    entity.SubCategoryId = brand.SubCategoryId;
                     entity.BrandStatus = brand.BrandStatus;
                     _context.Add(entity);
                     await _context.SaveChangesAsync();
@@ -99,7 +99,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     {
                         entity = await _context.Brands.FindAsync(brand.Id);
                         entity.Name = brand.Name;
-                        entity.CategoryId = brand.CategoryId;
+                        entity.SubCategoryId = brand.SubCategoryId;
                         entity.BrandStatus = brand.BrandStatus;
                         _context.Update(entity);
                         await _context.SaveChangesAsync();
@@ -109,7 +109,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
 
                     }
                 }
-                var brandData = _context.Brands.Include(d=>d.Category).Where(c => c.BrandStatus == "Enable");
+                var brandData = _context.Brands.Include(d=>d.SubCategory).Where(c => c.BrandStatus == "Enable");
                 int pg = 1;
                 const int pageSize = 10;
                 if (pg < 1)

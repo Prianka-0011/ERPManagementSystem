@@ -13,13 +13,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20210702063928_addalltable.cs" />
-    <Compile Remove="Migrations\20210702063928_addalltable.Designer.cs" />
+    <Content Remove="wwwroot\Reports\PurchaseOrder.rdlc" />
+    <Content Remove="wwwroot\Reports\PurchaseOrderMasterDetail.rdlc" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\Reports\PurchaseOrder.rdlc" />
-    <Content Remove="wwwroot\Reports\PurchaseOrderMasterDetail.rdlc" />
+    <None Remove="Models\InvoiceModel.cs~RF179e342.TMP" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,14 +32,13 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.15" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.15" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.9" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.15">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.2.1" />
     <PackageReference Include="System.CodeDom" Version="5.0.0" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
     <PackageReference Include="X.PagedList.Mvc.Core" Version="7.6.0" />
   </ItemGroup>
 

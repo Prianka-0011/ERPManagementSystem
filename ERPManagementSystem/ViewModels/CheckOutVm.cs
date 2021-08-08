@@ -8,10 +8,11 @@ namespace ERPManagementSystem.ViewModels
     public class CheckOutVm
     {
         public Guid Id { get; set; }
-        public string OderNo { get; set; }
+        public string OrderNo { get; set; }
+        public string OrderDate { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string CompanyName { get; set; }
+        public string DisplayName { get; set; }
         public string OrderNote { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }

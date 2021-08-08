@@ -223,7 +223,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     await _context.SaveChangesAsync();
                   
                 }
-                catch (DbUpdateConcurrencyException ex)
+                catch (DbUpdateConcurrencyExceptio ex)
                 {
 
                 }

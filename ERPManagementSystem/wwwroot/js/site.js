@@ -126,9 +126,9 @@ ShowInLargePopup = (url, title) => {
             
             //$(".subcategory").v.empty();
             //$(".brand").empty();
-            $(".category").change(function (e) {
+            $(".category").click(function (e) {
                 var selectedCategoryId = $(".category option:selected").val();
-                
+
                 $(".subcategory").empty();
                 $(".brand").empty();
                 $.ajax({
@@ -146,8 +146,14 @@ ShowInLargePopup = (url, title) => {
                         console.log(res);
                     }
                 })
+           
+                             
+            })
+            $(".subcategory").click(function (e) {
+                $(".brand").empty();
+                var selectedSubCategoryId = $(".subcategory option:selected").val();
                 $.ajax({
-                    url: '/Products/GetAllBrand/?id=' + selectedCategoryId,
+                    url: '/Products/GetAllBrand/?id=' + selectedSubCategoryId,
                     type: 'GET',
                     dataType: 'JSON',
                     success: function (data) {
@@ -160,8 +166,9 @@ ShowInLargePopup = (url, title) => {
                     error: function (res) {
                         console.log(res);
                     }
-                })                
+                })
             })
+
             //just for this portion i add 2 popup function
         }
     });        

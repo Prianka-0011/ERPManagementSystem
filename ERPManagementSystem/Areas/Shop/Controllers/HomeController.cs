@@ -104,9 +104,15 @@ namespace ERPManagementSystem.Areas.Shop.Controllers
                 subtotal = subtotal + item.ProductTotal;
                 squantity = item.CartQuantity + squantity;
             }
+            decimal finalCharge = 0;
+            decimal scharge2 = 0;
             var shippingCharge = _context.ShippingCharges.FirstOrDefault();
-            var scharge2 = ((squantity - 1) * shippingCharge.IncreaeChargePerProduct) + shippingCharge.BaseCharge;
-            var finalCharge = scharge2;
+            if (shippingCharge!=null)
+            {
+                 scharge2 = ((squantity - 1) * shippingCharge.IncreaeChargePerProduct) + shippingCharge.BaseCharge;
+                 finalCharge = scharge2;
+            }
+         
           
             products.Add(productVm);
             HttpContext.Session.Set("products", products);

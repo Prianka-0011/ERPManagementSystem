@@ -12,7 +12,7 @@ namespace ERPManagementSystem.Models
         public DateTime OrderDate { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string CompanyName { get; set; }
+        public string DisplayName { get; set; }
         public string OrderNote { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
@@ -27,7 +27,8 @@ namespace ERPManagementSystem.Models
         public State State { get; set; }
         public Guid CityId { get; set; }
         public City City { get; set; }
-        
+
+    
 
     }
 }
