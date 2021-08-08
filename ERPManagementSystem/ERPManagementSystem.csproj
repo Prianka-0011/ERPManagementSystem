@@ -49,6 +49,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Areas\Admin\Views\AutoGenerateSerialNumbers\AddOrEdit.cshtml" />
+    <None Include="Areas\Admin\Views\AutoGenerateSerialNumbers\Index.cshtml" />
+    <None Include="Areas\Admin\Views\AutoGenerateSerialNumbers\_ViewAllAutoGenerateSerialNumber.cshtml" />
     <None Include="Areas\Admin\Views\TaxRates\AddOrEdit.cshtml" />
     <None Include="Areas\Admin\Views\TaxRates\Index.cshtml" />
     <None Include="Areas\Admin\Views\TaxRates\_ViewAllTaxRate.cshtml" />

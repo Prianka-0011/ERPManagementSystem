@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+
 using System.Linq;
 using System.Threading.Tasks;
 using static ERPManagementSystem.Extensions.Helper;
@@ -223,7 +224,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     await _context.SaveChangesAsync();
                   
                 }
-                catch (DbUpdateConcurrencyExceptio ex)
+                catch (DbUpdateConcurrencyException ex)
                 {
 
                 }
