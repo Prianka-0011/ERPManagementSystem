@@ -90,6 +90,7 @@ namespace ERPManagementSystem.Areas.Shop.Controllers
                     orderItem.SaleOrderId = order.Id;
                     orderItem.ProductSerial = item.ProductSerial;
                     orderItem.Price = item.SalePrice;
+                    orderItem.ProductTotal = item.ProductTotal;
                     _context.SaleOrderItems.Add(orderItem);
                 }
                

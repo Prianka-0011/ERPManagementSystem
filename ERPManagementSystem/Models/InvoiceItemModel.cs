@@ -31,7 +31,7 @@ namespace ERPManagementSystem.Models
         public Guid? InvoiceModelId { get; set; }
 
         public virtual Product Product { get; set; }
-        public virtual InvoiceModel InvoiceModel { get; set; }
+        //public virtual InvoiceModel InvoiceModel { get; set; }
         public virtual TaxRate TaxRate { get; set; }
     }
 }

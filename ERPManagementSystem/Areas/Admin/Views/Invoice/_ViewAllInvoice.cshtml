@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ERPManagementSystem.Models.SaleOrder>
+﻿@model IEnumerable<ERPManagementSystem.Models.Invoice>
 @using ERPManagementSystem.Extensions;
 @{
 
@@ -29,34 +29,43 @@
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Order No</th>
-                <th scope="col">Order Date</th>
+                <th scope="col">Invoice No</th>
+                <th scope="col">Sourch Document</th>
                 <th scope="col">Customer Name</th>
+                <th scope="col">Due Date</th>
+                <th scope="col">Invoice Date</th>
+
                 <th scope="col">Phone</th>
                 <th scope="col">PaymentMethod</th>
-                <th scope="col">Shipping Cost</th>
+                @*<th scope="col">Shipping Cost</th>*@
                 <th scope="col">Net Total</th>
-                <th scope="col">Status</th>
-                <th scope="col">Invoice</th>
+                <th scope="col">Due Amount</th>
+                <th scope="col">Payment Status</th>
+                <th scope="col">Invoice Status</th>
+                <th scope="col">Action</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-                <tr onclick="ShowInSmallPopup('@Url.Action("AddOrEdit","ShippingCharges",new { id=item.Id},Context.Request.Scheme)','Update ShippingCharge' )">
-                    <td scope="row">@i</td>
-                    <td>@item.OrderNo</td>
-                    <td>@item.OrderDate</td>
-                    <td>@item.DisplayName</td>
-                    <td>@item.Phone</td>
-                    <td>@item.PaymentMethod</td>
-                    <td>@item.ShippingCost</td>
-                    <td>@item.OrderTotal</td>
-                    <td>@item.SaleOrderStatus</td>
-                    <td >
-                        <a class="rowAction" onclick="ShowInLargePopup('@Url.Action("DraftInvoice","SalesOrders",new { id=item.Id},Context.Request.Scheme)','Deaft Invoice' )"><span>Invoice</span></a>
-                    </td>
-                </tr>
+            <tr onclick="ShowInSmallPopup('@Url.Action("AddOrEdit","ShippingCharges",new { id=item.Id},Context.Request.Scheme)','Update ShippingCharge' )">
+                <td scope="row">@i</td>
+                <td>@item.InvoiceNo</td>
+                <td>@item.CustomerName</td>
+                <td>@item.DueDate</td>
+                <td>@item.InvoiceDate</td>
+
+                <td>@item.Phone</td>
+                <td>@item.PaymentMethod</td>
+                @*<td>@item.ShippingCost</td>*@
+                <td>@item.TotalAmount</td>
+                <td>@item.DueAmount</td>
+                <td>@item.InvoiceStatus</td>
+                <td>@item.PaymentStatus</td>
+                <td>
+                    <a class="rowAction" onclick="ShowInLargePopup('@Url.Action("DraftInvoice","SalesOrders",new { id=item.Id},Context.Request.Scheme)','Deaft Invoice' )"><span>Post Invoice</span></a>
+                </td>
+            </tr>
                 i++;
             }
         </tbody>

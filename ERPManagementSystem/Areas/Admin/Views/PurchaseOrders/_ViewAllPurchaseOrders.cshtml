@@ -47,18 +47,21 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr onclick="ShowInLargePopupOnEdit('@Url.Action("AddOrEdit","PurchaseOrders",new { id=item.Id},Context.Request.Scheme)','Update Purchase Order' )">
-                    @*<td scope="row"><a href="#" class="childrowexpand"><input type="hidden" asp-for="@item.Id" /><i class="fas fa-plus"></i></a></td>*@
-                    <td scope="row">@i</td>
-                    <td>@item.PurchaseNo</td>
-                    <td>@item.Vendor.DisplayName</td>
-                    <td>@item.Discont</td>
-                    <td>@item.ShippingCost</td>
-                    <td>@item.OrderDate</td>
-                    <td>@item.DeliveryDate</td>
-                    <td>@item.TotalAmount</td>
-                    <td>@item.PurchaseOrderStatus</td>
-                </tr>
+            <tr onclick="ShowInLargePopupOnEdit('@Url.Action("AddOrEdit","PurchaseOrders",new { id=item.Id},Context.Request.Scheme)','Update Purchase Order' )">
+                @*<td scope="row"><a href="#" class="childrowexpand"><input type="hidden" asp-for="@item.Id" /><i class="fas fa-plus"></i></a></td>*@
+                <td scope="row">@i</td>
+                <td>@item.PurchaseNo</td>
+                <td>@item.Vendor.DisplayName</td>
+                <td>@item.Discont</td>
+                <td>@item.ShippingCost</td>
+                <td>@item.OrderDate</td>
+                <td>@item.DeliveryDate</td>
+                <td>@item.TotalAmount</td>
+                <td>@item.PurchaseOrderStatus</td>
+                <td>
+                    <a class="rowAction" onclick="ShowInLargePopup('@Url.Action("DraftBills","PurchaseOrders",new { id=item.Id},Context.Request.Scheme)','Deaft Vendor Bills' )"><span>Create bills</span></a>
+                </td>
+            </tr>
                 i++;
             }
         </tbody>

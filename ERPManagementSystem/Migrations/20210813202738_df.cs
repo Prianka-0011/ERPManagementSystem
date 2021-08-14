@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ERPManagementSystem.Migrations
 {
-    public partial class invoice : Migration
+    public partial class df : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -165,31 +165,6 @@ namespace ERPManagementSystem.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Designations", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Invoices",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    InvoiceNo = table.Column<string>(nullable: true),
-                    InvoiceDate = table.Column<DateTime>(nullable: false),
-                    DueDate = table.Column<DateTime>(nullable: false),
-                    CustomerName = table.Column<string>(nullable: true),
-                    OrderNote = table.Column<string>(nullable: true),
-                    Phone = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
-                    PaymentMethod = table.Column<string>(nullable: true),
-                    PaymentStatus = table.Column<string>(nullable: true),
-                    TotalAmount = table.Column<decimal>(nullable: false),
-                    DueAmount = table.Column<decimal>(nullable: false),
-                    ShippingCost = table.Column<decimal>(nullable: false),
-                    Address = table.Column<string>(nullable: true),
-                    SaleOrderStatus = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Invoices", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -415,29 +390,6 @@ namespace ERPManagementSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "InvoiceItems",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    ProductName = table.Column<string>(nullable: true),
-                    ProductPrice = table.Column<string>(nullable: true),
-                    ProductSerial = table.Column<string>(nullable: true),
-                    Quantity = table.Column<int>(nullable: false),
-                    ProductTotal = table.Column<int>(nullable: false),
-                    InvoiceId = table.Column<Guid>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_InvoiceItems", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_InvoiceItems_Invoices_InvoiceId",
-                        column: x => x.InvoiceId,
-                        principalTable: "Invoices",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "PurchaseOrders",
                 columns: table => new
                 {
@@ -499,38 +451,6 @@ namespace ERPManagementSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "VendordBills",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    InvoiceNo = table.Column<string>(nullable: true),
-                    OrderDate = table.Column<DateTime>(nullable: false),
-                    DeliveryDate = table.Column<DateTime>(nullable: false),
-                    ShippingCost = table.Column<decimal>(nullable: false),
-                    PurchaseOrderStatus = table.Column<string>(nullable: true),
-                    Discont = table.Column<decimal>(nullable: false),
-                    TotalAmount = table.Column<decimal>(nullable: false),
-                    VendorId = table.Column<Guid>(nullable: false),
-                    CurrencyId = table.Column<Guid>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_VendordBills", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_VendordBills_Currencies_CurrencyId",
-                        column: x => x.CurrencyId,
-                        principalTable: "Currencies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_VendordBills_Vendors_VendorId",
-                        column: x => x.VendorId,
-                        principalTable: "Vendors",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Brands",
                 columns: table => new
                 {
@@ -566,6 +486,39 @@ namespace ERPManagementSystem.Migrations
                         name: "FK_Cities_States_StateId",
                         column: x => x.StateId,
                         principalTable: "States",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "VendorBills",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    BillNo = table.Column<string>(nullable: true),
+                    PurchaseOrderNo = table.Column<string>(nullable: true),
+                    BillDate = table.Column<DateTime>(nullable: false),
+                    DueDate = table.Column<string>(nullable: true),
+                    VendorName = table.Column<string>(nullable: true),
+                    OrderNote = table.Column<string>(nullable: true),
+                    Phone = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    PaymentMethod = table.Column<string>(nullable: true),
+                    PaymentStatus = table.Column<string>(nullable: true),
+                    TotalAmount = table.Column<decimal>(nullable: false),
+                    DueAmount = table.Column<decimal>(nullable: false),
+                    ShippingCost = table.Column<decimal>(nullable: false),
+                    Address = table.Column<string>(nullable: true),
+                    BillStatus = table.Column<string>(nullable: true),
+                    PurchaseOrderId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VendorBills", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_VendorBills_PurchaseOrders_PurchaseOrderId",
+                        column: x => x.PurchaseOrderId,
+                        principalTable: "PurchaseOrders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -653,6 +606,29 @@ namespace ERPManagementSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "VendorBillLineItems",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    ProductName = table.Column<string>(nullable: true),
+                    ProductPrice = table.Column<decimal>(nullable: false),
+                    ProductSerial = table.Column<string>(nullable: true),
+                    Quantity = table.Column<int>(nullable: false),
+                    ProductTotal = table.Column<decimal>(nullable: false),
+                    VendorBillId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VendorBillLineItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_VendorBillLineItems_VendorBills_VendorBillId",
+                        column: x => x.VendorBillId,
+                        principalTable: "VendorBills",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Galleries",
                 columns: table => new
                 {
@@ -696,8 +672,7 @@ namespace ERPManagementSystem.Migrations
                     PurchaseOrderId = table.Column<Guid>(nullable: true),
                     ProductId = table.Column<Guid>(nullable: true),
                     TaxRateId = table.Column<Guid>(nullable: true),
-                    QuotationId = table.Column<Guid>(nullable: true),
-                    VendordBillId = table.Column<Guid>(nullable: true)
+                    QuotationId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -724,12 +699,6 @@ namespace ERPManagementSystem.Migrations
                         name: "FK_PurchaseOrderLineItems_TaxRates_TaxRateId",
                         column: x => x.TaxRateId,
                         principalTable: "TaxRates",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_PurchaseOrderLineItems_VendordBills_VendordBillId",
-                        column: x => x.VendordBillId,
-                        principalTable: "VendordBills",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -777,65 +746,36 @@ namespace ERPManagementSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "VendorBillsItems",
+                name: "Invoices",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Color = table.Column<string>(nullable: true),
-                    Size = table.Column<string>(nullable: true),
-                    Price = table.Column<decimal>(nullable: true),
-                    Discount = table.Column<decimal>(nullable: true),
-                    Rate = table.Column<decimal>(nullable: true),
-                    SalePrice = table.Column<decimal>(nullable: true),
-                    PreviousPrice = table.Column<decimal>(nullable: true),
-                    PerProductCost = table.Column<decimal>(nullable: true),
-                    OrderQuantity = table.Column<int>(nullable: true),
-                    ReceiveQuantity = table.Column<int>(nullable: true),
-                    DueQuantity = table.Column<int>(nullable: true),
-                    TotalCost = table.Column<decimal>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    ShortDescription = table.Column<string>(nullable: true),
-                    ImgPath = table.Column<string>(nullable: true),
-                    ItemStatus = table.Column<string>(nullable: true),
-                    PurchaseOrderId = table.Column<Guid>(nullable: true),
-                    ProductId = table.Column<Guid>(nullable: true),
-                    TaxRateId = table.Column<Guid>(nullable: true),
-                    QuotationId = table.Column<Guid>(nullable: true),
-                    InvoiceId = table.Column<Guid>(nullable: true)
+                    InvoiceNo = table.Column<string>(nullable: true),
+                    SaleOrderNo = table.Column<string>(nullable: true),
+                    InvoiceDate = table.Column<DateTime>(nullable: false),
+                    DueDate = table.Column<string>(nullable: true),
+                    CustomerName = table.Column<string>(nullable: true),
+                    OrderNote = table.Column<string>(nullable: true),
+                    Phone = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    PaymentMethod = table.Column<string>(nullable: true),
+                    PaymentStatus = table.Column<string>(nullable: true),
+                    TotalAmount = table.Column<decimal>(nullable: false),
+                    DueAmount = table.Column<decimal>(nullable: false),
+                    ShippingCost = table.Column<decimal>(nullable: false),
+                    Address = table.Column<string>(nullable: true),
+                    InvoiceStatus = table.Column<string>(nullable: true),
+                    SaleOrderId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_VendorBillsItems", x => x.Id);
+                    table.PrimaryKey("PK_Invoices", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_VendorBillsItems_Invoices_InvoiceId",
-                        column: x => x.InvoiceId,
-                        principalTable: "Invoices",
+                        name: "FK_Invoices_SaleOrders_SaleOrderId",
+                        column: x => x.SaleOrderId,
+                        principalTable: "SaleOrders",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_VendorBillsItems_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_VendorBillsItems_PurchaseOrders_PurchaseOrderId",
-                        column: x => x.PurchaseOrderId,
-                        principalTable: "PurchaseOrders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_VendorBillsItems_Quotations_QuotationId",
-                        column: x => x.QuotationId,
-                        principalTable: "Quotations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_VendorBillsItems_TaxRates_TaxRateId",
-                        column: x => x.TaxRateId,
-                        principalTable: "TaxRates",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -846,11 +786,12 @@ namespace ERPManagementSystem.Migrations
                     ProductName = table.Column<string>(nullable: true),
                     ProductSerial = table.Column<string>(nullable: true),
                     Price = table.Column<decimal>(nullable: false),
+                    TaxRate = table.Column<decimal>(nullable: false),
+                    Discount = table.Column<decimal>(nullable: false),
                     Quantity = table.Column<int>(nullable: false),
-                    ProductTotal = table.Column<int>(nullable: false),
+                    ProductTotal = table.Column<decimal>(nullable: false),
                     SaleItemStatus = table.Column<string>(nullable: true),
-                    SaleOrderId = table.Column<Guid>(nullable: false),
-                    TaxRateId = table.Column<Guid>(nullable: false)
+                    SaleOrderId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -861,12 +802,6 @@ namespace ERPManagementSystem.Migrations
                         principalTable: "SaleOrders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_SaleOrderItems_TaxRates_TaxRateId",
-                        column: x => x.TaxRateId,
-                        principalTable: "TaxRates",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -902,6 +837,29 @@ namespace ERPManagementSystem.Migrations
                         name: "FK_StockProducts_PurchaseOrderLineItems_PurchaseOrderLineItemId",
                         column: x => x.PurchaseOrderLineItemId,
                         principalTable: "PurchaseOrderLineItems",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "InvoiceLineItems",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    ProductName = table.Column<string>(nullable: true),
+                    ProductPrice = table.Column<decimal>(nullable: false),
+                    ProductSerial = table.Column<string>(nullable: true),
+                    Quantity = table.Column<int>(nullable: false),
+                    ProductTotal = table.Column<decimal>(nullable: false),
+                    InvoiceId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InvoiceLineItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_InvoiceLineItems_Invoices_InvoiceId",
+                        column: x => x.InvoiceId,
+                        principalTable: "Invoices",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -964,9 +922,14 @@ namespace ERPManagementSystem.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_InvoiceItems_InvoiceId",
-                table: "InvoiceItems",
+                name: "IX_InvoiceLineItems_InvoiceId",
+                table: "InvoiceLineItems",
                 column: "InvoiceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Invoices_SaleOrderId",
+                table: "Invoices",
+                column: "SaleOrderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_BrandId",
@@ -1002,11 +965,6 @@ namespace ERPManagementSystem.Migrations
                 name: "IX_PurchaseOrderLineItems_TaxRateId",
                 table: "PurchaseOrderLineItems",
                 column: "TaxRateId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PurchaseOrderLineItems_VendordBillId",
-                table: "PurchaseOrderLineItems",
-                column: "VendordBillId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PurchaseOrders_CurrencyId",
@@ -1049,11 +1007,6 @@ namespace ERPManagementSystem.Migrations
                 column: "SaleOrderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SaleOrderItems_TaxRateId",
-                table: "SaleOrderItems",
-                column: "TaxRateId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_SaleOrders_CityId",
                 table: "SaleOrders",
                 column: "CityId");
@@ -1089,39 +1042,14 @@ namespace ERPManagementSystem.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_VendorBillsItems_InvoiceId",
-                table: "VendorBillsItems",
-                column: "InvoiceId");
+                name: "IX_VendorBillLineItems_VendorBillId",
+                table: "VendorBillLineItems",
+                column: "VendorBillId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_VendorBillsItems_ProductId",
-                table: "VendorBillsItems",
-                column: "ProductId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_VendorBillsItems_PurchaseOrderId",
-                table: "VendorBillsItems",
+                name: "IX_VendorBills_PurchaseOrderId",
+                table: "VendorBills",
                 column: "PurchaseOrderId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_VendorBillsItems_QuotationId",
-                table: "VendorBillsItems",
-                column: "QuotationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_VendorBillsItems_TaxRateId",
-                table: "VendorBillsItems",
-                column: "TaxRateId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_VendordBills_CurrencyId",
-                table: "VendordBills",
-                column: "CurrencyId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_VendordBills_VendorId",
-                table: "VendordBills",
-                column: "VendorId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -1160,7 +1088,7 @@ namespace ERPManagementSystem.Migrations
                 name: "Galleries");
 
             migrationBuilder.DropTable(
-                name: "InvoiceItems");
+                name: "InvoiceLineItems");
 
             migrationBuilder.DropTable(
                 name: "QuotationLineItems");
@@ -1175,7 +1103,7 @@ namespace ERPManagementSystem.Migrations
                 name: "StockProducts");
 
             migrationBuilder.DropTable(
-                name: "VendorBillsItems");
+                name: "VendorBillLineItems");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -1187,22 +1115,19 @@ namespace ERPManagementSystem.Migrations
                 name: "Designations");
 
             migrationBuilder.DropTable(
-                name: "SaleOrders");
+                name: "Invoices");
 
             migrationBuilder.DropTable(
                 name: "PurchaseOrderLineItems");
 
             migrationBuilder.DropTable(
-                name: "Invoices");
+                name: "VendorBills");
 
             migrationBuilder.DropTable(
-                name: "Cities");
+                name: "SaleOrders");
 
             migrationBuilder.DropTable(
                 name: "Products");
-
-            migrationBuilder.DropTable(
-                name: "PurchaseOrders");
 
             migrationBuilder.DropTable(
                 name: "Quotations");
@@ -1211,10 +1136,10 @@ namespace ERPManagementSystem.Migrations
                 name: "TaxRates");
 
             migrationBuilder.DropTable(
-                name: "VendordBills");
+                name: "PurchaseOrders");
 
             migrationBuilder.DropTable(
-                name: "States");
+                name: "Cities");
 
             migrationBuilder.DropTable(
                 name: "Brands");
@@ -1226,10 +1151,13 @@ namespace ERPManagementSystem.Migrations
                 name: "Vendors");
 
             migrationBuilder.DropTable(
-                name: "Countries");
+                name: "States");
 
             migrationBuilder.DropTable(
                 name: "SubCategories");
+
+            migrationBuilder.DropTable(
+                name: "Countries");
 
             migrationBuilder.DropTable(
                 name: "Categories");

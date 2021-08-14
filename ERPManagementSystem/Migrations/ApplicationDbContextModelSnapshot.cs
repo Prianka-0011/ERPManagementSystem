@@ -396,8 +396,8 @@ namespace ERPManagementSystem.Migrations
                     b.Property<decimal>("DueAmount")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<DateTime>("DueDate")
-                        .HasColumnType("datetime(6)");
+                    b.Property<string>("DueDate")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Email")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
@@ -406,6 +406,9 @@ namespace ERPManagementSystem.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("InvoiceNo")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("InvoiceStatus")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("OrderNote")
@@ -420,7 +423,10 @@ namespace ERPManagementSystem.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("SaleOrderStatus")
+                    b.Property<Guid>("SaleOrderId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("SaleOrderNo")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<decimal>("ShippingCost")
@@ -431,10 +437,12 @@ namespace ERPManagementSystem.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("SaleOrderId");
+
                     b.ToTable("Invoices");
                 });
 
-            modelBuilder.Entity("ERPManagementSystem.Models.InvoiceItem", b =>
+            modelBuilder.Entity("ERPManagementSystem.Models.InvoiceLineItem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -446,8 +454,8 @@ namespace ERPManagementSystem.Migrations
                     b.Property<string>("ProductName")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("ProductPrice")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                    b.Property<decimal>("ProductPrice")
+                        .HasColumnType("decimal(65,30)");
 
                     b.Property<string>("ProductSerial")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
@@ -462,7 +470,7 @@ namespace ERPManagementSystem.Migrations
 
                     b.HasIndex("InvoiceId");
 
-                    b.ToTable("InvoiceItems");
+                    b.ToTable("InvoiceLineItems");
                 });
 
             modelBuilder.Entity("ERPManagementSystem.Models.Product", b =>
@@ -615,9 +623,6 @@ namespace ERPManagementSystem.Migrations
                     b.Property<decimal?>("TotalCost")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<Guid?>("VendordBillId")
-                        .HasColumnType("char(36)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
@@ -627,8 +632,6 @@ namespace ERPManagementSystem.Migrations
                     b.HasIndex("QuotationId");
 
                     b.HasIndex("TaxRateId");
-
-                    b.HasIndex("VendordBillId");
 
                     b.ToTable("PurchaseOrderLineItems");
                 });
@@ -806,8 +809,8 @@ namespace ERPManagementSystem.Migrations
                     b.Property<string>("ProductSerial")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<int>("ProductTotal")
-                        .HasColumnType("int");
+                    b.Property<decimal>("ProductTotal")
+                        .HasColumnType("decimal(65,30)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -1014,112 +1017,49 @@ namespace ERPManagementSystem.Migrations
                     b.ToTable("Vendors");
                 });
 
-            modelBuilder.Entity("ERPManagementSystem.Models.VendorBillsItem", b =>
+            modelBuilder.Entity("ERPManagementSystem.Models.VendorBill", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("Color")
+                    b.Property<string>("Address")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<decimal?>("Discount")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.Property<int?>("DueQuantity")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ImgPath")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<Guid?>("InvoiceId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("ItemStatus")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<int?>("OrderQuantity")
-                        .HasColumnType("int");
-
-                    b.Property<decimal?>("PerProductCost")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.Property<decimal?>("PreviousPrice")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.Property<decimal?>("Price")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.Property<Guid?>("ProductId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid?>("PurchaseOrderId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid?>("QuotationId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<decimal?>("Rate")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.Property<int?>("ReceiveQuantity")
-                        .HasColumnType("int");
-
-                    b.Property<decimal?>("SalePrice")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.Property<string>("ShortDescription")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<string>("Size")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<Guid?>("TaxRateId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<decimal?>("TotalCost")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("InvoiceId");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("PurchaseOrderId");
-
-                    b.HasIndex("QuotationId");
-
-                    b.HasIndex("TaxRateId");
-
-                    b.ToTable("VendorBillsItems");
-                });
-
-            modelBuilder.Entity("ERPManagementSystem.Models.VendordBill", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid?>("CurrencyId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTime>("DeliveryDate")
+                    b.Property<DateTime>("BillDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<decimal>("Discont")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.Property<string>("InvoiceNo")
+                    b.Property<string>("BillNo")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<DateTime>("OrderDate")
-                        .HasColumnType("datetime(6)");
+                    b.Property<string>("BillStatus")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("PurchaseOrderStatus")
+                    b.Property<decimal>("DueAmount")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<string>("DueDate")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("OrderNote")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("PaymentMethod")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("PaymentStatus")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<Guid>("PurchaseOrderId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("PurchaseOrderNo")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<decimal>("ShippingCost")
@@ -1128,16 +1068,45 @@ namespace ERPManagementSystem.Migrations
                     b.Property<decimal>("TotalAmount")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<Guid>("VendorId")
+                    b.Property<string>("VendorName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PurchaseOrderId");
+
+                    b.ToTable("VendorBills");
+                });
+
+            modelBuilder.Entity("ERPManagementSystem.Models.VendorBillLineItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("ProductName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<decimal>("ProductPrice")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<string>("ProductSerial")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<decimal>("ProductTotal")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("VendorBillId")
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CurrencyId");
+                    b.HasIndex("VendorBillId");
 
-                    b.HasIndex("VendorId");
-
-                    b.ToTable("VendordBills");
+                    b.ToTable("VendorBillLineItems");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -1304,10 +1273,19 @@ namespace ERPManagementSystem.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ERPManagementSystem.Models.InvoiceItem", b =>
+            modelBuilder.Entity("ERPManagementSystem.Models.Invoice", b =>
+                {
+                    b.HasOne("ERPManagementSystem.Models.SaleOrder", "SaleOrder")
+                        .WithMany()
+                        .HasForeignKey("SaleOrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ERPManagementSystem.Models.InvoiceLineItem", b =>
                 {
                     b.HasOne("ERPManagementSystem.Models.Invoice", "Invoice")
-                        .WithMany("InvoiceItems")
+                        .WithMany("InvoiceLineItems")
                         .HasForeignKey("InvoiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1364,10 +1342,6 @@ namespace ERPManagementSystem.Migrations
                     b.HasOne("ERPManagementSystem.Models.TaxRate", "TaxRate")
                         .WithMany("PurchaseOrderLineItems")
                         .HasForeignKey("TaxRateId");
-
-                    b.HasOne("ERPManagementSystem.Models.VendordBill", null)
-                        .WithMany("PurchaseOrderLineItems")
-                        .HasForeignKey("VendordBillId");
                 });
 
             modelBuilder.Entity("ERPManagementSystem.Models.Quotation", b =>
@@ -1469,38 +1443,20 @@ namespace ERPManagementSystem.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ERPManagementSystem.Models.VendorBillsItem", b =>
+            modelBuilder.Entity("ERPManagementSystem.Models.VendorBill", b =>
                 {
-                    b.HasOne("ERPManagementSystem.Models.Invoice", "Invoice")
-                        .WithMany()
-                        .HasForeignKey("InvoiceId");
-
-                    b.HasOne("ERPManagementSystem.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId");
-
                     b.HasOne("ERPManagementSystem.Models.PurchaseOrder", "PurchaseOrder")
                         .WithMany()
-                        .HasForeignKey("PurchaseOrderId");
-
-                    b.HasOne("ERPManagementSystem.Models.Quotation", "Quotation")
-                        .WithMany()
-                        .HasForeignKey("QuotationId");
-
-                    b.HasOne("ERPManagementSystem.Models.TaxRate", "TaxRate")
-                        .WithMany()
-                        .HasForeignKey("TaxRateId");
+                        .HasForeignKey("PurchaseOrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("ERPManagementSystem.Models.VendordBill", b =>
+            modelBuilder.Entity("ERPManagementSystem.Models.VendorBillLineItem", b =>
                 {
-                    b.HasOne("ERPManagementSystem.Models.Currency", "Currency")
-                        .WithMany()
-                        .HasForeignKey("CurrencyId");
-
-                    b.HasOne("ERPManagementSystem.Models.Vendor", "Vendor")
-                        .WithMany()
-                        .HasForeignKey("VendorId")
+                    b.HasOne("ERPManagementSystem.Models.VendorBill", "VendorBill")
+                        .WithMany("VendorBillLineItems")
+                        .HasForeignKey("VendorBillId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

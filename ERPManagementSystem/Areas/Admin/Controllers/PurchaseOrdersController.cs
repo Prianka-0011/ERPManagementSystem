@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ERPManagementSystem.Data;
 using ERPManagementSystem.Extensions;
 using ERPManagementSystem.Models;
+using ERPManagementSystem.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -225,6 +226,45 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
         {
             var product = _context.TaxRates.FirstOrDefault(x => x.Id == id);
             return Json(product);
+        }
+        ///Vendor bills post
+        public IActionResult DraftBills(Guid id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var purchaseOrder = _context.PurchaseOrders.Include(c=>c.Vendor).Where(c => c.Id == id).FirstOrDefault();
+            var purchaseOrderItems = _context.PurchaseOrderLineItems.Where(c => c.PurchaseOrderId == id).ToList();
+            DraftBillsVm draft = new DraftBillsVm();
+            draft.Id = purchaseOrder.Id;
+            draft.DisplayName = purchaseOrder.Vendor.DisplayName;
+            draft.POrderNo = purchaseOrder.PurchaseNo;
+            draft.OrderDate = purchaseOrder.OrderDate.ToString();
+            draft.ShippingCost = purchaseOrder.ShippingCost;
+            draft.Discount = purchaseOrder.Discont;
+            draft.OrderTotal = purchaseOrder.TotalAmount;
+            draft.Address = purchaseOrder.Vendor.Address;
+            draft.Phone = purchaseOrder.Vendor.Phone;
+            draft.GrossTotal = 0;
+
+            DraftBillsLineItemVm prodVm;
+            draft.DraftBillsLineItemVms = new List<DraftBillsLineItemVm>();
+            foreach (var item in purchaseOrderItems)
+            {
+                prodVm = new DraftBillsLineItemVm();
+                prodVm.ProductName = item.Product.Name;
+                prodVm.Price = item.Price.Value;
+                prodVm.PerProductCost = item.PerProductCost.Value;
+                prodVm.TaxRate = item.Rate.Value;
+                prodVm.Discount = item.Discount.Value;
+                prodVm.Quantity = item.OrderQuantity.Value;
+                prodVm.ProductTotal = item.TotalCost.Value;
+                draft.GrossTotal = item.TotalCost.Value + draft.GrossTotal;
+                draft.DraftBillsLineItemVms.Add(prodVm);
+            }
+
+            return View(draft);
         }
     }
 

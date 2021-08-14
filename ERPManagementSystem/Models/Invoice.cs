@@ -9,8 +9,9 @@ namespace ERPManagementSystem.Models
     {
         public Guid Id { get; set; }
         public string InvoiceNo { get; set; }
+        public string SaleOrderNo { get; set; }
         public DateTime InvoiceDate { get; set; }
-        public DateTime DueDate { get; set; }
+        public string DueDate { get; set; }
      
         public string CustomerName { get; set; }
         public string OrderNote { get; set; }
@@ -23,8 +24,10 @@ namespace ERPManagementSystem.Models
 
         public decimal ShippingCost { get; set; }
         public string Address { get; set; }
-        public string SaleOrderStatus { get; set; }
-        public List<InvoiceItem> InvoiceItems { get; set; }
+        public string InvoiceStatus { get; set; }
+        public Guid SaleOrderId { get; set; }
+        public SaleOrder SaleOrder { get; set; }
+        public List<InvoiceLineItem> InvoiceLineItems { get; set; }
 
 
     }

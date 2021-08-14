@@ -1008,6 +1008,74 @@ ShowInLargePopupOnEdit = (url, title) => {
     });
 
 }
+jQueryAjaxPostVendorsBillsModal = form => {
+    try {
+        $.ajax({
+            type: 'POST',
+            url: form.action,
+            data: new FormData(form),
+            contentType: false,
+            processData: false,
+            success: function (res) {
+                console.log("res", res)
+                if (res.isValid) {
+
+                    $('#view-all').html(res.html)
+                    $('#large-modal .modal-body').html('');
+                    $('#large-modal .modal-title').html('');
+                    $('#large-modal').modal('hide');
+                    toastr.success("Successfully", "Bills Post");
+                }
+                else
+                    $('#large-modal .modal-body').html(res.html);
+            },
+            error: function (err) {
+                console.log("res", err)
+                toastr.success(" ", "Faild");
+
+
+            }
+        })
+        //to prevent default form submit event
+        return false;
+    } catch (ex) {
+        console.log(ex)
+    }
+}
+jQueryAjaxPostInvoiceModal = form => {
+    try {
+        $.ajax({
+            type: 'POST',
+            url: form.action,
+            data: new FormData(form),
+            contentType: false,
+            processData: false,
+            success: function (res) {
+                console.log("res", res)
+                if (res.isValid) {
+
+                    $('#view-all').html(res.html)
+                    $('#large-modal .modal-body').html('');
+                    $('#large-modal .modal-title').html('');
+                    $('#large-modal').modal('hide');
+                    toastr.success("Successfully", "Invoice Post");
+                }
+                else
+                    $('#large-modal .modal-body').html(res.html);
+            },
+            error: function (err) {
+                console.log("res", err)
+                toastr.success(" ", "Faild");
+
+
+            }
+        })
+        //to prevent default form submit event
+        return false;
+    } catch (ex) {
+        console.log(ex)
+    }
+}
 jQueryAjaxPost = form => {
     try {
         $.ajax({

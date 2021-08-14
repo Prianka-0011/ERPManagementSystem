@@ -1,12 +1,14 @@
-﻿@model ERPManagementSystem.ViewModels.DraftInvoiceVm
+﻿
+
+@model ERPManagementSystem.ViewModels.DraftBillsVm
 
 @{
-    ViewData["Title"] = "DraftInvoice";
+    ViewData["Title"] = "DraftBills";
     Layout = null;
 }
 
 <div class="container-fluid">
-    <form asp-action="DraftInvoice" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPostInvoiceModal(this);" enctype="multipart/form-data" autocomplete="off">
+    <form asp-action="DraftInvoice" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPostVendorsBillsModal(this);" enctype="multipart/form-data" autocomplete="off">
         <div class="row">
             <div class="col-md-4 col-lg-4 col-12">
                 <input type="hidden" asp-for="Id" />
@@ -25,13 +27,16 @@
             <div class="col-md-4 col-lg-4 col-12">
                 <div class="form-group">
                     <label>Sales Order No</label>
-                    <input asp-for="OrderNo" readonly class="form-control" />
+                    <input asp-for="POrderNo" readonly class="form-control" />
                 </div>
             </div>
             <div class="col-md-4 col-lg-4 col-12">
                 <div class="form-group">
                     <label>Payment Mrthod</label>
-                    <input asp-for="PaymentMethod" readonly class="form-control" />
+                    <select asp-for="PaymentMethod" readonly class="form-control">
+                        <option value="value">Bkash</option>
+                        <option value="value">CashOn</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -51,14 +56,14 @@
                 </div>
             </div>
         </div>
-    
+
         <div class="lineitem">
             <p>Add Line Item</p>
         </div>
         <div class="row">
             <div class="col-md-12 col-lg-12 col-12">
 
-                @if (Model.ProductVms != null && Model.ProductVms.Count() > 0)
+                @if (Model.DraftBillsLineItemVms != null && Model.DraftBillsLineItemVms.Count() > 0)
                 {
                     <div class="table-wrapper-scroll-y custom-scrollbar">
                         <table class="table datatable table-hover table-bordered">
@@ -66,8 +71,10 @@
                                 <tr>
                                     <th scope="col">Product</th>
                                     <th scope="col">Price</th>
-                                   
-                                    <th scope="col">Order Quantity</th>
+
+                                    <th scope="col"> Quantity</th>
+                                    <th scope="col">Rate</th>
+                                    <th scope="col">Discount</th>
                                     <th scope="col">Sub Total</th>
                                 </tr>
                             </thead>
@@ -75,28 +82,35 @@
                                 @{
                                     int j = 0;
                                 }
-                                @foreach (var item in Model.ProductVms)
+                                @foreach (var item in Model.DraftBillsLineItemVms)
                                 {
 
                                 <tr class="define">
 
-                                   
-                                    <td >
+
+                                    <td>
                                         <div class="form-group">
-                                            <input type="hidden" asp-for="@Model.ProductVms[j].Id" />
-                                            <input readonly asp-for="@Model.ProductVms[j].ProductName"  class="form-control"  />
-                                        </div>
-                                    </td>
-                                    <td >
-                                        <div class="form-group">
-                                            <input readonly asp-for="@Model.ProductVms[j].SalePrice"  class="form-control" />
+                                            <input type="hidden" asp-for="@Model.DraftBillsLineItemVms[j].Id" />
+                                            <input readonly asp-for="@Model.DraftBillsLineItemVms[j].ProductName" class="form-control" />
                                         </div>
                                     </td>
                                     <td>
-                                        <input readonly asp-for="@Model.ProductVms[j].Quantity"  class="form-control" />
+                                        <div class="form-group">
+                                            <input readonly asp-for="@Model.DraftBillsLineItemVms[j].Price" class="form-control" />
+                                        </div>
                                     </td>
-                                    <td >
-                                        <input readonly  asp-for="@Model.ProductVms[j].ProductTotal"  class="form-control" />
+                                    <td>
+                                        <input readonly asp-for="@Model.DraftBillsLineItemVms[j].Quantity" class="form-control" />
+                                    </td>
+                                    <td>
+                                        <input readonly asp-for="@Model.DraftBillsLineItemVms[j].Rate" class="form-control" />
+                                    </td>
+                                    <td>
+                                        <input readonly asp-for="@Model.DraftBillsLineItemVms[j].Discount" class="form-control" />
+                                    </td>
+
+                                    <td>
+                                        <input readonly asp-for="@Model.DraftBillsLineItemVms[j].ProductTotal" class="form-control" />
                                     </td>
                                 </tr>
 
@@ -111,7 +125,7 @@
                     </div>
 
                     <div class="row">
-                   
+
                         <div class="col-md-3 col-3 col-lg-3 nopadding mt-auto">
                             <button type="submit" class="invoicebtn">Post Invoice</button>
                         </div>
@@ -123,6 +137,10 @@
                             <div class="form-group">
                                 <label>Gross Total</label>
                                 <input id="subtotalOfThisOrder" readonly class="form-control" asp-for="GrossTotal" />
+                            </div>
+                            <div class="form-group">
+                                <label>Discount</label>
+                                <input id="subtotalOfThisOrder" readonly class="form-control" asp-for="Discount" />
                             </div>
                             <div class="form-group">
                                 <label>Shipping</label>
