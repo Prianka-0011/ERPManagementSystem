@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ERPManagementSystem.Migrations
 {
-    public partial class df : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -612,6 +612,8 @@ namespace ERPManagementSystem.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     ProductName = table.Column<string>(nullable: true),
                     ProductPrice = table.Column<decimal>(nullable: false),
+                    Discount = table.Column<decimal>(nullable: false),
+                    Rate = table.Column<decimal>(nullable: false),
                     ProductSerial = table.Column<string>(nullable: true),
                     Quantity = table.Column<int>(nullable: false),
                     ProductTotal = table.Column<decimal>(nullable: false),

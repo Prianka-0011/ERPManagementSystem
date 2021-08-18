@@ -186,6 +186,32 @@ namespace ERPManagementSystem.Migrations
                     b.ToTable("Brands");
                 });
 
+            modelBuilder.Entity("ERPManagementSystem.Models.Cash", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<decimal>("LastTransitionAmout")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<string>("SourchDocNo")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<decimal>("TotalBalance")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<string>("TransitioType")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("TransitionNo")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cashes");
+                });
+
             modelBuilder.Entity("ERPManagementSystem.Models.Category", b =>
                 {
                     b.Property<Guid>("Id")
@@ -973,6 +999,29 @@ namespace ERPManagementSystem.Migrations
                     b.ToTable("TaxRates");
                 });
 
+            modelBuilder.Entity("ERPManagementSystem.Models.TransitionBlance", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<decimal>("TransBalance")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<string>("TransitionNo")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("TransitionType")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TransitionBlances");
+                });
+
             modelBuilder.Entity("ERPManagementSystem.Models.Vendor", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1084,6 +1133,9 @@ namespace ERPManagementSystem.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<decimal>("Discount")
+                        .HasColumnType("decimal(65,30)");
+
                     b.Property<string>("ProductName")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
@@ -1098,6 +1150,9 @@ namespace ERPManagementSystem.Migrations
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("Rate")
+                        .HasColumnType("decimal(65,30)");
 
                     b.Property<Guid>("VendorBillId")
                         .HasColumnType("char(36)");

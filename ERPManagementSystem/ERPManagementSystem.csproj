@@ -13,17 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\Reports\PurchaseOrder.rdlc" />
-    <Content Remove="wwwroot\Reports\PurchaseOrderMasterDetail.rdlc" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="Models\InvoiceModel.cs~RF179e342.TMP" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="wwwroot\Reports\PurchaseOrder.rdlc" />
-    <EmbeddedResource Include="wwwroot\Reports\PurchaseOrderMasterDetail.rdlc" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,17 +27,20 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.2.1" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.1" />
     <PackageReference Include="System.CodeDom" Version="5.0.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
+    <!--<PackageReference Include="System.Data.SqlClient" Version="4.8.2" />-->
     <PackageReference Include="X.PagedList.Mvc.Core" Version="7.6.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Areas\Shop\Data\" />
     <Folder Include="Areas\Shop\Models\" />
+    <Folder Include="ReportDataSate\" />
+    <Folder Include="wwwroot\Reports\" />
     <Folder Include="wwwroot\uploadimages\" />
   </ItemGroup>
-
   <ItemGroup>
     <None Include="Areas\Admin\Views\AutoGenerateSerialNumbers\AddOrEdit.cshtml" />
     <None Include="Areas\Admin\Views\AutoGenerateSerialNumbers\Index.cshtml" />
@@ -57,36 +50,27 @@
     <None Include="Areas\Admin\Views\TaxRates\_ViewAllTaxRate.cshtml" />
     <None Include="wwwroot\lib\admin-das\adminlte.min.css.map" />
    </ItemGroup>
-
   <ItemGroup>
-    <Compile Update="ERPDatabaseDataSet.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ERPDatabaseDataSet.xsd</DependentUpon>
-    </Compile>
-    <Compile Update="ReportDataSate\dsPurchaseOrder.Designer.cs">
-      <DependentUpon>dsPurchaseOrder.xsd</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
+    <Reference Include="BouncyCastle.Crypto">
+      <HintPath>C:\Program Files (x86)\MySQL\MySQL Connector Net 8.0.26\Assemblies\v4.5.2\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Protobuf">
+      <HintPath>C:\Program Files (x86)\MySQL\MySQL Connector Net 8.0.26\Assemblies\v4.5.2\Google.Protobuf.dll</HintPath>
+    </Reference>
+    <Reference Include="K4os.Compression.LZ4.Streams">
+      <HintPath>C:\Program Files (x86)\MySQL\MySQL Connector Net 8.0.26\Assemblies\v4.5.2\K4os.Compression.LZ4.Streams.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data">
+      <HintPath>C:\Program Files (x86)\MySQL\MySQL Connector Net 8.0.26\Assemblies\v4.5.2\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data">
+      <HintPath>C:\Program Files (x86)\MySQL\MySQL Connector Net 8.0.26\Assemblies\v4.5.2\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Ubiety.Dns.Core">
+      <HintPath>C:\Program Files (x86)\MySQL\MySQL Connector Net 8.0.26\Assemblies\v4.5.2\Ubiety.Dns.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Zstandard.Net">
+      <HintPath>C:\Program Files (x86)\MySQL\MySQL Connector Net 8.0.26\Assemblies\v4.5.2\Zstandard.Net.dll</HintPath>
+    </Reference>
   </ItemGroup>
-
-  <ItemGroup>
-    <None Update="ERPDatabaseDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>ERPDatabaseDataSet.Designer.cs</LastGenOutput>
-    </None>
-    <None Update="ReportDataSate\dsPurchaseOrder.xsc">
-      <DependentUpon>dsPurchaseOrder.xsd</DependentUpon>
-    </None>
-    <None Update="ReportDataSate\dsPurchaseOrder.xsd">
-      <SubType>Designer</SubType>
-      <LastGenOutput>dsPurchaseOrder.Designer.cs</LastGenOutput>
-      <Generator>MSDataSetGenerator</Generator>
-    </None>
-    <None Update="ReportDataSate\dsPurchaseOrder.xss">
-      <DependentUpon>dsPurchaseOrder.xsd</DependentUpon>
-    </None>
-  </ItemGroup>
-
-</Project>
+   </Project>

@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ERPManagementSystem", "ERPManagementSystem\ERPManagementSystem.csproj", "{27FA315C-7FD5-4408-8CE2-A68930372C08}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RDCL", "RDCL\RDCL.csproj", "{89B8F444-1A49-4A90-86FD-9887B1AF192D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{27FA315C-7FD5-4408-8CE2-A68930372C08}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27FA315C-7FD5-4408-8CE2-A68930372C08}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27FA315C-7FD5-4408-8CE2-A68930372C08}.Release|Any CPU.Build.0 = Release|Any CPU
-		{89B8F444-1A49-4A90-86FD-9887B1AF192D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{89B8F444-1A49-4A90-86FD-9887B1AF192D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{89B8F444-1A49-4A90-86FD-9887B1AF192D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{89B8F444-1A49-4A90-86FD-9887B1AF192D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

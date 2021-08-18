@@ -112,7 +112,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                         stockProduct.ImgPath = entity.ImgPath;
                         stockProduct.Quantity = stockProduct.Quantity + lineItem.ReceiveQuantity.Value;
                         stockProduct.SalePrice = entity.SalePrice.Value;
-
+                        
                         stockProduct.Description = entity.Description;
                         stockProduct.ShortDescription = lineItem.ShortDescription;
                         stockProduct.PreviousPrice = lineItem.PreviousPrice.Value;

@@ -1,0 +1,41 @@
+﻿@model ERPManagementSystem.Models.Cash
+@{
+    ViewData["Title"] = "AddOrEdit";
+    Layout = null;
+}
+
+<div class="container-fluid">
+    <form asp-action="AddOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPost(this);" autocomplete="off">
+        <div class="row">
+            <div class="col-md-10 offset-1 col-10 offset-md-1 col-lg-10 offset-lg-1">
+                <div class="form-group">
+                    <input type="hidden" asp-for="Id" />
+                    <label>Transition No</label>
+                    <input asp-for="TransitionNo" class="form-control" />
+                </div>
+            </div>
+
+            <div class="col-md-10 offset-1 col-10 offset-md-1 col-lg-10 offset-lg-1">
+                <div class="form-group">
+                    <input type="hidden" asp-for="Id" />
+                    <label>Transition Amount</label>
+                    <input asp-for="LastTransitionAmout" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-10 offset-1 col-10 col-lg-10 offset-lg-1">
+                <div class="form-group">
+                    <label>Status</label>
+                    <select asp-for="TransitioType" class="form-control">
+                        <option value="Addition">Addition</option>
+                        <option value="Deduction">Deduction</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="container d-flex justify-content-center align-items-center">
+                <button type="submit" class="savebtn">Save</button>
+            </div>
+        </div>
+    </form>
+</div>
+

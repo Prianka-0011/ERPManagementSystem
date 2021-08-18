@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="erpdatabaseDataSet" targetNamespace="http://tempuri.org/erpdatabaseDataSet.xsd" xmlns:mstns="http://tempuri.org/erpdatabaseDataSet.xsd" xmlns="http://tempuri.org/erpdatabaseDataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="erpdatabaseConnectionString3" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="erpdatabaseConnectionString3 (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.RDCL.Properties.Settings.GlobalReference.Default.erpdatabaseConnectionString3" Provider="MySql.Data.MySqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="currenciesTableAdapter" GeneratorDataComponentClassName="currenciesTableAdapter" Name="currencies" UserDataComponentName="currenciesTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="erpdatabaseConnectionString3 (Settings)" DbObjectName="erpdatabase.currencies" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT `CurrencyName` FROM `currencies`</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="CurrencyName" DataSetColumn="CurrencyName" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="purchaseordersTableAdapter" GeneratorDataComponentClassName="purchaseordersTableAdapter" Name="purchaseorders" UserDataComponentName="purchaseordersTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="erpdatabaseConnectionString3 (Settings)" DbObjectName="erpdatabase.purchaseorders" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT `PurchaseNo`, `DeliveryDate`, `ShippingCost`, `Discont`, `TotalAmount` FROM `purchaseorders`</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="PurchaseNo" DataSetColumn="PurchaseNo" />
+              <Mapping SourceColumn="DeliveryDate" DataSetColumn="DeliveryDate" />
+              <Mapping SourceColumn="ShippingCost" DataSetColumn="ShippingCost" />
+              <Mapping SourceColumn="Discont" DataSetColumn="Discont" />
+              <Mapping SourceColumn="TotalAmount" DataSetColumn="TotalAmount" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="erpdatabaseDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="erpdatabaseDataSet" msprop:Generator_UserDSName="erpdatabaseDataSet">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="currencies" msprop:Generator_TableClassName="currenciesDataTable" msprop:Generator_TableVarName="tablecurrencies" msprop:Generator_RowChangedName="currenciesRowChanged" msprop:Generator_TablePropName="currencies" msprop:Generator_RowDeletingName="currenciesRowDeleting" msprop:Generator_RowChangingName="currenciesRowChanging" msprop:Generator_RowEvHandlerName="currenciesRowChangeEventHandler" msprop:Generator_RowDeletedName="currenciesRowDeleted" msprop:Generator_RowClassName="currenciesRow" msprop:Generator_UserTableName="currencies" msprop:Generator_RowEvArgName="currenciesRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="CurrencyName" msprop:Generator_ColumnVarNameInTable="columnCurrencyName" msprop:Generator_ColumnPropNameInRow="CurrencyName" msprop:Generator_ColumnPropNameInTable="CurrencyNameColumn" msprop:Generator_UserColumnName="CurrencyName" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="purchaseorders" msprop:Generator_TableClassName="purchaseordersDataTable" msprop:Generator_TableVarName="tablepurchaseorders" msprop:Generator_RowChangedName="purchaseordersRowChanged" msprop:Generator_TablePropName="purchaseorders" msprop:Generator_RowDeletingName="purchaseordersRowDeleting" msprop:Generator_RowChangingName="purchaseordersRowChanging" msprop:Generator_RowEvHandlerName="purchaseordersRowChangeEventHandler" msprop:Generator_RowDeletedName="purchaseordersRowDeleted" msprop:Generator_RowClassName="purchaseordersRow" msprop:Generator_UserTableName="purchaseorders" msprop:Generator_RowEvArgName="purchaseordersRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="PurchaseNo" msprop:Generator_ColumnVarNameInTable="columnPurchaseNo" msprop:Generator_ColumnPropNameInRow="PurchaseNo" msprop:Generator_ColumnPropNameInTable="PurchaseNoColumn" msprop:Generator_UserColumnName="PurchaseNo" type="xs:string" minOccurs="0" />
+              <xs:element name="DeliveryDate" msprop:Generator_ColumnVarNameInTable="columnDeliveryDate" msprop:Generator_ColumnPropNameInRow="DeliveryDate" msprop:Generator_ColumnPropNameInTable="DeliveryDateColumn" msprop:Generator_UserColumnName="DeliveryDate" type="xs:dateTime" />
+              <xs:element name="ShippingCost" msprop:Generator_ColumnVarNameInTable="columnShippingCost" msprop:Generator_ColumnPropNameInRow="ShippingCost" msprop:Generator_ColumnPropNameInTable="ShippingCostColumn" msprop:Generator_UserColumnName="ShippingCost" type="xs:decimal" />
+              <xs:element name="Discont" msprop:Generator_ColumnVarNameInTable="columnDiscont" msprop:Generator_ColumnPropNameInRow="Discont" msprop:Generator_ColumnPropNameInTable="DiscontColumn" msprop:Generator_UserColumnName="Discont" type="xs:decimal" />
+              <xs:element name="TotalAmount" msprop:Generator_ColumnVarNameInTable="columnTotalAmount" msprop:Generator_ColumnPropNameInRow="TotalAmount" msprop:Generator_ColumnPropNameInTable="TotalAmountColumn" msprop:Generator_UserColumnName="TotalAmount" type="xs:decimal" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

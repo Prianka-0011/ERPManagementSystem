@@ -1,8 +1,11 @@
 ﻿
 /**Global CSS Start**/
+.rowAction1{
+   cursor:pointer;
+   color:Highlight;
+}
 .modal-lg {
-  max-width: 1000px !important;
-
+    max-width: 1000px !important;
 }
 .datatable > tbody > tr > td {
     padding: 5px !important;
@@ -37,27 +40,28 @@
 /**for modal start**/
 /*.modal-dialog {
     overflow-x: initial !important
-}
+}*/
 
-.modal-body {
-   
+#view-all {
     overflow-x: auto;
+    white-space: nowrap;
 }
-.modal-body::-webkit-scrollbar {
-    height: 5px;
-}
+    #view-all::-webkit-scrollbar {
+        height: 5px;
+        
+    }
 
-    .modal-body::-webkit-scrollbar-thumb {
+    #view-all::-webkit-scrollbar-thumb {
         background-color: #bbbbbb;
     }
 
-.modal-body::-webkit-scrollbar-track-piece:end {
-    margin-right: 50px;
-}
+    #view-all::-webkit-scrollbar-track-piece:end {
+        margin-right: 600px;
+    }
 
-.modal-body::-webkit-scrollbar-track-piece:start {
-    margin-left: 50px;
-}*/
+    #view-all::-webkit-scrollbar-track-piece:start {
+        margin-left: 600px;
+    }
 /**for modal start**/
 .hideDisplayOnEdit {
     display: none;

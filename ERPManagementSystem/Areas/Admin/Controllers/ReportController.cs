@@ -36,19 +36,19 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
             //var purchaseOrderList = _context.PurchaseOrders.ToList();
             string mineType = "";
             int extension = 1;
-            var path = $"{_hosting.WebRootPath}\\Reports\\PurchaseOrder.rdlc";
+            var path = $"{_hosting.WebRootPath}\\Reports\\PurchaseOrderList.rdlc";
             Dictionary<string, string> parameters = new Dictionary<string, string>();
             parameters.Add("prm", "RDCL Report");
             LocalReport localReport = new LocalReport(path);
-            localReport.AddDataSource("dsPurchaseOrder", dt);
-            var result = localReport.Execute(RenderType.Pdf, extension, parameters);
+            localReport.AddDataSource("dsPo", dt);
+            var result = localReport.Execute(RenderType.Pdf, extension);
 
             return File(result.MainStream, "application/pdf");
         }
         public DataTable GetPurchaseOrderList(DateTime fromDate, DateTime toDate)
         {
 
-            var purchaseOrder = _context.PurchaseOrders.ToList();
+            var purchaseOrder = _context.PurchaseOrders.Include(c=>c.Vendor).Include(c=>c.Currency).ToList();
             if (fromDate != null && toDate != null)
             {
                 purchaseOrder = purchaseOrder.Where(c => c.OrderDate >= fromDate && c.OrderDate <= toDate).ToList();
@@ -56,10 +56,13 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
             var dt = new DataTable();
             dt.Columns.Add("SerialNo");
             dt.Columns.Add("PurchaseNo");
-            dt.Columns.Add("DeliveryDate");
-            dt.Columns.Add("Discont");
-            dt.Columns.Add("ShippingCost");
-            dt.Columns.Add("TotalAmount");
+            //dt.Columns.Add("DeliveryDate");
+            //dt.Columns.Add("Discont");
+            //dt.Columns.Add("ShippingCost");
+            
+            //dt.Columns.Add("TotalAmount");
+            //dt.Columns.Add("Currency");
+            //dt.Columns.Add("Vendor");
             DataRow row;
             int j = 1;
             foreach (var item in purchaseOrder)
@@ -67,10 +70,12 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 row = dt.NewRow();
                 row["SerialNo"] = j;
                 row["PurchaseNo"] = item.PurchaseNo;
-                row["DeliveryDate"] = item.PurchaseNo;
-                row["Discont"] = item.PurchaseNo;
-                row["ShippingCost"] = item.PurchaseNo;
-                row["TotalAmount"] = item.PurchaseNo;
+                //row["DeliveryDate"] = item.PurchaseNo;
+                //row["Discont"] = item.PurchaseNo;
+                //row["ShippingCost"] = item.PurchaseNo;
+                //row["TotalAmount"] = item.PurchaseNo;
+                //row["CurrencyName"] = item.Currency.CurrencyName;
+                //row["DisplayName"] = item.Vendor.DisplayName;
 
                 dt.Rows.Add(row);
                 j++;
@@ -92,7 +97,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
             Dictionary<string, string> parameters = new Dictionary<string, string>();
             //parameters.Add("prm", "RDCL Report");
             LocalReport localReport = new LocalReport(path);
-            localReport.AddDataSource("dsPurchaseOrderMD", dt);
+           // localReport.AddDataSource("dsPurchaseOrderMD", dt);
             var result = localReport.Execute(RenderType.Pdf, extension);
             return File(result.MainStream, "application/pdf");
             //}
@@ -106,8 +111,9 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
 
 
             var purchaseOrder = _context.PurchaseOrders.Include(c=>c.Vendor).Where(c => c.PurchaseNo == searchPurchaseOrder).FirstOrDefault();
-
-            var dt = new DataTable();
+            if (purchaseOrder != null)
+            {
+                var dt = new DataTable();
             dt.Columns.Add("SerialNo");
             dt.Columns.Add("PurchaseNo");
             dt.Columns.Add("DisplayName");
@@ -127,6 +133,9 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
             //dt.Columns.Add("TotalAmount");
             DataRow row;
             int j = 1;
+           
+
+           
             var lineItem = _context.PurchaseOrderLineItems.Include(c=>c.Product).Where(c => c.PurchaseOrderId == purchaseOrder.Id).ToList();
             foreach (var item in lineItem)
             {
@@ -154,6 +163,8 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
             }
 
             return dt;
+            }
+            return new DataTable();
         }
 
     }

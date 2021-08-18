@@ -6,13 +6,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static ERPManagementSystem.Extensions.Helper;
 
 namespace ERPManagementSystem.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class InvoiceController : Controller
     {
-        
+
         private readonly ApplicationDbContext _context;
 
         public InvoiceController(ApplicationDbContext context)
@@ -48,6 +49,21 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
             var data = invoice.Skip(resSkip).Take(pager.PageSize);
             ViewBag.Pager = pager;
             return View(await data.ToListAsync());
+        }
+        [NoDirectAccess]
+        public async Task<IActionResult> PostInvoice(Guid id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var invoice = await _context.Invoices.FindAsync(id);
+            invoice.InvoiceLineItems = _context.InvoiceLineItems.Where(c => c.InvoiceId == id).ToList();
+
+            return View(invoice);
+
+
         }
 
     }

@@ -279,12 +279,58 @@ ShowInLargePopupPurchaQuotation = (url, title) => {
                     success: function (data) {
                          console.log("rate",data);
                         var taxRate1 = curentrow.find('#rate')
-                        taxRate1.val(data.rate)                      
+                        taxRate1.val(data.rate)
+                        console.log("rate", taxRate1.val());
+                       
+                        var price = curentrow.find('#price').val();
+                        var discount = curentrow.find('#discount').val();
+                        var discountAmount = (discount / 100) * price;
+                        var taxRate = curentrow.find('#rate').val();
+                        
+                        console.log("TAX RATE", taxRate);
+                        var quantity = curentrow.find('#quantity').val();
+                        var totalCost = curentrow.find('#totalCost');
+                        var perProductCost = curentrow.find('#perProductCost');
+                        var taxAmount = (taxRate / 100) * price;
+                        var totalAmount = ((price - discountAmount) + taxAmount) * quantity;
+                        var perProductCost1 = ((price - discountAmount) + taxAmount);
+                        console.log("amount", totalAmount)
+                        totalCost.val(totalAmount);
+                        perProductCost.val(perProductCost1);
+                        // final subtotal
+                        var finalAmount = 0;
+                        var productAmount = 0;
+                        $(".datatable .define").each(function (row, tr) {
+                            var amount = parseFloat($(this).closest('tr').find('#totalCost').val());
+                            if (isNaN(amount)) {
+                                amount = 0;
+                            }
+                            console.log("amount", amount);
+                            productAmount = amount + productAmount;
+
+                        });
+                        console.log("productamount", productAmount);
+                        var shippingCost = parseFloat($('.shippingcost').val());
+                        var discount1 = parseFloat($('#discountOntotalOrder').val());
+                        if (isNaN(discount)) {
+                            discount = 0;
+                        }
+                        if (isNaN(shippingCost)) {
+                            shippingCost = 0;
+                        }
+                        if (isNaN(productAmount)) {
+                            productAmount = 0
+                        }
+                        finalAmount = productAmount + shippingCost;
+                        var discountAmount = (discount1 / 100) * finalAmount;
+                        finalAmount = finalAmount - discountAmount;
+                        $('#subtotalOfThisOrder').val(finalAmount.toFixed(2));
                     },
                     error: function (res) {
                         console.log(res);
                     }
                 });
+              
 
             });
             
@@ -320,9 +366,13 @@ ShowInLargePopupPurchaQuotation = (url, title) => {
                 console.log("productamount", productAmount);
                 var shippingCost = parseFloat($('.shippingcost').val());
                 var discount1 = parseFloat($('#discountOntotalOrder').val());
-                if (isNaN(discount1) || isNaN(shippingCost) || isNaN(productAmount)) {
-                    discount1 = 0;
+                if (isNaN(discount)) {
+                    discount = 0;
+                }
+                if (isNaN(shippingCost)) {
                     shippingCost = 0;
+                }
+                if (isNaN(productAmount)) {
                     productAmount = 0
                 }
                 finalAmount = productAmount + shippingCost;
@@ -360,9 +410,13 @@ ShowInLargePopupPurchaQuotation = (url, title) => {
                 console.log("productamount", productAmount);
                 var shippingCost = parseFloat($('.shippingcost').val());
                 var discount1 = parseFloat($('#discountOntotalOrder').val());
-                if (isNaN(discount1) || isNaN(shippingCost) || isNaN(productAmount)) {
-                    discount1 = 0;
+                if (isNaN(discount)) {
+                    discount = 0;
+                }
+                if (isNaN(shippingCost)) {
                     shippingCost = 0;
+                }
+                if (isNaN(productAmount)) {
                     productAmount = 0
                 }
                 finalAmount = productAmount + shippingCost;
@@ -400,9 +454,13 @@ ShowInLargePopupPurchaQuotation = (url, title) => {
                 console.log("productamount", productAmount);
                 var shippingCost = parseFloat($('.shippingcost').val());
                 var discount1 = parseFloat($('#discountOntotalOrder').val());
-                if (isNaN(discount1) || isNaN(shippingCost) || isNaN(productAmount)) {
-                    discount1 = 0;
+                if (isNaN(discount)) {
+                    discount = 0;
+                }
+                if (isNaN(shippingCost)) {
                     shippingCost = 0;
+                }
+                if (isNaN(productAmount)) {
                     productAmount = 0
                 }
                 finalAmount = productAmount + shippingCost;
@@ -440,9 +498,13 @@ ShowInLargePopupPurchaQuotation = (url, title) => {
                 console.log("productamount", productAmount);
                 var shippingCost = parseFloat($('.shippingcost').val());
                 var discount1 = parseFloat($('#discountOntotalOrder').val());
-                if (isNaN(discount1) || isNaN(shippingCost) || isNaN(productAmount)) {
-                    discount1 = 0;
+                if (isNaN(discount)) {
+                    discount = 0;
+                }
+                if (isNaN(shippingCost)) {
                     shippingCost = 0;
+                }
+                if (isNaN(productAmount)) {
                     productAmount = 0
                 }
                 finalAmount = productAmount + shippingCost;
@@ -482,9 +544,13 @@ ShowInLargePopupPurchaQuotation = (url, title) => {
                 console.log("productamount", productAmount);
                 var shippingCost = parseFloat($('.shippingcost').val());
                 var discount1 = parseFloat($('#discountOntotalOrder').val());
-                if (isNaN(discount1) || isNaN(shippingCost) || isNaN(productAmount)) {
-                    discount1 = 0;
+                if (isNaN(discount)) {
+                    discount = 0;
+                }
+                if (isNaN(shippingCost)) {
                     shippingCost = 0;
+                }
+                if (isNaN(productAmount)) {
                     productAmount = 0
                 }
                 finalAmount = productAmount + shippingCost;
@@ -523,9 +589,13 @@ ShowInLargePopupPurchaQuotation = (url, title) => {
                 console.log("productamount", productAmount);
                 var shippingCost = parseFloat($('.shippingcost').val());
                 var discount1 = parseFloat($('#discountOntotalOrder').val());
-                if (isNaN(discount1) || isNaN(shippingCost) || isNaN(productAmount)) {
-                    discount1 = 0;
+                if (isNaN(discount)) {
+                    discount = 0;
+                }
+                if (isNaN(shippingCost)) {
                     shippingCost = 0;
+                }
+                if (isNaN(productAmount)) {
                     productAmount = 0
                 }
                 finalAmount = productAmount + shippingCost;
@@ -548,9 +618,13 @@ ShowInLargePopupPurchaQuotation = (url, title) => {
                 console.log("productamount", productAmount);
                 var shippingCost = parseFloat($('.shippingcost').val());
                 var discount = parseFloat($('#discountOntotalOrder').val());
-                if (isNaN(discount) || isNaN(shippingCost) || isNaN(productAmount)) {
+                if (isNaN(discount)) {
                     discount = 0;
+                }
+                if (isNaN(shippingCost)) {
                     shippingCost = 0;
+                }
+                if (isNaN(productAmount)) {
                     productAmount = 0
                 }
                 finalAmount = productAmount + shippingCost;
@@ -577,13 +651,18 @@ ShowInLargePopupPurchaQuotation = (url, title) => {
                 console.log("productamount", productAmount);
                 var shippingCost = parseFloat($('.shippingcost').val());
                 var discount = parseFloat($('#discountOntotalOrder').val());
-                if (isNaN(discount) || isNaN(shippingCost) || isNaN(productAmount)) {
+                if (isNaN(discount)) {
                     discount = 0;
+                }
+                if (isNaN(shippingCost)) {
                     shippingCost = 0;
+                }
+                if (isNaN(productAmount)) {
                     productAmount = 0
                 }
                 finalAmount = productAmount + shippingCost;
                 var discountAmount = (discount / 100) * finalAmount;
+                console.log("final +dis", (discount / 100) * finalAmount, finalAmount, discount, " hhh", discountAmount);
                 finalAmount = finalAmount - discountAmount;
                 $('#subtotalOfThisOrder').val(finalAmount.toFixed(2));
 
@@ -988,8 +1067,6 @@ ShowInLargePopupOnEdit = (url, title) => {
                 var discount = parseFloat($('#discountOntotalOrder').val());
                 if (isNaN(discount)) {
                     discount = 0;
-
-
                 }
                 if (isNaN(shippingCost)) {
                     shippingCost = 0;
@@ -999,6 +1076,7 @@ ShowInLargePopupOnEdit = (url, title) => {
                 }
                 finalAmount = productAmount + shippingCost;
                 var discountAmount = (discount / 100) * finalAmount;
+                console.log("final +dis", finalAmount, " hhh", discountAmount);
                 finalAmount = finalAmount - discountAmount;
                 $('#subtotalOfThisOrder').val(finalAmount.toFixed(2));
 

@@ -42,15 +42,17 @@
                 <th scope="col">Due Amount</th>
                 <th scope="col">Payment Status</th>
                 <th scope="col">Invoice Status</th>
-                <th scope="col">Action</th>
+                <th></th>
+                
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-            <tr onclick="ShowInSmallPopup('@Url.Action("AddOrEdit","ShippingCharges",new { id=item.Id},Context.Request.Scheme)','Update ShippingCharge' )">
+            <tr>
                 <td scope="row">@i</td>
                 <td>@item.InvoiceNo</td>
+                <td>@item.SaleOrderNo</td>
                 <td>@item.CustomerName</td>
                 <td>@item.DueDate</td>
                 <td>@item.InvoiceDate</td>
@@ -63,7 +65,7 @@
                 <td>@item.InvoiceStatus</td>
                 <td>@item.PaymentStatus</td>
                 <td>
-                    <a class="rowAction" onclick="ShowInLargePopup('@Url.Action("DraftInvoice","SalesOrders",new { id=item.Id},Context.Request.Scheme)','Deaft Invoice' )"><span>Post Invoice</span></a>
+                    <a class="rowAction1" onclick="ShowInLargePopup('@Url.Action("DraftInvoice","SalesOrders",new { id=item.Id},Context.Request.Scheme)','Post Invoice' )"><span>Post Invoice</span></a>
                 </td>
             </tr>
                 i++;

@@ -25,7 +25,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
         public async Task<IActionResult> Index(int pg, string sortOrder, string searchString)
         {
             ViewBag.serialnum = string.IsNullOrEmpty(sortOrder) ? "prod_desc" : "";
-            var purchaseOrder = _context.PurchaseOrders.Include(c => c.Vendor).Where(c=>c.PurchaseOrderStatus== "Enable");
+            var purchaseOrder = _context.PurchaseOrders.Include(c => c.Vendor).AsQueryable();
             switch (sortOrder)
             {
                 case "prod_desc":
@@ -163,29 +163,50 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     entity.PurchaseOrderStatus = "Enable";
                     entity.TotalAmount = purchaseOrderVm.TotalAmount;
                     entity.CurrencyId = purchaseOrderVm.CurrencyId;
-                    var oldLineIetm = await _context.PurchaseOrderLineItems.Where(c => c.PurchaseOrderId == id).ToListAsync();
-                    foreach (var item in oldLineIetm)
-                    {
-                        _context.Remove(item);
-                    }
+                   
                     foreach (var item in purchaseOrderVm.PurchaseOrderLineItems)
                     {
-                        lineItem = new PurchaseOrderLineItem();
-                        lineItem.ProductId = item.ProductId;
-                        lineItem.Color = item.Color;
-                        lineItem.Size = item.Size;
-                        lineItem.Price = item.Price;
-                        lineItem.TaxRateId = item.TaxRateId;
-                        lineItem.Rate = item.Rate;
-                        lineItem.PurchaseOrderId = entity.Id;
-                        lineItem.PerProductCost = item.PerProductCost;
-                        lineItem.Discount = item.Discount;
-                        lineItem.OrderQuantity = item.OrderQuantity;
-                        lineItem.Description = item.Description;
-                        lineItem.ImgPath = item.ImgPath;
-                        lineItem.TotalCost = item.TotalCost;
-                        lineItem.ItemStatus ="Enable";
-                        _context.PurchaseOrderLineItems.Add(lineItem);
+                        var oldLineIetm =  _context.PurchaseOrderLineItems.Where(c => c.Id == item.Id).FirstOrDefault();
+                        if (oldLineIetm != null)
+                        {
+                            oldLineIetm.ProductId = item.ProductId;
+                            oldLineIetm.Color = item.Color;
+                            oldLineIetm.Size = item.Size;
+                            oldLineIetm.Price = item.Price;
+                            oldLineIetm.TaxRateId = item.TaxRateId;
+                            oldLineIetm.Rate = item.Rate;
+                            oldLineIetm.PurchaseOrderId = entity.Id;
+                            oldLineIetm.PerProductCost = item.PerProductCost;
+                            oldLineIetm.Discount = item.Discount;
+                            oldLineIetm.OrderQuantity = item.OrderQuantity;
+                            //oldLineIetm.DueQuantity = item.OrderQuantity;
+                            oldLineIetm.Description = item.Description;
+                            oldLineIetm.ImgPath = item.ImgPath;
+                            oldLineIetm.TotalCost = item.TotalCost;
+                            _context.PurchaseOrderLineItems.Update(oldLineIetm);
+                        }
+                        else
+                        {
+
+
+                            lineItem = new PurchaseOrderLineItem();
+                            lineItem.ProductId = item.ProductId;
+                            lineItem.Color = item.Color;
+                            lineItem.Size = item.Size;
+                            lineItem.Price = item.Price;
+                            lineItem.TaxRateId = item.TaxRateId;
+                            lineItem.Rate = item.Rate;
+                            lineItem.PurchaseOrderId = entity.Id;
+                            lineItem.PerProductCost = item.PerProductCost;
+                            lineItem.Discount = item.Discount;
+                            lineItem.OrderQuantity = item.OrderQuantity;
+                            lineItem.DueQuantity = item.OrderQuantity;
+                            lineItem.Description = item.Description;
+                            lineItem.ImgPath = item.ImgPath;
+                            lineItem.TotalCost = item.TotalCost;
+                            lineItem.ItemStatus = "Enable";
+                            _context.PurchaseOrderLineItems.Add(lineItem);
+                        }
                     }
                     _context.Update(entity);
 
@@ -202,7 +223,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
             {
                 pg = 1;
             }
-            var resultPurchaseOrder = _context.PurchaseOrders.Include(d=>d.Vendor).Where(c => c.PurchaseOrderStatus == "Enable").ToList();
+            var resultPurchaseOrder = _context.PurchaseOrders.Include(d=>d.Vendor).ToList();
             var resCount = resultPurchaseOrder.Count();
             ViewBag.TotalRecord = resCount;
             var pager = new Pager(resCount, pg, pageSize);
@@ -228,6 +249,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
             return Json(product);
         }
         ///Vendor bills post
+        [HttpGet]
         public IActionResult DraftBills(Guid id)
         {
             if (id == null)
@@ -235,7 +257,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 return NotFound();
             }
             var purchaseOrder = _context.PurchaseOrders.Include(c=>c.Vendor).Where(c => c.Id == id).FirstOrDefault();
-            var purchaseOrderItems = _context.PurchaseOrderLineItems.Where(c => c.PurchaseOrderId == id).ToList();
+            var purchaseOrderItems = _context.PurchaseOrderLineItems.Include(c=>c.Product).Where(c => c.PurchaseOrderId == id).ToList();
             DraftBillsVm draft = new DraftBillsVm();
             draft.Id = purchaseOrder.Id;
             draft.DisplayName = purchaseOrder.Vendor.DisplayName;
@@ -257,7 +279,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 prodVm.Price = item.Price.Value;
                 prodVm.PerProductCost = item.PerProductCost.Value;
                 prodVm.TaxRate = item.Rate.Value;
-                prodVm.Discount = item.Discount.Value;
+                prodVm.Discount =0;
                 prodVm.Quantity = item.OrderQuantity.Value;
                 prodVm.ProductTotal = item.TotalCost.Value;
                 draft.GrossTotal = item.TotalCost.Value + draft.GrossTotal;
@@ -265,6 +287,68 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
             }
 
             return View(draft);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DraftBills(DraftBillsVm draftBillsVm)
+        {
+            if (ModelState.IsValid)
+            {
+                var serialNo = _context.AutoGenerateSerialNumbers.Where(c => c.ModuleName == "BILL").FirstOrDefault();
+                VendorBill vendorBill = new VendorBill();
+                vendorBill.VendorName = draftBillsVm.DisplayName;
+                vendorBill.Address = draftBillsVm.Address;
+                vendorBill.Phone = draftBillsVm.Phone;
+                vendorBill.BillNo = serialNo.ModuleName + "-000" + serialNo.SeialNo.ToString();
+                serialNo.SeialNo = serialNo.SeialNo + 1;
+                vendorBill.BillDate = DateTime.Now;
+                vendorBill.PurchaseOrderNo = draftBillsVm.POrderNo;
+                vendorBill.DueDate = draftBillsVm.OrderDate;
+                vendorBill.DueAmount = draftBillsVm.OrderTotal;
+                vendorBill.PaymentMethod = draftBillsVm.PaymentMethod;
+                vendorBill.TotalAmount = draftBillsVm.OrderTotal;
+                vendorBill.ShippingCost = draftBillsVm.ShippingCost;
+                vendorBill.PaymentStatus = "NoPaid";
+                vendorBill.BillStatus = "Pending";
+                vendorBill.PurchaseOrderId = draftBillsVm.Id;
+                _context.VendorBills.Add(vendorBill);
+
+                VendorBillLineItem vendorBillLineItem;
+                foreach (var item in draftBillsVm.DraftBillsLineItemVms)
+                {
+                    vendorBillLineItem = new VendorBillLineItem();
+                    vendorBillLineItem.VendorBillId = vendorBill.Id;
+                    vendorBillLineItem.ProductName = item.ProductName;
+                    vendorBillLineItem.ProductPrice = item.Price;
+                    vendorBillLineItem.Quantity = item.Quantity;
+                    vendorBillLineItem.Discount = item.Discount;
+                    vendorBillLineItem.Rate = item.Rate;
+                    vendorBillLineItem.ProductTotal = item.ProductTotal;
+                    _context.VendorBillLineItems.Add(vendorBillLineItem);
+
+                }
+                var purchaseOrder = _context.PurchaseOrders.Where(c => c.Id == draftBillsVm.Id).FirstOrDefault();
+                purchaseOrder.PurchaseOrderStatus = "Bill Created";
+                _context.Update(purchaseOrder);
+              await  _context.SaveChangesAsync();
+            }
+
+            const int pageSize = 10;
+            int pg = 1;
+            if (pg < 1)
+            {
+                pg = 1;
+            }
+            var invoices = _context.PurchaseOrders.Include(d => d.Vendor).ToList();
+            var resCount = invoices.Count();
+            ViewBag.TotalRecord = resCount;
+            var pager = new Pager(resCount, pg, pageSize);
+            int resSkip = (pg - 1) * pageSize;
+            ViewBag.Pager = pager;
+            var data = invoices.Skip(resSkip).Take(pager.PageSize);
+            //return RedirectToAction("InvoiceIndex", data);
+            return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllPurchaseOrders", data) });
+
         }
     }
 

@@ -61,7 +61,11 @@
                                         <div class="title-style-3 text-center">
                                             <h3><a href="#">@item.Product.Name</a></h3>
                                             <span class="new-price">@item.CurrencyName @item.SalePrice</span>
-                                            <span class="old-price">@item.CurrencyName @item.PreviousPrice</span>
+                                            @if (@item.PreviousPrice > 0)
+                                            {
+                                                <span class="old-price">@item.CurrencyName @item.PreviousPrice</span>
+
+                                            }
                                         </div>
                                     </div>
                                 </div>

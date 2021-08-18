@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ERPManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210813202738_df")]
-    partial class df
+    [Migration("20210815132501_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -1086,6 +1086,9 @@ namespace ERPManagementSystem.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<decimal>("Discount")
+                        .HasColumnType("decimal(65,30)");
+
                     b.Property<string>("ProductName")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
@@ -1100,6 +1103,9 @@ namespace ERPManagementSystem.Migrations
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("Rate")
+                        .HasColumnType("decimal(65,30)");
 
                     b.Property<Guid>("VendorBillId")
                         .HasColumnType("char(36)");
