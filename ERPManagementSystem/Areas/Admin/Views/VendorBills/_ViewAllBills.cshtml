@@ -31,7 +31,7 @@
                 <th scope="col">#</th>
                 <th scope="col">Bill No</th>
                 <th scope="col">Sourch Document</th>
-                <th scope="col">Customer Name</th>
+                <th scope="col">Vendor Name</th>
                 <th scope="col">Due Date</th>
                 <th scope="col">Invoice Date</th>
 
@@ -42,6 +42,7 @@
                 <th scope="col">Due Amount</th>
                 <th scope="col">Payment Status</th>
                 <th scope="col">Invoice Status</th>
+                <th scope="col">Action</th>
                <th></th>
             </tr>
         </thead>
@@ -64,7 +65,7 @@
                     <td>@item.BillStatus</td>
                     <td>@item.PaymentStatus</td>
                     <td>
-                        <a class="rowAction1" onclick="ShowInLargePopup('@Url.Action("DraftInvoice","SalesOrders",new { id=item.Id},Context.Request.Scheme)','Deaft Invoice' )"><span>Post Bills</span></a>
+                        <a class="rowAction1" onclick="ShowInLargePopup('@Url.Action("PostBills","VendorBills",new { id=item.Id},Context.Request.Scheme)','Deaft Invoice' )"><span>Post Bills</span></a>
                     </td>
                 </tr>
                 i++;

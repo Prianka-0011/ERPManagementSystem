@@ -23,14 +23,19 @@ namespace ERPManagementSystem.Areas.Shop.Controllers
         public async Task<IActionResult> GetAllProductByCategory(int pg,Guid categoryId)
         {
             var product = _context.StockProducts.Include(d => d.Product).Where(c=>c.Product.CategoryId==categoryId);
+            ShopVm shopVm = new ShopVm();
+            shopVm.StockProducts = _context.StockProducts.Include(d => d.Product).Where(c => c.Product.CategoryId == categoryId).ToList();
+            shopVm.Banners = _context.Banners.Where(c => c.BannerStatus == "Enable").ToList();
 
-            return View(await product.ToListAsync());
+            return View(shopVm);
         }
         public async Task<IActionResult> Index(int pg)
         {
-            var product = _context.StockProducts.Include(d => d.Product);
+            ShopVm shopVm = new ShopVm();
+            shopVm.StockProducts = _context.StockProducts.Include(d => d.Product).ToList();
+            shopVm.Banners = _context.Banners.Where(c => c.BannerStatus == "Enable").ToList();
 
-            return View(await product.ToListAsync());
+            return View( shopVm);
         }
         [HttpGet]
         public async Task<IActionResult> ProductDetailInPopUp(Guid id)

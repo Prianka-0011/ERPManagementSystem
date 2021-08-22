@@ -34,7 +34,7 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col"><a asp-action="Index" asp-controller="Banners" asp-route-sortOrder="@ViewBag.bannernam">Name</a></th>
-                <th scope="col">Description</th>
+                
                 <th scope="col">Image</th>
                 <th scope="col">Status</th>
             </tr>
@@ -44,9 +44,8 @@
             {
                 <tr onclick="ShowInSmallPopup('@Url.Action("AddOrEdit","Banners",new { id=item.Id},Context.Request.Scheme)','Update Banner' )">
                     <td scope="row">@i</td>
-                    <td>@item.Name</td>
-                    <td>@item.Description</td>
-                    <td><img src="~/@item.ImagePath" alt="Alternate Text" style="height:30px;width:30px; border-radius:15px;object-fit:contain" /></td>
+                    <td>@item.Name</td>                    
+                    <td><img src="~/@item.ImagePath" alt="Alternate Text" style="height:30px;width:30px; border-radius:15px;object-fit:cover" /></td>
                     <td>@item.BannerStatus</td>
                 </tr>
                 i++;

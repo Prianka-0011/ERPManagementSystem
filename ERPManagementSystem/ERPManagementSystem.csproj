@@ -13,9 +13,27 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\Reports\PurchaseOrderList.rdlc" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Models\InvoiceModel.cs~RF179e342.TMP" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="wwwroot\Reports\PurchaseOrderList.rdlc" />
+  </ItemGroup>
+	<Target Name="ChangeAliasesOfStrongNameAssemblies" BeforeTargets="FindReferenceAssembliesForReferences;ResolveReferences">
+		<ItemGroup>
+			<ReferencePath Condition="'%(FileName)' == 'MySqlConnector'">
+				<Aliases>MySqlConnectorAlias</Aliases>
+			</ReferencePath>
+		</ItemGroup>
+	</Target>
+	<ItemGroup>
+		<PackageReference Include="iTextSharp.LGPLv2.Core" Version="1.7.3" />
+		<PackageReference Include="StackExchange.Redis.StrongName" Version="1.2.6" Alias="signed" />
+	</ItemGroup>
   <ItemGroup>
     <PackageReference Include="AspNetCore.Reporting" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.9" />
@@ -27,8 +45,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.1" />
+    <PackageReference Include="MySql.Data" Version="8.0.26" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.2" />
     <PackageReference Include="System.CodeDom" Version="5.0.0" />
+    <PackageReference Include="System.Data.Common" Version="4.3.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
     <!--<PackageReference Include="System.Data.SqlClient" Version="4.8.2" />-->
     <PackageReference Include="X.PagedList.Mvc.Core" Version="7.6.0" />
@@ -38,7 +58,6 @@
     <Folder Include="Areas\Shop\Data\" />
     <Folder Include="Areas\Shop\Models\" />
     <Folder Include="ReportDataSate\" />
-    <Folder Include="wwwroot\Reports\" />
     <Folder Include="wwwroot\uploadimages\" />
   </ItemGroup>
   <ItemGroup>
@@ -60,17 +79,24 @@
     <Reference Include="K4os.Compression.LZ4.Streams">
       <HintPath>C:\Program Files (x86)\MySQL\MySQL Connector Net 8.0.26\Assemblies\v4.5.2\K4os.Compression.LZ4.Streams.dll</HintPath>
     </Reference>
-    <Reference Include="MySql.Data">
-      <HintPath>C:\Program Files (x86)\MySQL\MySQL Connector Net 8.0.26\Assemblies\v4.5.2\MySql.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="MySql.Data">
-      <HintPath>C:\Program Files (x86)\MySQL\MySQL Connector Net 8.0.26\Assemblies\v4.5.2\MySql.Data.dll</HintPath>
-    </Reference>
     <Reference Include="Ubiety.Dns.Core">
       <HintPath>C:\Program Files (x86)\MySQL\MySQL Connector Net 8.0.26\Assemblies\v4.5.2\Ubiety.Dns.Core.dll</HintPath>
     </Reference>
     <Reference Include="Zstandard.Net">
       <HintPath>C:\Program Files (x86)\MySQL\MySQL Connector Net 8.0.26\Assemblies\v4.5.2\Zstandard.Net.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="erpdatabaseDataSet.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>erpdatabaseDataSet.xsd</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="erpdatabaseDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>erpdatabaseDataSet.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
    </Project>

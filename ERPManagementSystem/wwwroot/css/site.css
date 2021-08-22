@@ -1,9 +1,12 @@
 ﻿
 /**Global CSS Start**/
-.rowAction1{
-   cursor:pointer;
-   color:Highlight;
+.rowAction1 {
+    cursor: pointer;
+   
 }
+    .rowAction1 span {
+        color: #37BEB0 !important;
+    }
 .modal-lg {
     max-width: 1000px !important;
 }

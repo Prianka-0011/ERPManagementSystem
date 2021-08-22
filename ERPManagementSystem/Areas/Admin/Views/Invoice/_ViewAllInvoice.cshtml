@@ -65,7 +65,7 @@
                 <td>@item.InvoiceStatus</td>
                 <td>@item.PaymentStatus</td>
                 <td>
-                    <a class="rowAction1" onclick="ShowInLargePopup('@Url.Action("DraftInvoice","SalesOrders",new { id=item.Id},Context.Request.Scheme)','Post Invoice' )"><span>Post Invoice</span></a>
+                    <a class="rowAction1" onclick="ShowInLargePopup('@Url.Action("PostInvoice","Invoice",new { id=item.Id},Context.Request.Scheme)','Post Invoice' )"><span>Post Invoice</span></a>
                 </td>
             </tr>
                 i++;

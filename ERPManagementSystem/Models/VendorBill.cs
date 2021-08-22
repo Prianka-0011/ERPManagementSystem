@@ -22,6 +22,7 @@ namespace ERPManagementSystem.Models
             public string PaymentStatus { get; set; }
             public decimal TotalAmount { get; set; }
             public decimal DueAmount { get; set; }
+            public decimal GivenAmount { get; set; }
 
             public decimal ShippingCost { get; set; }
             public string Address { get; set; }

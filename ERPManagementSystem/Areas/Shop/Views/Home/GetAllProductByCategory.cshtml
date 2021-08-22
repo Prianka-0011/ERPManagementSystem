@@ -1,32 +1,26 @@
-﻿@model IEnumerable<ERPManagementSystem.Models.StockProduct>
+﻿@model ERPManagementSystem.ViewModels.ShopVm
 @{
-    ViewData["Title"] = "GetAllProductByCategory";
+    ViewData["Title"] = "Index";
 }
 
 <!-- slider start -->
 <div class="slider-area text-center">
     <div class="slider-active">
-        <div class="single-slider slider-opacity ptb-250" style="background-image: url(assets/img/bg/1.jpg)">
-            <div class="slider-text">
-                <h2>summer Collection 2018 </h2>
-                <h3>A good looking, comfortable traditional collection</h3>
-                <a href="shop.html">Shop The Collection</a>
-            </div>
-        </div>
-        <div class="single-slider slider-opacity ptb-250" style="background-image: url(assets/img/bg/4.jpg)">
-            <div class="slider-text">
-                <h2>Top Collection 2018</h2>
-                <h3>A good looking, comfortable traditional collection</h3>
-                <a href="shop.html">Shop The Collection</a>
-            </div>
-        </div>
-        <div class="single-slider slider-opacity ptb-250" style="background-image: url(assets/img/bg/3.jpg)">
-            <div class="slider-text">
-                <h2>summer Collection 2018</h2>
-                <h3>A good looking, comfortable traditional collection</h3>
-                <a href="shop.html">Shop The Collection</a>
-            </div>
-        </div>
+        @if (Model.Banners != null)
+        {
+            foreach (var item in Model.Banners)
+            {
+                <div class="single-slider slider-opacity ptb-250" style="background-image: url(/@item.ImagePath)">
+                    <div class="slider-text">
+                        <h2>@item.Name </h2>
+                        <h3>@item.Description</h3>
+                        @*<a href="shop.html">Shop The Collection</a>*@
+                    </div>
+                </div>
+            }
+        }
+
+
     </div>
 </div>
 <!-- slider end -->
@@ -40,9 +34,9 @@
         <div class="shop-style-all">
             <div class="row">
                 <div class="grid">
-                    @if (Model != null)
+                    @if (Model.StockProducts != null)
                     {
-                        foreach (var item in Model)
+                        foreach (var item in Model.StockProducts)
                         {
                             <div class="col-md-3 col-sm-6 col-xs-12 grid-item cat1">
                                 <div class="shop hover-style mb-30">
@@ -53,15 +47,19 @@
                                             </a>
                                             <div class="product-cart-3">
                                                 <div class="product-cart-center">
-                                                    <a href="#"><i class="pe-7s-cart"></i></a>
-                                                    <a href="#" data-toggle="modal" data-target="#productModal"><i class="pe-7s-look"></i></a>
+                                                    <a asp-action="Cart" asp-controller="Home"><i class="pe-7s-cart"></i></a>
+                                                    <a onclick="ShowInQuickCard('@Url.Action("ProductDetailInPopUp","Home",new { id=item.Id},Context.Request.Scheme)','New Product' )"><i class="pe-7s-look"></i></a>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="title-style-3 text-center">
                                             <h3><a href="#">@item.Product.Name</a></h3>
-                                            <span class="new-price">$@item.SalePrice</span>
-                                            <span class="old-price">$@item.PreviousPrice</span>
+                                            <span class="new-price">@item.CurrencyName @item.SalePrice</span>
+                                            @if (@item.PreviousPrice > 0)
+                                            {
+                                                <span class="old-price">@item.CurrencyName @item.PreviousPrice</span>
+
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -73,9 +71,9 @@
                 </div>
             </div>
         </div>
-        <div class="view-more text-center mt-30">
-            <a href="shop.html">view more</a>
-        </div>
+        @*<div class="view-more text-center mt-30">
+               //auto load img <a href="shop.html">view more</a>
+            </div>*@
     </div>
 </div>
 <!-- shop area end -->

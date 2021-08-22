@@ -37,7 +37,7 @@
                 <th scope="col">Shipping Cost</th>
                 <th scope="col">Net Total</th>
                 <th scope="col">Status</th>
-                <th scope="col">Invoice</th>
+                <th scope="col">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -54,7 +54,7 @@
                     <td>@item.OrderTotal</td>
                     <td>@item.SaleOrderStatus</td>
                     <td >
-                        <a class="rowAction" onclick="ShowInLargePopup('@Url.Action("DraftInvoice","SalesOrders",new { id=item.Id},Context.Request.Scheme)','Deaft Invoice' )"><span>Invoice</span></a>
+                        <a class="rowAction1" onclick="ShowInLargePopup('@Url.Action("DraftInvoice","SalesOrders",new { id=item.Id},Context.Request.Scheme)','Deaft Invoice' )"><span>Create Invoice</span></a>
                     </td>
                 </tr>
                 i++;

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ERPManagementSystem.Models.StockProduct>
+﻿@model ERPManagementSystem.ViewModels.ShopVm
 @{
     ViewData["Title"] = "Index";
 }
@@ -6,27 +6,21 @@
 <!-- slider start -->
 <div class="slider-area text-center">
     <div class="slider-active">
-        <div class="single-slider slider-opacity ptb-250" style="background-image: url(assets/img/bg/1.jpg)">
+        @if (Model.Banners != null)
+        {
+            foreach (var item in Model.Banners)
+            {
+        <div class="single-slider slider-opacity ptb-250" style="background-image: url(/@item.ImagePath)">
             <div class="slider-text">
-                <h2>summer Collection 2018 </h2>
-                <h3>A good looking, comfortable traditional collection</h3>
-                <a href="shop.html">Shop The Collection</a>
+                <h2>@item.Name </h2>
+                <h3>@item.Description</h3>
+                @*<a href="shop.html">Shop The Collection</a>*@
             </div>
         </div>
-        <div class="single-slider slider-opacity ptb-250" style="background-image: url(assets/img/bg/4.jpg)">
-            <div class="slider-text">
-                <h2>Top Collection 2018</h2>
-                <h3>A good looking, comfortable traditional collection</h3>
-                <a href="shop.html">Shop The Collection</a>
-            </div>
-        </div>
-        <div class="single-slider slider-opacity ptb-250" style="background-image: url(assets/img/bg/3.jpg)">
-            <div class="slider-text">
-                <h2>summer Collection 2018</h2>
-                <h3>A good looking, comfortable traditional collection</h3>
-                <a href="shop.html">Shop The Collection</a>
-            </div>
-        </div>
+            }
+        }
+
+
     </div>
 </div>
 <!-- slider end -->
@@ -40,9 +34,9 @@
         <div class="shop-style-all">
             <div class="row">
                 <div class="grid">
-                    @if (Model != null)
+                    @if (Model.StockProducts != null)
                     {
-                        foreach (var item in Model)
+                        foreach (var item in Model.StockProducts)
                         {
                             <div class="col-md-3 col-sm-6 col-xs-12 grid-item cat1">
                                 <div class="shop hover-style mb-30">

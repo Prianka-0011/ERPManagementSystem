@@ -278,7 +278,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 prodVm.ProductName = item.Product.Name;
                 prodVm.Price = item.Price.Value;
                 prodVm.PerProductCost = item.PerProductCost.Value;
-                prodVm.TaxRate = item.Rate.Value;
+                prodVm.Rate = item.Rate.Value;
                 prodVm.Discount =0;
                 prodVm.Quantity = item.OrderQuantity.Value;
                 prodVm.ProductTotal = item.TotalCost.Value;

@@ -1,0 +1,141 @@
+﻿@model ERPManagementSystem.Models.Invoice
+
+@{
+    ViewData["Title"] = "Post";
+    Layout = null;
+}
+
+<div class="container-fluid">
+    <form asp-action="PostInvoice" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPostInvoiceModal(this);" enctype="multipart/form-data" autocomplete="off">
+        <div class="row">
+            <div class="col-md-4 col-lg-4 col-12">
+                <div class="form-group">
+                    <label>Invoicer No</label>
+                    <input asp-for="InvoiceNo" readonly class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4 col-12">
+                <input type="hidden" asp-for="Id" />
+                <div class="form-group">
+                    <label>Customer</label>
+                    <input class="form-control" readonly asp-for="CustomerName" />
+
+                </div>
+            </div>
+         
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-lg-4 col-12">
+                <div class="form-group">
+                    <label>Phone No</label>
+                    <input asp-for="Phone" readonly class="form-control" />
+                </div>
+            </div>
+
+            <div class="col-md-4 col-lg-4 col-12">
+                <div class="form-group">
+                    <label>Payment Method</label>
+                    <input asp-for="PaymentMethod" readonly class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-md-4 col-lg-4 col-12">
+                <div class="form-group">
+                    <label>Delivery Date</label>
+                    <input asp-for="InvoiceDate" readonly class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4 col-12">
+                <div class="form-group">
+                    <label>Address</label>
+                    <textarea asp-for="Address" readonly class="form-control"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="lineitem">
+            <p>Add Line Item</p>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-lg-12 col-12">
+
+                @if (Model.InvoiceLineItems != null && Model.InvoiceLineItems.Count() > 0)
+                {
+                    <div class="table-wrapper-scroll-y custom-scrollbar">
+                        <table class="table datatable table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Product</th>
+                                    <th scope="col">Price</th>
+
+                                    <th scope="col">Order Quantity</th>
+                                    <th scope="col">Sub Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int j = 0;
+                                }
+                                @foreach (var item in Model.InvoiceLineItems)
+                                {
+
+                                    <tr class="define">
+
+
+                                        <td>
+                                            <div class="form-group">
+                                                <input type="hidden" asp-for="@Model.InvoiceLineItems[j].Id" />
+                                                <input readonly asp-for="@Model.InvoiceLineItems[j].ProductName" class="form-control" />
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input readonly asp-for="@Model.InvoiceLineItems[j].ProductPrice" class="form-control" />
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <input readonly asp-for="@Model.InvoiceLineItems[j].Quantity" class="form-control" />
+                                        </td>
+                                        <td>
+                                            <input readonly asp-for="@Model.InvoiceLineItems[j].ProductTotal" class="form-control" />
+                                        </td>
+                                    </tr>
+
+
+
+                                    j++;
+                                }
+
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-3 col-3 col-lg-3 nopadding mt-auto">
+                            <button type="submit" class="invoicebtn">Post Invoice</button>
+                        </div>
+
+
+                        <div class="col-md-4 col-lg-4 col-3 offset-6 offset-md-5 offset-lg-5">
+                            <div class="form-group">
+                                <label>Net Total</label>
+                                <input id="subtotalOfThisOrder" readonly class="form-control" asp-for="TotalAmount" />
+                            </div>
+                            <div class="form-group">
+                                <label>Receive Total</label>
+                                <input id="subtotalOfThisOrder" class="form-control" asp-for="ReceiveAmount" />
+                            </div>
+
+                        </div>
+                     
+                    </div>
+
+                }
+            </div>
+        </div>
+    </form>
+</div>

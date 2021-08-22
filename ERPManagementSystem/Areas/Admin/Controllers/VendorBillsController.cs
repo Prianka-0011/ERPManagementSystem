@@ -1,11 +1,13 @@
 ﻿using ERPManagementSystem.Data;
 using ERPManagementSystem.Extensions;
+using ERPManagementSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static ERPManagementSystem.Extensions.Helper;
 
 namespace ERPManagementSystem.Areas.Admin.Controllers
 {
@@ -47,6 +49,88 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
             var data = vendorBills.Skip(resSkip).Take(pager.PageSize);
             ViewBag.Pager = pager;
             return View(await data.ToListAsync());
+        }
+        [NoDirectAccess]
+        public async Task<IActionResult> PostBills(Guid id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var bill = await _context.VendorBills.FindAsync(id);
+            bill.VendorBillLineItems = _context.VendorBillLineItems.Where(c => c.VendorBillId == id).ToList();
+            bill.GivenAmount = bill.DueAmount;
+            return View(bill);
+
+
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PostBills(VendorBill bill)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var serialNo = _context.AutoGenerateSerialNumbers.Where(c => c.ModuleName == "CA").FirstOrDefault();
+
+                Cash cash = new Cash();
+                if (serialNo == null)
+                {
+                    cash.TransitionNo = "N/A";
+
+                }
+
+                cash.TransitionNo = serialNo.ModuleName + "-000" + serialNo.SeialNo.ToString();
+                cash.TransitioType = "Deduction";
+                cash.LastTransitionAmout = bill.GivenAmount;
+                decimal maxValue = _context.Cashes.Max(x => x.TotalBalance);
+
+                if (cash.TransitioType == "Addition")
+                {
+                    cash.TotalBalance = maxValue + cash.LastTransitionAmout;
+                }
+                if (cash.TransitioType == "Deduction")
+                {
+                    cash.TotalBalance = maxValue - cash.LastTransitionAmout;
+                }
+                cash.SourchDocNo = bill.BillNo;
+
+                var currentBill = _context.VendorBills.Where(c => c.Id == bill.Id).FirstOrDefault();
+                currentBill.DueAmount = currentBill.DueAmount - bill.GivenAmount;
+                if (currentBill.DueAmount > 0)
+                {
+                    currentBill.BillStatus = "Posted";
+                    currentBill.PaymentStatus = "Partial Paid";
+                }
+                else
+                {
+                    currentBill.BillStatus = "Complete";
+                    currentBill.PaymentStatus = "Paid";
+                }
+                _context.VendorBills.Update(currentBill);
+                _context.Cashes.Add(cash);
+                await _context.SaveChangesAsync();
+                var billList = _context.VendorBills.ToList();
+                int pg = 1;
+                const int pageSize = 10;
+                if (pg < 1)
+                {
+                    pg = 1;
+                }
+                var resCount = billList.Count();
+                ViewBag.TotalRecord = resCount;
+                var pager = new Pager(resCount, pg, pageSize);
+                int resSkip = (pg - 1) * pageSize;
+                var data = billList.Skip(resSkip).Take(pager.PageSize);
+                ViewBag.Pager = pager;
+                return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllBills", data) });
+
+            }
+
+            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "PostBills", bill) });
+
+
         }
 
     }
