@@ -11,6 +11,6 @@ namespace ERPManagementSystem.Models
         public DateTime Date { get; set; }
         public string SalaryBillStatus { get; set; }
         public string PaymentStatus { get; set; }
-        public List<> MyProperty { get; set; }
+        ///public List<> MyProperty { get; set; }
     }
 }
