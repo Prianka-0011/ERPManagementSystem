@@ -3,14 +3,16 @@ using System;
 using ERPManagementSystem.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ERPManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210825051954_salary")]
+    partial class salary
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -397,14 +399,8 @@ namespace ERPManagementSystem.Migrations
                     b.Property<string>("PaymentStatus")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("ReferenceNo")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
                     b.Property<string>("SalaryBillStatus")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<decimal>("TotalSalaryBill")
-                        .HasColumnType("decimal(65,30)");
 
                     b.HasKey("Id");
 
@@ -427,9 +423,6 @@ namespace ERPManagementSystem.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<decimal>("SalaryAmount")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.Property<decimal>("TotalSalary")
                         .HasColumnType("decimal(65,30)");
 
                     b.HasKey("Id");

@@ -3,14 +3,16 @@ using System;
 using ERPManagementSystem.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ERPManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210825051230_employeesalary")]
+    partial class employeesalary
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -383,62 +385,6 @@ namespace ERPManagementSystem.Migrations
                     b.HasIndex("DesignationId");
 
                     b.ToTable("Employees");
-                });
-
-            modelBuilder.Entity("ERPManagementSystem.Models.EmployeeSalaryBill", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("PaymentStatus")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<string>("ReferenceNo")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<string>("SalaryBillStatus")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<decimal>("TotalSalaryBill")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("EmployeeSalaryBills");
-                });
-
-            modelBuilder.Entity("ERPManagementSystem.Models.EmployeeSalaryBillItem", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<decimal>("BonusAmount")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.Property<Guid>("EmployeeId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("EmployeeSalaryBillId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<decimal>("SalaryAmount")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.Property<decimal>("TotalSalary")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.HasIndex("EmployeeSalaryBillId");
-
-                    b.ToTable("EmployeeSalaryBillItems");
                 });
 
             modelBuilder.Entity("ERPManagementSystem.Models.Gallery", b =>
@@ -1377,21 +1323,6 @@ namespace ERPManagementSystem.Migrations
                     b.HasOne("ERPManagementSystem.Models.Designation", "Designation")
                         .WithMany("Employees")
                         .HasForeignKey("DesignationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ERPManagementSystem.Models.EmployeeSalaryBillItem", b =>
-                {
-                    b.HasOne("ERPManagementSystem.Models.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ERPManagementSystem.Models.EmployeeSalaryBill", "EmployeeSalaryBill")
-                        .WithMany("EmployeeSalaryBillItems")
-                        .HasForeignKey("EmployeeSalaryBillId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

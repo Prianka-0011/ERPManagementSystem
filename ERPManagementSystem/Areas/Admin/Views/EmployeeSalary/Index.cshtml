@@ -1,18 +1,17 @@
-﻿
-
-@model IEnumerable<ERPManagementSystem.Models.Vendor>
+﻿@model IEnumerable<ERPManagementSystem.Models.EmployeeSalaryBill>
 @using ERPManagementSystem.Extensions;
-
 @{
-    ViewData["Title"] = "Vendor";
+    ViewData["Title"] = "Monthly Salray Bill";
+
 }
+
 <div class="action">
     <div class="row">
         <div class="col-md-2 col-12 col-lg-2">
-            <a class="create" onclick="ShowInLargePopup('@Url.Action("AddOrEdit","Vendors",null,Context.Request.Scheme)','New Vendor' )"><i class="fas fa-plus"></i><span>New</span></a>
+            <a class="create" onclick="ShowEmployeeSalaryInPopup('@Url.Action("AddOrEdit","EmployeeSalary",null,Context.Request.Scheme)','New Bills' )"><i class="fas fa-plus"></i><span>New</span></a>
         </div>
         <div class="col-md-4 offset-md-6 col-lg-4 offset-lg-6 col-12">
-            <form ap-action="Index" asp-controller="Vendors" method="get">
+            <form ap-action="Index" asp-controller="Designations" method="get">
                 <input type="text" class="searchStringInput" value="@ViewBag.srcString" name="searchString" />
                 <button class="srcBtn" type="submit">Search</button>
             </form>
@@ -23,8 +22,7 @@
     <div class="row">
         <div class="col-md-12 col-12 col-lg-12">
             <div id="view-all">
-                @await Html.PartialAsync("_ViewAllVendor", Model)
-
+                @await Html.PartialAsync("_ViewAllMonthlySalaryBill", Model)
             </div>
         </div>
     </div>

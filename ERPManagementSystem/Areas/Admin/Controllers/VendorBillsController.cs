@@ -81,35 +81,44 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
 
                 }
 
-                cash.TransitionNo = serialNo.ModuleName + "-000" + serialNo.SeialNo.ToString();
+                
                 cash.TransitioType = "Deduction";
-                cash.LastTransitionAmout = bill.GivenAmount;
+                
                 decimal maxValue = _context.Cashes.Max(x => x.TotalBalance);
 
-                if (cash.TransitioType == "Addition")
-                {
-                    cash.TotalBalance = maxValue + cash.LastTransitionAmout;
-                }
+                //if (cash.TransitioType == "Addition")
+                //{
+                //    cash.TotalBalance = maxValue + cash.LastTransitionAmout;
+                //}
+                var currentBill = _context.VendorBills.Where(c => c.Id == bill.Id).FirstOrDefault();
                 if (cash.TransitioType == "Deduction")
                 {
-                    cash.TotalBalance = maxValue - cash.LastTransitionAmout;
-                }
-                cash.SourchDocNo = bill.BillNo;
+                    if (maxValue>bill.GivenAmount)
+                    {
+                        cash.TransitionNo = serialNo.ModuleName + "-000" + serialNo.SeialNo.ToString();
+                        cash.LastTransitionAmout = bill.GivenAmount;
+                        cash.SourchDocNo = bill.BillNo;
+                        cash.TotalBalance = maxValue - cash.LastTransitionAmout;
 
-                var currentBill = _context.VendorBills.Where(c => c.Id == bill.Id).FirstOrDefault();
-                currentBill.DueAmount = currentBill.DueAmount - bill.GivenAmount;
-                if (currentBill.DueAmount > 0)
-                {
-                    currentBill.BillStatus = "Posted";
-                    currentBill.PaymentStatus = "Partial Paid";
+                        currentBill.DueAmount = currentBill.DueAmount - bill.GivenAmount;
+                        if (currentBill.DueAmount > 0)
+                        {
+                            currentBill.BillStatus = "Posted";
+                            currentBill.PaymentStatus = "Partial Paid";
+                        }
+                        else
+                        {
+                            currentBill.BillStatus = "Complete";
+                            currentBill.PaymentStatus = "Paid";
+                        }
+
+                        _context.Cashes.Add(cash);
+                    }
                 }
-                else
-                {
-                    currentBill.BillStatus = "Complete";
-                    currentBill.PaymentStatus = "Paid";
-                }
+
+               
+               
                 _context.VendorBills.Update(currentBill);
-                _context.Cashes.Add(cash);
                 await _context.SaveChangesAsync();
                 var billList = _context.VendorBills.ToList();
                 int pg = 1;

@@ -85,16 +85,26 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 cash.TransitionNo = serialNo.ModuleName + "-000" + serialNo.SeialNo.ToString();
                 cash.TransitioType = "Addition";
                 cash.LastTransitionAmout = invoice.ReceiveAmount;
-                decimal maxValue = _context.Cashes.Max(x => x.TotalBalance);
+                var check = _context.Cashes.ToList();
+                if (check.Count == 0)
+                {
+                    cash.TotalBalance = cash.LastTransitionAmout;
+                    _context.Cashes.Add(cash);
+                }
+                else
+                {
+                    decimal maxValue = _context.Cashes.Max(x => x.TotalBalance);
 
-                if (cash.TransitioType == "Addition")
-                {
-                    cash.TotalBalance = maxValue + cash.LastTransitionAmout;
+                    if (cash.TransitioType == "Addition")
+                    {
+                        cash.TotalBalance = maxValue + cash.LastTransitionAmout;
+                    }
+                    //if (cash.TransitioType == "Deduction")
+                    //{
+                    //    cash.TotalBalance = maxValue - cash.LastTransitionAmout;
+                    //}
                 }
-                if (cash.TransitioType == "Deduction")
-                {
-                    cash.TotalBalance = maxValue - cash.LastTransitionAmout;
-                }
+                
                 cash.SourchDocNo = invoice.InvoiceNo;
 
                 var currentInvoice = _context.Invoices.Where(c => c.Id == invoice.Id).FirstOrDefault();

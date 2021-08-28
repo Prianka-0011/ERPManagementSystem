@@ -64,11 +64,17 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     cash.TransitionNo = "N/A";
 
                 }
+                else
+                {
+                    serialNo.SeialNo = serialNo.SeialNo + 1;
+                    _context.Update(serialNo);
+                    _context.SaveChanges();
+                    cash.TransitionNo = serialNo.ModuleName + "-000" + serialNo.SeialNo.ToString();
+                }
 
-                cash.TransitionNo = serialNo.ModuleName + "-000" + serialNo.SeialNo.ToString();
                
-                serialNo.SeialNo = serialNo.SeialNo + 1;
-                _context.Update(serialNo);
+               
+                
                 _context.SaveChanges();
                 return View(cash);
             }
@@ -99,17 +105,27 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     entity.LastTransitionAmout = cash.LastTransitionAmout;
                     entity.TransitioType = cash.TransitioType;
                     entity.LastTransitionAmout = cash.LastTransitionAmout;
-                    decimal maxValue = _context.Cashes.Max(x => x.TotalBalance);
+                    var check = _context.Cashes.ToList();
+                    if (check.Count==0 && cash.TransitioType== "Addition")
+                    {
+                        entity.TotalBalance = cash.LastTransitionAmout;
+                        _context.Cashes.Add(entity);
+                    }
+                    else
+                    {
+                        var maxValue = _context.Cashes.Max(x => x.TotalBalance);
 
-                    if (cash.TransitioType== "Addition")
-                    {
-                        entity.TotalBalance = maxValue + cash.LastTransitionAmout;
+                        if (cash.TransitioType == "Addition")
+                        {
+                            entity.TotalBalance = maxValue + cash.LastTransitionAmout;
+                        }
+                        if (cash.TransitioType == "Deduction")
+                        {
+                            entity.TotalBalance = maxValue - cash.LastTransitionAmout;
+                        }
+                        _context.Add(entity);
                     }
-                    if (cash.TransitioType == "Deduction")
-                    {
-                        entity.TotalBalance = maxValue - cash.LastTransitionAmout;
-                    }
-                    _context.Add(entity);
+                    
                     await _context.SaveChangesAsync();
                 }
 
@@ -128,7 +144,16 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                         }
                         if (cash.TransitioType == "Deduction")
                         {
-                            entity.TotalBalance = cash.TotalBalance - cash.LastTransitionAmout;
+                            if (entity.TotalBalance> cash.LastTransitionAmout)
+                            {
+                                entity.TotalBalance = cash.TotalBalance - cash.LastTransitionAmout;
+                            }
+                            else
+                            {
+                                return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEdit", cash) });
+
+                            }
+
                         }
                         _context.Update(entity);
                         await _context.SaveChangesAsync();

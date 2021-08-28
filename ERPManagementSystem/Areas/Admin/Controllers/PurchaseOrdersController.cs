@@ -65,8 +65,18 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 ViewData["Tax"] = new SelectList(_context.TaxRates.ToList(), "Id", "Name");
                 ViewData["Vendor"] = new SelectList(_context.Vendors.ToList(), "Id", "DisplayName");
                 var serialNo = _context.AutoGenerateSerialNumbers.Where(c => c.ModuleName == "PO").FirstOrDefault();               
-                purchaseOrderVm.PurchaseNo = serialNo.ModuleName + "-000" + serialNo.SeialNo.ToString();
-                serialNo.SeialNo = serialNo.SeialNo + 1;
+                if (serialNo!=null)
+                {
+                    purchaseOrderVm.PurchaseNo = serialNo.ModuleName + "-000" + serialNo.SeialNo.ToString();
+                    serialNo.SeialNo = serialNo.SeialNo + 1;
+                    _context.AutoGenerateSerialNumbers.Update(serialNo);
+                }
+                else
+                {
+                    purchaseOrderVm.PurchaseNo = "N/A";
+
+                }
+
                 _context.SaveChanges();
                 return View(purchaseOrderVm);
             }

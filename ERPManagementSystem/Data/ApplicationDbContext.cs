@@ -49,6 +49,8 @@ namespace ERPManagementSystem.Data
         public virtual DbSet<VendorBillLineItem> VendorBillLineItems { get; set; }
         public virtual DbSet<Cash> Cashes { get; set; }
         public virtual DbSet<TransitionBlance> TransitionBlances { get; set; }
+        public virtual DbSet<EmployeeSalaryBill> EmployeeSalaryBills { get; set; }
+        public virtual DbSet<EmployeeSalaryBillItem> EmployeeSalaryBillItems { get; set; }
 
     }
 }

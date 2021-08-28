@@ -179,12 +179,17 @@
                         }
                         else if ((Context.Request.Path.StartsWithSegments("/Admin/VendorBills/Index") == true))
                         {
-                            DynamicUrl2 = "/Admin/VendorBills/Index";
+                            DynamicUrlAccount = "/Admin/VendorBills/Index";
 
                         }
                         else if ((Context.Request.Path.StartsWithSegments("/Admin/Cash/Index") == true))
                         {
-                            DynamicUrl2 = "/Admin/Cash/Index";
+                            DynamicUrlAccount = "/Admin/Cash/Index";
+
+                        }
+                        else if ((Context.Request.Path.StartsWithSegments("/Admin/EmployeeSalary/Index") == true))
+                        {
+                            DynamicUrlAccount = "/Admin/EmployeeSalary/Index";
 
                         }
                     }
@@ -196,7 +201,8 @@
                             <li><a class="@(Context.Request.Path.StartsWithSegments(DynamicUrlAccount) ? "active":null)" href="@DynamicUrlAccount">Invoice</a></li>
                             @{ DynamicUrlAccount = "/Admin/Cash/Index";}
                             <li><a class="@(Context.Request.Path.StartsWithSegments(DynamicUrlAccount) ? "active":null)" href="@DynamicUrlAccount">Cash</a></li>
-                            <li><a href="#">Bank</a></li>
+                            @{ DynamicUrlAccount = "/Admin/EmployeeSalary/Index";}
+                            <li><a class="@(Context.Request.Path.StartsWithSegments(DynamicUrlAccount) ? "active":null)" href="@DynamicUrlAccount">Employee Bill</a></li>
                             <li><a href="#">Branch</a></li>
                             @{ DynamicUrlAccount = "/Admin/VendorBills/Index";}
                             <li><a class="@(Context.Request.Path.StartsWithSegments(DynamicUrlAccount) ? "active":null)" href="@DynamicUrlAccount">Vendor Bill</a></li>

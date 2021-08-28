@@ -3,17 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ERPManagementSystem.Models
+namespace ERPManagementSystem.ViewModels
 {
-    public class EmployeeSalaryBillItem
+    public class DraftEmpSalaryBillsItemVm
     {
         public Guid Id { get; set; }
+        public string EmployeeName { get; set; }
         public decimal SalaryAmount { get; set; }
         public decimal BonusAmount { get; set; }
         public decimal TotalSalary { get; set; }
-        public Guid EmployeeId { get; set; }
-        public Employee Employee { get; set; }
-        public Guid EmployeeSalaryBillId { get; set; }
-        public EmployeeSalaryBill EmployeeSalaryBill { get; set; }
     }
 }
