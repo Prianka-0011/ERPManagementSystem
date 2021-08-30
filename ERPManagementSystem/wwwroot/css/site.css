@@ -581,3 +581,12 @@ label #sidebar-btn{
     font-size:12px;
     text-align:left;
 }
+/*login css*/
+.login-background {
+    background-image: url('/css/image/loginback.jepg');
+    background-attachment:fixed;
+    background-position:center;
+    background-size:cover;
+    background-repeat:no-repeat;
+    
+}

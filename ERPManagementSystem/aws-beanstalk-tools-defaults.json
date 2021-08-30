@@ -1,20 +1,20 @@
 
 {
     "region" : "us-east-2",
-    "configuration" : "Debug",
+    "configuration" : "Release",
     "framework"     : "netcoreapp3.1",
-    "self-contained" : false,
+    "self-contained" : true,
     "application"    : "ERPManagementSystem",
-    "environment"    : "ERPManagementSystem-dev",
-    "enable-xray"    : false,
-    "enhanced-health-type" : "basic",
-    "additional-options"   : "",
+    "environment"    : "ERPManagementSystem-prod",
+    "enable-xray"    : true,
+    "enhanced-health-type" : "enhanced",
+    "additional-options"   : "\"aws:autoscaling:launchconfiguration,SecurityGroups\"=\"sg-c7227cb8,sg-0c4c3c58379a46fab\";\"aws:ec2:vpc,Subnets\"=\"subnet-e36b6199\"",
     "solution-stack"       : "64bit Amazon Linux 2 v2.2.4 running .NET Core",
     "environment-type"     : "SingleInstance",
-    "cname"                : "erpmanagementsystem-dev",
+    "cname"                : "erpmanagementsystem-prod",
     "instance-type"        : "t3a.medium",
     "key-pair"             : "",
     "instance-profile"     : "aws-elasticbeanstalk-ec2-role",
     "service-role"         : "aws-elasticbeanstalk-service-role",
-    "proxy-server"         : "nginx"
+    "proxy-server"         : "none"
 }
