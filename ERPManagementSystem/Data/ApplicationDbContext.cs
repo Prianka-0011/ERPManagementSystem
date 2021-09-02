@@ -44,8 +44,13 @@ namespace ERPManagementSystem.Data
         public virtual DbSet<Employee> Employees { get; set; }
         //Account 
         public virtual DbSet<Invoice> Invoices { get; set; }
-        public virtual DbSet<InvoiceItem> InvoiceItems { get; set; }
-
+        public virtual DbSet<InvoiceLineItem> InvoiceLineItems { get; set; }
+        public virtual DbSet<VendorBill> VendorBills { get; set; }
+        public virtual DbSet<VendorBillLineItem> VendorBillLineItems { get; set; }
+        public virtual DbSet<Cash> Cashes { get; set; }
+        public virtual DbSet<TransitionBlance> TransitionBlances { get; set; }
+        public virtual DbSet<EmployeeSalaryBill> EmployeeSalaryBills { get; set; }
+        public virtual DbSet<EmployeeSalaryBillItem> EmployeeSalaryBillItems { get; set; }
 
     }
 }

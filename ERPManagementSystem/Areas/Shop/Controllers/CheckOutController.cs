@@ -38,9 +38,14 @@ namespace ERPManagementSystem.Areas.Shop.Controllers
                 subtotal = subtotal + item.ProductTotal;
                 squantity = item.CartQuantity + squantity;
             }
+            decimal finalCharge = 0;
+            decimal scharge2 = 0;
             var shippingCharge = _context.ShippingCharges.FirstOrDefault();
-            var scharge2 = ((squantity - 1) * shippingCharge.IncreaeChargePerProduct)+ shippingCharge.BaseCharge;
-            var finalCharge =scharge2;
+            if (shippingCharge != null)
+            {
+                scharge2 = ((squantity - 1) * shippingCharge.IncreaeChargePerProduct) + shippingCharge.BaseCharge;
+                finalCharge = scharge2;
+            }
             ViewBag.shippingCharge = finalCharge;
             ViewBag.subTotal = subtotal+finalCharge;
             CheckOutVm checkOutVm = new CheckOutVm();
@@ -60,7 +65,7 @@ namespace ERPManagementSystem.Areas.Shop.Controllers
                 order.OrderNo = serialNo.ModuleName + "-000" + serialNo.SeialNo.ToString();
 
                 order.LastName = checkOutVm.LastName;
-                order.CompanyName = checkOutVm.CompanyName;
+                order.DisplayName = checkOutVm.DisplayName;
                 order.Email = checkOutVm.Email;
                 order.OrderDate = DateTime.Now;
                 order.Phone = checkOutVm.Phone;
@@ -81,11 +86,14 @@ namespace ERPManagementSystem.Areas.Shop.Controllers
                 {
                     orderItem = new SaleOrderItem();
                     orderItem.ProductName = item.ProductName;
-                    orderItem.quantity = item.CartQuantity;
+                    orderItem.Quantity = item.CartQuantity;
                     orderItem.SaleOrderId = order.Id;
                     orderItem.ProductSerial = item.ProductSerial;
-
+                    orderItem.Price = item.SalePrice;
+                    orderItem.ProductTotal = item.ProductTotal;
+                    _context.SaleOrderItems.Add(orderItem);
                 }
+               
                 await _context.SaveChangesAsync();
                 HttpContext.Session.Set("order", order);
 

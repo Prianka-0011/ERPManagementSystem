@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Hosting;
 using ERPManagementSystem.Data;
 using AspNetCore.Reporting;
 using System.Data;
+using MySql.Data.MySqlClient;
 using Microsoft.EntityFrameworkCore;
+using ERPManagementSystem.Models;
 
 namespace ERPManagementSystem.Areas.Admin.Controllers
 {
@@ -27,28 +29,60 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
 
             return View();
         }
-        //List Report
-        [HttpPost]
-        public IActionResult PurchaseOrderListReport(DateTime fromDate, DateTime toDate)
+
+
+        private DataTable GetPurchaseOrderList()
         {
             var dt = new DataTable();
-            dt = GetPurchaseOrderList(fromDate, toDate);
-            //var purchaseOrderList = _context.PurchaseOrders.ToList();
-            string mineType = "";
-            int extension = 1;
-            var path = $"{_hosting.WebRootPath}\\Reports\\PurchaseOrder.rdlc";
-            Dictionary<string, string> parameters = new Dictionary<string, string>();
-            parameters.Add("prm", "RDCL Report");
-            LocalReport localReport = new LocalReport(path);
-            localReport.AddDataSource("dsPurchaseOrder", dt);
-            var result = localReport.Execute(RenderType.Pdf, extension, parameters);
-
-            return File(result.MainStream, "application/pdf");
+            dt.Columns.Add("PurchaseNo");
+            dt.Columns.Add("ShippingCost");
+            DataRow row;
+            for (int i = 1; i < 20; i++)
+            {
+                row = dt.NewRow();
+                row["PurchaseNo"] = "PO-000";
+                row["ShippingCost"] = 300;
+                dt.Rows.Add(row);
+            }
+            return dt;
         }
-        public DataTable GetPurchaseOrderList(DateTime fromDate, DateTime toDate)
+
+        //List Report
+        //[HttpPost]
+        //public IActionResult PurchaseOrderListReport(DateTime fromDate, DateTime toDate)
+        //{
+        //    var dt = new DataTable();
+        //    dt = GetPurchaseOrderList();
+        //    //var purchaseOrderList = _context.PurchaseOrders.ToList();
+
+        //    var path = $"{_hosting.WebRootPath}\\Reports\\PurchaseOrderList.rdlc";
+        //    Dictionary<string, string> parameters = new Dictionary<string, string>();
+        //    parameters.Add("prm", "RDCL Report");
+        //    ReportViewer reportViewer;
+        //    reportViewer.Reset();
+        //    ReportDataSource reportDataSource = new ReportDataSource("DataSet1");
+
+        //    //LocalReport localReport = new LocalReport(path);
+        //    // localReport.AddDataSource("erpdatabaseDataSet", dt);
+        //    //var result = localReport.Execute(RenderType.Pdf);
+
+        //   // return File(result.MainStream, "application/pdf");
+        //}
+        //public DataTable purchaseorderlistreport()
+        //{
+        //    var dt = new DataTable();
+        //    string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["server=localhost;user id=root;password=01985100851;sslmode=None;database=erpdatab"].ConnectionString;
+        //    using (MySqlConnection conn = new MySqlConnection(connStr))
+        //    {
+        //        MySqlDataAdapter adp = new MySqlDataAdapter("SELECT `PurchaseNo`, `ShippingCost`, `TotalAmount` FROM `purchaseorders`", conn);
+        //        adp.Fill(dt);
+        //    }
+        //    return dt;
+        //}
+        private DataTable GetPurchaseOrderList(DateTime fromDate, DateTime toDate)
         {
 
-            var purchaseOrder = _context.PurchaseOrders.ToList();
+            var purchaseOrder = _context.PurchaseOrders.Include(c => c.Vendor).Include(c => c.Currency).ToList();
             if (fromDate != null && toDate != null)
             {
                 purchaseOrder = purchaseOrder.Where(c => c.OrderDate >= fromDate && c.OrderDate <= toDate).ToList();
@@ -56,10 +90,13 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
             var dt = new DataTable();
             dt.Columns.Add("SerialNo");
             dt.Columns.Add("PurchaseNo");
-            dt.Columns.Add("DeliveryDate");
-            dt.Columns.Add("Discont");
-            dt.Columns.Add("ShippingCost");
-            dt.Columns.Add("TotalAmount");
+            //dt.Columns.Add("DeliveryDate");
+            //dt.Columns.Add("Discont");
+            //dt.Columns.Add("ShippingCost");
+
+            //dt.Columns.Add("TotalAmount");
+            //dt.Columns.Add("Currency");
+            //dt.Columns.Add("Vendor");
             DataRow row;
             int j = 1;
             foreach (var item in purchaseOrder)
@@ -67,94 +104,101 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 row = dt.NewRow();
                 row["SerialNo"] = j;
                 row["PurchaseNo"] = item.PurchaseNo;
-                row["DeliveryDate"] = item.PurchaseNo;
-                row["Discont"] = item.PurchaseNo;
-                row["ShippingCost"] = item.PurchaseNo;
-                row["TotalAmount"] = item.PurchaseNo;
+                //row["DeliveryDate"] = item.PurchaseNo;
+                //row["Discont"] = item.PurchaseNo;
+                //row["ShippingCost"] = item.PurchaseNo;
+                //row["TotalAmount"] = item.PurchaseNo;
+                //row["CurrencyName"] = item.Currency.CurrencyName;
+                //row["DisplayName"] = item.Vendor.DisplayName;
 
                 dt.Rows.Add(row);
                 j++;
             }
             return dt;
         }
-        [HttpPost]
-        public IActionResult PurchaseOrderMDReport(string searchPurchaseOrder)
-        {
+        //[HttpPost]
+        //public IActionResult PurchaseOrderMDReport(string searchPurchaseOrder)
+        //{
 
-            //if (searchPurchaseOrder!=null)
-            //{
-            var dt = new DataTable();
-            dt = GetPurchaseOrderDetail(searchPurchaseOrder);
-            ViewBag.srcString = searchPurchaseOrder;
-            string mineType = "";
-            int extension = 1;
-            var path = $"{_hosting.WebRootPath}\\Reports\\PurchaseOrderMasterDetail.rdlc";
-            Dictionary<string, string> parameters = new Dictionary<string, string>();
-            //parameters.Add("prm", "RDCL Report");
-            LocalReport localReport = new LocalReport(path);
-            localReport.AddDataSource("dsPurchaseOrderMD", dt);
-            var result = localReport.Execute(RenderType.Pdf, extension);
-            return File(result.MainStream, "application/pdf");
-            //}
-
-
+        //    //if (searchPurchaseOrder!=null)
+        //    //{
+        //    var dt = new DataTable();
+        //    dt = GetPurchaseOrderDetail(searchPurchaseOrder);
+        //    ViewBag.srcString = searchPurchaseOrder;
+        //    string mineType = "";
+        //    int extension = 1;
+        //    var path = $"{_hosting.WebRootPath}\\Reports\\PurchaseOrderMasterDetail.rdlc";
+        //    Dictionary<string, string> parameters = new Dictionary<string, string>();
+        //    //parameters.Add("prm", "RDCL Report");
+        //   // LocalReport localReport = new LocalReport(path);
+        //   // localReport.AddDataSource("dsPurchaseOrderMD", dt);
+        //    //var result = localReport.Execute(RenderType.Pdf, extension);
+        //  //  return File(result.MainStream, "application/pdf");
+        //    //}
 
 
-        }
+
+
+        //}
         public DataTable GetPurchaseOrderDetail(string searchPurchaseOrder)
         {
 
 
-            var purchaseOrder = _context.PurchaseOrders.Include(c=>c.Vendor).Where(c => c.PurchaseNo == searchPurchaseOrder).FirstOrDefault();
-
-            var dt = new DataTable();
-            dt.Columns.Add("SerialNo");
-            dt.Columns.Add("PurchaseNo");
-            dt.Columns.Add("DisplayName");
-            dt.Columns.Add("DeliveryDate");
-            dt.Columns.Add("OrderDate");
-            dt.Columns.Add("Discont");
-            dt.Columns.Add("ShippingCost");
-            dt.Columns.Add("Name");
-            dt.Columns.Add("Price");
-            dt.Columns.Add("Discount");
-            dt.Columns.Add("TotalCost");
-            dt.Columns.Add("Rate");
-            dt.Columns.Add("Address");
-            dt.Columns.Add("Phone");
-            dt.Columns.Add("OrderQuantity");
-            dt.Columns.Add("TotalAmount");
-            //dt.Columns.Add("TotalAmount");
-            DataRow row;
-            int j = 1;
-            var lineItem = _context.PurchaseOrderLineItems.Include(c=>c.Product).Where(c => c.PurchaseOrderId == purchaseOrder.Id).ToList();
-            foreach (var item in lineItem)
+            var purchaseOrder = _context.PurchaseOrders.Include(c => c.Vendor).Where(c => c.PurchaseNo == searchPurchaseOrder).FirstOrDefault();
+            if (purchaseOrder != null)
             {
-                row = dt.NewRow();
-                row["SerialNo"] = j;
-                row["Name"] = item.Product.Name;
-                row["Price"] = item.Price;
-                row["TotalCost"] = item.TotalCost;
-                row["Rate"] = item.Rate;
-                row["Discount"] = item.Discount;
-                row["OrderQuantity"] = item.OrderQuantity;
-                row["PurchaseNo"] = purchaseOrder.PurchaseNo;
-                row["ShippingCost"] = purchaseOrder.ShippingCost;
-                row["DeliveryDate"] = purchaseOrder.DeliveryDate;
-                row["OrderDate"] = purchaseOrder.OrderDate;
-                row["Discont"] = purchaseOrder.Discont;
-                row["DisplayName"] = purchaseOrder.Vendor.DisplayName;
-                row["Address"] = purchaseOrder.Vendor.Address;
-                row["Phone"] = purchaseOrder.Vendor.Phone;
-                row["TotalAmount"] = purchaseOrder.TotalAmount;
-                row["Discont"] = purchaseOrder.Discont;
-                
-                dt.Rows.Add(row);
-                j++;
+                var dt = new DataTable();
+                dt.Columns.Add("SerialNo");
+                dt.Columns.Add("PurchaseNo");
+                dt.Columns.Add("DisplayName");
+                dt.Columns.Add("DeliveryDate");
+                dt.Columns.Add("OrderDate");
+                dt.Columns.Add("Discont");
+                dt.Columns.Add("ShippingCost");
+                dt.Columns.Add("Name");
+                dt.Columns.Add("Price");
+                dt.Columns.Add("Discount");
+                dt.Columns.Add("TotalCost");
+                dt.Columns.Add("Rate");
+                dt.Columns.Add("Address");
+                dt.Columns.Add("Phone");
+                dt.Columns.Add("OrderQuantity");
+                dt.Columns.Add("TotalAmount");
+                //dt.Columns.Add("TotalAmount");
+                DataRow row;
+                int j = 1;
+
+
+
+                var lineItem = _context.PurchaseOrderLineItems.Include(c => c.Product).Where(c => c.PurchaseOrderId == purchaseOrder.Id).ToList();
+                foreach (var item in lineItem)
+                {
+                    row = dt.NewRow();
+                    row["SerialNo"] = j;
+                    row["Name"] = item.Product.Name;
+                    row["Price"] = item.Price;
+                    row["TotalCost"] = item.TotalCost;
+                    row["Rate"] = item.Rate;
+                    row["Discount"] = item.Discount;
+                    row["OrderQuantity"] = item.OrderQuantity;
+                    row["PurchaseNo"] = purchaseOrder.PurchaseNo;
+                    row["ShippingCost"] = purchaseOrder.ShippingCost;
+                    row["DeliveryDate"] = purchaseOrder.DeliveryDate;
+                    row["OrderDate"] = purchaseOrder.OrderDate;
+                    row["Discont"] = purchaseOrder.Discont;
+                    row["DisplayName"] = purchaseOrder.Vendor.DisplayName;
+                    row["Address"] = purchaseOrder.Vendor.Address;
+                    row["Phone"] = purchaseOrder.Vendor.Phone;
+                    row["TotalAmount"] = purchaseOrder.TotalAmount;
+                    row["Discont"] = purchaseOrder.Discont;
+
+                    dt.Rows.Add(row);
+                    j++;
+                }
+
+                return dt;
             }
-
-            return dt;
+            return new DataTable();
         }
-
     }
 }

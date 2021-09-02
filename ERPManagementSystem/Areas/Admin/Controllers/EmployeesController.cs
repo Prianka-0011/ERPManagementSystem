@@ -168,6 +168,8 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
 
               
             }
+            ViewData["DesignationId"] = new SelectList(_context.Designations, "Id", "Name");
+            ViewData["RoleId"] = new SelectList(_roleManager.Roles, "Id", "Name");
             return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEdit", employee) });
 
         }
@@ -223,7 +225,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     await _context.SaveChangesAsync();
                   
                 }
-                catch (DbUpdateConcurrencyExceptio ex)
+                catch (Exception ex)
                 {
 
                 }

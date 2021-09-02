@@ -1,0 +1,29 @@
+﻿@model ERPManagementSystem.Models.AutoGenerateSerialNumber
+@{
+    ViewData["Title"] = "AddOrEdit";
+    Layout = null;
+}
+
+<div class="container-fluid">
+    <form asp-action="AddOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPost(this);" autocomplete="off">
+        <div class="row">
+            <div class="col-md-10 offset-1 col-10 offset-md-1 col-lg-10 offset-lg-1">
+                <div class="form-group">
+                    <input type="hidden" asp-for="Id" />
+                    <label>ModuleName</label>
+                    <input asp-for="ModuleName" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-10 offset-1 col-10 col-lg-10 offset-lg-1">
+                <div class="form-group">
+                    <label>SeialNo</label>
+                    <input asp-for="SeialNo" class="form-control" />
+                </div>
+            </div>
+            <div class="container d-flex justify-content-center align-items-center">
+                <button type="submit" class="savebtn">Save</button>
+            </div>
+        </div>
+    </form>
+</div>
+

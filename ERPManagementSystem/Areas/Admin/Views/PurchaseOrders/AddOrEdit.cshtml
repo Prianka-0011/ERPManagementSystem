@@ -23,12 +23,12 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4 col-lg-4 col-12">
+            @*<div class="col-md-4 col-lg-4 col-12">
                 <div class="form-group">
                     <label>Shipping Cost</label>
                     <input asp-for="ShippingCost" class="form-control shippingcost"  />
                 </div>
-            </div>
+            </div>*@
             <div class="col-md-4 col-lg-4 col-12">
                 <div class="form-group">
                     <label>Currency</label>
@@ -188,25 +188,31 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-1 col-3 col-lg-1">
+                        <div class="col-md-1 col-3 col-lg-1 mt-auto">
                             <a class="addBtn" id="addAnother"><i class="fas fa-plus"></i><span>Add</span></a>
 
                         </div>
-                        <div class="col-md-1 col-3 col-lg-1 nopadding">
+                        <div class="col-md-1 col-3 col-lg-1 nopadding mt-auto">
                             <button type="submit" class="savebtn">Save</button>
                         </div>
 
-                        <div class="col-md-2 col-lg-2 col-3  ml-auto">
-                            <div class="form-group">
-                                <label>Discount</label>
-                                <input id="discountOntotalOrder" class="form-control" asp-for="Discont" />
-                            </div>
+                        <div class="col-md-2 col-lg-2 col-3  ml-auto mt-auto">
+
+                            <label>Discount</label>
+                            <input id="discountOntotalOrder" class="form-control" asp-for="Discont" />
+
                         </div>
-                        <div class="col-md-2 col-lg-2 col-3">
-                            <div class="form-group">
-                                <label>Subtotal</label>
-                                <input id="subtotalOfThisOrder" readonly class="form-control" asp-for="TotalAmount" />
-                            </div>
+                        <div class="col-md-2 col-lg-2 col-3 mt-auto">
+
+                            <label>Shipping Cost</label>
+                            <input asp-for="ShippingCost" class="form-control shippingcost" />
+
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-3 mt-auto">
+
+                            <label>Subtotal</label>
+                            <input id="subtotalOfThisOrder" readonly class="form-control" asp-for="TotalAmount" />
+
 
                         </div>
                     </div>

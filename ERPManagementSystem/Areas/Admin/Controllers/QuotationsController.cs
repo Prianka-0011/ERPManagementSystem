@@ -25,7 +25,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
         }
         public async Task<IActionResult> Index(int pg)
         {
-            var quotation = _context.Quotations.Include(c=>c.Vendor);
+            var quotation = _context.Quotations.Include(c => c.Vendor);
             const int pageSize = 10;
             if (pg < 1)
             {

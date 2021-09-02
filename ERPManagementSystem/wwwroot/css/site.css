@@ -1,8 +1,14 @@
 ﻿
 /**Global CSS Start**/
+.rowAction1 {
+    cursor: pointer;
+   
+}
+    .rowAction1 span {
+        color: #37BEB0 !important;
+    }
 .modal-lg {
-  max-width: 1000px !important;
-
+    max-width: 1000px !important;
 }
 .datatable > tbody > tr > td {
     padding: 5px !important;
@@ -37,27 +43,28 @@
 /**for modal start**/
 /*.modal-dialog {
     overflow-x: initial !important
-}
+}*/
 
-.modal-body {
-   
+#view-all {
     overflow-x: auto;
+    white-space: nowrap;
 }
-.modal-body::-webkit-scrollbar {
-    height: 5px;
-}
+    #view-all::-webkit-scrollbar {
+        height: 5px;
+        
+    }
 
-    .modal-body::-webkit-scrollbar-thumb {
+    #view-all::-webkit-scrollbar-thumb {
         background-color: #bbbbbb;
     }
 
-.modal-body::-webkit-scrollbar-track-piece:end {
-    margin-right: 50px;
-}
+    #view-all::-webkit-scrollbar-track-piece:end {
+        margin-right: 600px;
+    }
 
-.modal-body::-webkit-scrollbar-track-piece:start {
-    margin-left: 50px;
-}*/
+    #view-all::-webkit-scrollbar-track-piece:start {
+        margin-left: 600px;
+    }
 /**for modal start**/
 .hideDisplayOnEdit {
     display: none;
@@ -93,7 +100,40 @@
     font-size:10px;
 }
 
+     .rowAction {
+        padding: 10px 0;
+        left: 0;
+        background-color: none;
+        border: none;
+        outline: none;
+        font-weight: 100;
+        font-size: 13px;
+        cursor: pointer;
+    }
+
+        .rowAction span {
+            color: #000;
+        }
+
+        .rowAction i {
+            padding-right: 8px;
+            color: #000000;
+            font-size: 10px;
+        }
+
+
 .savebtn {
+    color: #000;
+    padding: 8px 15px;
+    display: block;
+    background-color: #fff;
+    border: 1px solid #a7a5a5;
+    outline: none;
+    font-size: 12px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.invoicebtn {
     color: #000;
     padding: 8px 15px;
     display: block;
@@ -540,4 +580,13 @@ label #sidebar-btn{
 .card-header h1{
     font-size:12px;
     text-align:left;
+}
+/*login css*/
+.login-background {
+    background-image: url('/css/image/loginback.jepg');
+    background-attachment:fixed;
+    background-position:center;
+    background-size:cover;
+    background-repeat:no-repeat;
+    
 }

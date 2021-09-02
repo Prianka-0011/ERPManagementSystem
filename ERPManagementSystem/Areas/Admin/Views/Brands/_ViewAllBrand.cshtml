@@ -35,7 +35,7 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col"><a asp-action="Index" asp-controller="Brands" asp-route-sortOrder="@ViewBag.brandnam">Name</a></th>
-                <th scope="col">Category</th>
+                <th scope="col">SubCategory</th>
                 <th scope="col">Status</th>
             </tr>
         </thead>
@@ -45,7 +45,7 @@
                 <tr onclick="ShowInSmallPopup('@Url.Action("AddOrEdit","Brands",new { id=item.Id},Context.Request.Scheme)','Update Brand' )">
                     <td scope="row">@i</td>
                     <td>@item.Name</td>
-                    <td>@item.Category.Name</td>
+                    <td>@item.SubCategory.Name</td>
                     <td>@item.BrandStatus</td>
                 </tr>
                 i++;

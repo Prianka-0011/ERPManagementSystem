@@ -1,0 +1,143 @@
+﻿@model ERPManagementSystem.ViewModels.DraftInvoiceVm
+
+@{
+    ViewData["Title"] = "DraftInvoice";
+    Layout = null;
+}
+
+<div class="container-fluid">
+    <form asp-action="DraftInvoice" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPostInvoiceModal(this);" enctype="multipart/form-data" autocomplete="off">
+        <div class="row">
+            <div class="col-md-4 col-lg-4 col-12">
+                <input type="hidden" asp-for="Id" />
+                <div class="form-group">
+                    <label>Customer</label>
+                    <input class="form-control" readonly asp-for="DisplayName" />
+
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4 col-12">
+                <div class="form-group">
+                    <label>Phone No</label>
+                    <input asp-for="Phone" readonly class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4 col-12">
+                <div class="form-group">
+                    <label>Sales Order No</label>
+                    <input asp-for="OrderNo" readonly class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4 col-12">
+                <div class="form-group">
+                    <label>Payment Mrthod</label>
+                    <input asp-for="PaymentMethod" readonly class="form-control" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-4 col-lg-4 col-12">
+                <div class="form-group">
+                    <label>Delivery Date</label>
+                    <input asp-for="OrderDate" readonly class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4 col-12">
+                <div class="form-group">
+                    <label>Address</label>
+                    <textarea asp-for="Address" readonly class="form-control"></textarea>
+                </div>
+            </div>
+        </div>
+    
+        <div class="lineitem">
+            <p>Add Line Item</p>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-lg-12 col-12">
+
+                @if (Model.ProductVms != null && Model.ProductVms.Count() > 0)
+                {
+                    <div class="table-wrapper-scroll-y custom-scrollbar">
+                        <table class="table datatable table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Product</th>
+                                    <th scope="col">Price</th>
+                                   
+                                    <th scope="col">Order Quantity</th>
+                                    <th scope="col">Sub Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int j = 0;
+                                }
+                                @foreach (var item in Model.ProductVms)
+                                {
+
+                                <tr class="define">
+
+                                   
+                                    <td >
+                                        <div class="form-group">
+                                            <input type="hidden" asp-for="@Model.ProductVms[j].Id" />
+                                            <input readonly asp-for="@Model.ProductVms[j].ProductName"  class="form-control"  />
+                                        </div>
+                                    </td>
+                                    <td >
+                                        <div class="form-group">
+                                            <input readonly asp-for="@Model.ProductVms[j].SalePrice"  class="form-control" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input readonly asp-for="@Model.ProductVms[j].Quantity"  class="form-control" />
+                                    </td>
+                                    <td >
+                                        <input readonly  asp-for="@Model.ProductVms[j].ProductTotal"  class="form-control" />
+                                    </td>
+                                </tr>
+
+
+
+                                    j++;
+                                }
+
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                    <div class="row">
+                   
+                        <div class="col-md-3 col-3 col-lg-3 nopadding mt-auto">
+                            <button type="submit" class="invoicebtn">Post Invoice</button>
+                        </div>
+
+                        <div class="col-md-2 col-lg-2 col-3  ml-auto">
+
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-3">
+                            <div class="form-group">
+                                <label>Gross Total</label>
+                                <input id="subtotalOfThisOrder" readonly class="form-control" asp-for="GrossTotal" />
+                            </div>
+                            <div class="form-group">
+                                <label>Shipping</label>
+                                <input id="subtotalOfThisOrder" readonly class="form-control" asp-for="ShippingCost" />
+                            </div>
+                            <div class="form-group">
+                                <label>Net Total</label>
+                                <input id="subtotalOfThisOrder" readonly class="form-control" asp-for="OrderTotal" />
+                            </div>
+
+                        </div>
+                    </div>
+
+                }
+            </div>
+        </div>
+    </form>
+</div>

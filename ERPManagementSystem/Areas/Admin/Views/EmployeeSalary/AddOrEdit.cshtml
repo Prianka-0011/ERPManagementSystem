@@ -1,0 +1,141 @@
+﻿@model ERPManagementSystem.Models.EmployeeSalaryBill
+@{
+    ViewData["Title"] = "AddOrEdit";
+    Layout = null;
+
+}
+
+<div class="container-fluid">
+    <form asp-action="AddOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPostSalaryModal(this);" enctype="multipart/form-data" autocomplete="off">
+        <div class="row">
+            <div class="col-md-4 col-lg-4 col-12">
+                <input type="hidden" asp-for="Id" />
+                <div class="form-group">
+                    <label>Reference No</label>
+                    <input asp-for="ReferenceNo" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4 col-12">
+                <div class="form-group">
+                    <label>Date</label>
+                    <input asp-for="Date" class="form-control" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+        </div>
+        <div class="lineitem">
+            <p>Add Line Item</p>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-lg-12 col-12">
+
+                @if (Model.EmployeeSalaryBillItems != null && Model.EmployeeSalaryBillItems.Count() > 0)
+                {
+                    <div class="table-wrapper-scroll-y custom-scrollbar">
+                        <table class="table datatable table-hover table-bordered">
+                            <thead>
+                                <tr>
+
+                                    <th scope="col">Employee</th>
+                                    <th scope="col">Salary</th>
+                                    <th scope="col">Bonus</th>
+                                    <th scope="col">Sub Total</th>
+                                    <th scope="col">Action</th>
+                                   
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int j = 0;
+                                }
+                                @foreach (var item in Model.EmployeeSalaryBillItems)
+                                {
+                                    if (j == 0)
+                                    {
+                                <tr class="define">
+
+                                    <td>
+                                        <input type="hidden" asp-for="@Model.EmployeeSalaryBillItems[j].Id" />
+
+                                        <div class="form-group">
+                                            <select asp-for="@Model.EmployeeSalaryBillItems[j].EmployeeId" asp-items="ViewBag.Employee" id="Employee" class="form-control"></select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input asp-for="@Model.EmployeeSalaryBillItems[j].SalaryAmount" id="SalaryAmount" class="form-control" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input asp-for="@Model.EmployeeSalaryBillItems[j].BonusAmount" id="Bonus" class="form-control" />
+                                    </td>
+                                    <td>
+                                        <input asp-for="@Model.EmployeeSalaryBillItems[j].TotalSalary"id="Salarytoal" class="form-control" />
+                                    </td>
+
+                                    <td style="width: 2%">
+                                        <a id="removeFeildWithValue" class="remove refreshTR"><i class="fas fa-minus"></i></a>
+                                    </td>
+                                </tr>
+                                    }
+                                    else
+                                    {
+                            <tr class="define">
+                                <td>
+                                    <input type="hidden" asp-for="@Model.EmployeeSalaryBillItems[j].Id" />
+
+                                    <div class="form-group">
+                                        <select asp-for="@Model.EmployeeSalaryBillItems[j].EmployeeId" asp-items="ViewBag.Employee" id="Employee" class="form-control"></select>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <input asp-for="@Model.EmployeeSalaryBillItems[j].SalaryAmount" id="SalaryAmount" class="form-control" />
+                                    </div>
+                                </td>
+                                <td>
+                                    <input asp-for="@Model.EmployeeSalaryBillItems[j].BonusAmount" id="Bonus" class="form-control" />
+                                </td>
+                                <td>
+                                    <input asp-for="@Model.EmployeeSalaryBillItems[j].TotalSalary" readonly id="Salarytoal" class="form-control" />
+                                </td>
+
+                                <td style="width: 2%">
+                                    <a id="removeFeildWithValue" class="remove refreshTR"><i class="fas fa-minus"></i></a>
+                                </td>
+                                <td style="width: 2%">
+                                    <a id="removeFeildWithValue" class="remove removeTR"><i class="fas fa-minus"></i></a>
+                                </td>
+                            </tr>
+                                    }
+
+                                    j++;
+                                }
+
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-1 col-3 col-lg-1 mt-auto">
+                            <a class="addBtn" id="addAnother"><i class="fas fa-plus"></i><span>Add</span></a>
+
+                        </div>
+                        <div class="col-md-1 col-3 col-lg-1 nopadding mt-auto">
+                            <button type="submit" class="savebtn">Save</button>
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-3 offset-md-6 nopadding offset-lg-6 mt-auto ml-auto">                          
+                                <label>Subtotal</label>
+                                <input id="subtotalOfThisSalaryBill" readonly class="form-control" asp-for="TotalSalaryBill" />
+                        </div>
+                    </div>
+
+                }
+            </div>
+        </div>
+    </form>
+</div>

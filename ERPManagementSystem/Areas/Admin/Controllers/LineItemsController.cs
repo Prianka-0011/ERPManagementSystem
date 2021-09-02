@@ -112,7 +112,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                         stockProduct.ImgPath = entity.ImgPath;
                         stockProduct.Quantity = stockProduct.Quantity + lineItem.ReceiveQuantity.Value;
                         stockProduct.SalePrice = entity.SalePrice.Value;
-
+                        
                         stockProduct.Description = entity.Description;
                         stockProduct.ShortDescription = lineItem.ShortDescription;
                         stockProduct.PreviousPrice = lineItem.PreviousPrice.Value;
@@ -122,14 +122,14 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                         stockProduct.CurrencyName = entity.PurchaseOrder.Currency.CurrencyName;
                         _context.Update(stockProduct);
                     }
-                    await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException ex)
                 {
 
                 }
-            
-            var brandData = _context.PurchaseOrderLineItems.Include(d => d.Product);
+                await _context.SaveChangesAsync();
+
+                var brandData = _context.PurchaseOrderLineItems.Include(d => d.Product);
             int pg = 1;
             const int pageSize = 10;
             if (pg < 1)

@@ -23,14 +23,19 @@ namespace ERPManagementSystem.Areas.Shop.Controllers
         public async Task<IActionResult> GetAllProductByCategory(int pg,Guid categoryId)
         {
             var product = _context.StockProducts.Include(d => d.Product).Where(c=>c.Product.CategoryId==categoryId);
+            ShopVm shopVm = new ShopVm();
+            shopVm.StockProducts = _context.StockProducts.Include(d => d.Product).Where(c => c.Product.CategoryId == categoryId).ToList();
+            shopVm.Banners = _context.Banners.Where(c => c.BannerStatus == "Enable").ToList();
 
-            return View(await product.ToListAsync());
+            return View(shopVm);
         }
         public async Task<IActionResult> Index(int pg)
         {
-            var product = _context.StockProducts.Include(d => d.Product);
+            ShopVm shopVm = new ShopVm();
+            shopVm.StockProducts = _context.StockProducts.Include(d => d.Product).ToList();
+            shopVm.Banners = _context.Banners.Where(c => c.BannerStatus == "Enable").ToList();
 
-            return View(await product.ToListAsync());
+            return View( shopVm);
         }
         [HttpGet]
         public async Task<IActionResult> ProductDetailInPopUp(Guid id)
@@ -104,9 +109,15 @@ namespace ERPManagementSystem.Areas.Shop.Controllers
                 subtotal = subtotal + item.ProductTotal;
                 squantity = item.CartQuantity + squantity;
             }
+            decimal finalCharge = 0;
+            decimal scharge2 = 0;
             var shippingCharge = _context.ShippingCharges.FirstOrDefault();
-            var scharge2 = ((squantity - 1) * shippingCharge.IncreaeChargePerProduct) + shippingCharge.BaseCharge;
-            var finalCharge = scharge2;
+            if (shippingCharge!=null)
+            {
+                 scharge2 = ((squantity - 1) * shippingCharge.IncreaeChargePerProduct) + shippingCharge.BaseCharge;
+                 finalCharge = scharge2;
+            }
+         
           
             products.Add(productVm);
             HttpContext.Session.Set("products", products);

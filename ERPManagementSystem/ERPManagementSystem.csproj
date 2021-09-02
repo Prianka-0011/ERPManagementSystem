@@ -13,8 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\Reports\PurchaseOrder.rdlc" />
-    <Content Remove="wwwroot\Reports\PurchaseOrderMasterDetail.rdlc" />
+    <Content Remove="wwwroot\Reports\PurchaseOrderList.rdlc" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,70 +21,82 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="wwwroot\Reports\PurchaseOrder.rdlc" />
-    <EmbeddedResource Include="wwwroot\Reports\PurchaseOrderMasterDetail.rdlc" />
+    <EmbeddedResource Include="wwwroot\Reports\PurchaseOrderList.rdlc" />
   </ItemGroup>
-
+	<Target Name="ChangeAliasesOfStrongNameAssemblies" BeforeTargets="FindReferenceAssembliesForReferences;ResolveReferences">
+		<ItemGroup>
+			<ReferencePath Condition="'%(FileName)' == 'MySqlConnector'">
+				<Aliases>MySqlConnectorAlias</Aliases>
+			</ReferencePath>
+		</ItemGroup>
+	</Target>
+	<ItemGroup>
+		<PackageReference Include="iTextSharp.LGPLv2.Core" Version="1.7.3" />
+		<PackageReference Include="StackExchange.Redis.StrongName" Version="1.2.6" Alias="signed" />
+	</ItemGroup>
   <ItemGroup>
     <PackageReference Include="AspNetCore.Reporting" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.9" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.15" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.15" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.9" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.15">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
-    <PackageReference Include="MySql.EntityFrameworkCore" Version="3.1.14" />
+    <PackageReference Include="MySql.Data" Version="8.0.26" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.2" />
     <PackageReference Include="System.CodeDom" Version="5.0.0" />
+    <PackageReference Include="System.Data.Common" Version="4.3.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
+    <!--<PackageReference Include="System.Data.SqlClient" Version="4.8.2" />-->
     <PackageReference Include="X.PagedList.Mvc.Core" Version="7.6.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Areas\Shop\Data\" />
     <Folder Include="Areas\Shop\Models\" />
+    <Folder Include="ReportDataSate\" />
     <Folder Include="wwwroot\uploadimages\" />
   </ItemGroup>
-
   <ItemGroup>
+    <None Include="Areas\Admin\Views\AutoGenerateSerialNumbers\AddOrEdit.cshtml" />
+    <None Include="Areas\Admin\Views\AutoGenerateSerialNumbers\Index.cshtml" />
+    <None Include="Areas\Admin\Views\AutoGenerateSerialNumbers\_ViewAllAutoGenerateSerialNumber.cshtml" />
     <None Include="Areas\Admin\Views\TaxRates\AddOrEdit.cshtml" />
     <None Include="Areas\Admin\Views\TaxRates\Index.cshtml" />
     <None Include="Areas\Admin\Views\TaxRates\_ViewAllTaxRate.cshtml" />
     <None Include="wwwroot\lib\admin-das\adminlte.min.css.map" />
    </ItemGroup>
-
   <ItemGroup>
-    <Compile Update="ERPDatabaseDataSet.Designer.cs">
+    <Reference Include="BouncyCastle.Crypto">
+      <HintPath>C:\Program Files (x86)\MySQL\MySQL Connector Net 8.0.26\Assemblies\v4.5.2\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Protobuf">
+      <HintPath>C:\Program Files (x86)\MySQL\MySQL Connector Net 8.0.26\Assemblies\v4.5.2\Google.Protobuf.dll</HintPath>
+    </Reference>
+    <Reference Include="K4os.Compression.LZ4.Streams">
+      <HintPath>C:\Program Files (x86)\MySQL\MySQL Connector Net 8.0.26\Assemblies\v4.5.2\K4os.Compression.LZ4.Streams.dll</HintPath>
+    </Reference>
+    <Reference Include="Ubiety.Dns.Core">
+      <HintPath>C:\Program Files (x86)\MySQL\MySQL Connector Net 8.0.26\Assemblies\v4.5.2\Ubiety.Dns.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Zstandard.Net">
+      <HintPath>C:\Program Files (x86)\MySQL\MySQL Connector Net 8.0.26\Assemblies\v4.5.2\Zstandard.Net.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="erpdatabaseDataSet.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>ERPDatabaseDataSet.xsd</DependentUpon>
-    </Compile>
-    <Compile Update="ReportDataSate\dsPurchaseOrder.Designer.cs">
-      <DependentUpon>dsPurchaseOrder.xsd</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
+      <DependentUpon>erpdatabaseDataSet.xsd</DependentUpon>
     </Compile>
   </ItemGroup>
-
   <ItemGroup>
-    <None Update="ERPDatabaseDataSet.xsd">
+    <None Update="erpdatabaseDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>ERPDatabaseDataSet.Designer.cs</LastGenOutput>
-    </None>
-    <None Update="ReportDataSate\dsPurchaseOrder.xsc">
-      <DependentUpon>dsPurchaseOrder.xsd</DependentUpon>
-    </None>
-    <None Update="ReportDataSate\dsPurchaseOrder.xsd">
-      <SubType>Designer</SubType>
-      <LastGenOutput>dsPurchaseOrder.Designer.cs</LastGenOutput>
-      <Generator>MSDataSetGenerator</Generator>
-    </None>
-    <None Update="ReportDataSate\dsPurchaseOrder.xss">
-      <DependentUpon>dsPurchaseOrder.xsd</DependentUpon>
+      <LastGenOutput>erpdatabaseDataSet.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-
-</Project>
+   </Project>

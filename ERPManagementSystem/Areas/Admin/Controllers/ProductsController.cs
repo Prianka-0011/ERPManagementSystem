@@ -70,10 +70,16 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 ViewData["Category"] = new SelectList(_context.Categories.ToList(), "Id", "Name");
                 ViewData["SubCategory"] = new SelectList(_context.SubCategories.ToList(), "Id", "Name");
                 ViewData["Brand"] = new SelectList(_context.Brands.ToList(), "Id", "Name");
-                var serialNo = _context.AutoGenerateSerialNumbers.Where(c => c.ModuleName == "PS").FirstOrDefault();
-
                 ProductVm vm = new ProductVm();
+                var serialNo = _context.AutoGenerateSerialNumbers.Where(c => c.ModuleName == "PS").FirstOrDefault();
+                if (serialNo==null)
+                {
+                    vm.ProductSerial = "N/A";
+
+                }
+               
                 vm.ProductSerial = serialNo.ModuleName + "-000" + serialNo.SeialNo.ToString();
+              
                 return View(vm);
             }
 
@@ -235,7 +241,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
         [HttpGet("/Products/GetAllBrand")]
         public IActionResult GetAllBrand(Guid id)
         {
-            var brand = _context.Brands.Where(c => c.CategoryId == id).ToList();
+            var brand = _context.Brands.Where(c => c.SubCategoryId == id).ToList();
             return Json(brand);
         }
     }

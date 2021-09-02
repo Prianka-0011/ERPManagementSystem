@@ -1,0 +1,110 @@
+﻿@model IEnumerable<ERPManagementSystem.Models.VendorBill>
+@using ERPManagementSystem.Extensions;
+@{
+
+    Pager pager = new Pager();
+    int pageNo = 0;
+    var i = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+        if (pager.CurrentPage == 1)
+        {
+            i = pager.StartPage;
+        }
+        if (pager.CurrentPage > 1)
+        {
+            i = pager.PageSize * (pager.CurrentPage - pager.StartPage);
+            i++;
+        }
+    }
+
+}
+
+
+@if (Model != null)
+{
+    <table class="table table-hover ">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Bill No</th>
+                <th scope="col">Sourch Document</th>
+                <th scope="col">Vendor Name</th>
+                <th scope="col">Due Date</th>
+                <th scope="col">Invoice Date</th>
+
+                <th scope="col">Phone</th>
+                <th scope="col">PaymentMethod</th>
+                @*<th scope="col">Shipping Cost</th>*@
+                <th scope="col">Net Total</th>
+                <th scope="col">Due Amount</th>
+                <th scope="col">Payment Status</th>
+                <th scope="col">Invoice Status</th>
+                <th scope="col">Action</th>
+               <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td scope="row">@i</td>
+                    <td>@item.BillNo</td>
+                    <td>@item.PurchaseOrderNo</td>
+                    <td>@item.VendorName</td>
+                    <td>@item.DueDate</td>
+                    <td>@item.BillDate</td>
+
+                    <td>@item.Phone</td>
+                    <td>@item.PaymentMethod</td>
+                    @*<td>@item.ShippingCost</td>*@
+                    <td>@item.TotalAmount</td>
+                    <td>@item.DueAmount</td>
+                    <td>@item.BillStatus</td>
+                    <td>@item.PaymentStatus</td>
+                    <td>
+                        <a class="rowAction1" onclick="ShowInLargePopup('@Url.Action("PostBills","VendorBills",new { id=item.Id},Context.Request.Scheme)','Deaft Invoice' )"><span>Post Bills</span></a>
+                    </td>
+                </tr>
+                i++;
+            }
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col-md-12 col-12 col-lg-12">
+            @if (pager.TotalPages > 0)
+            {
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        @if (pager.CurrentPage > 1)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" asp-controller="ShippingCharges" asp-action="Index" asp-route-pg="1">Frist</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" asp-controller="ShippingCharges" asp-action="Index" asp-route-pg="@(pager.CurrentPage-1)">Prev</a>
+                            </li>
+                        }
+                        @for (var pge = pager.StartPage; pge <= pager.EndPage; pge++)
+                        {
+                            <li class="page-item @( pge==pager.CurrentPage?"active":"")">
+                                <a class="page-link" asp-controller="ShippingCharges" asp-action="Index" asp-route-pg="@pge">@pge</a>
+                            </li>
+                        }
+                        @if (pager.CurrentPage < pager.TotalPages)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" asp-controller="ShippingCharges" asp-action="Index" asp-route-pg="@(pager.CurrentPage+1)">Next</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" asp-controller="ShippingCharges" asp-action="Index" asp-route-pg="@pager.TotalPages">Last</a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            }
+        </div>
+    </div>
+}

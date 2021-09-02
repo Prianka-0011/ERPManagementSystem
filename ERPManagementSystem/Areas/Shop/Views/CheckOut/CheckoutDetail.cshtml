@@ -94,8 +94,8 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="checkout-form-list">
-                                        <label>Company Name</label>
-                                        <input asp-for="CompanyName" type="text" placeholder="" />
+                                        <label>Display Name</label>
+                                        <input asp-for="DisplayName" type="text" placeholder="" />
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -171,22 +171,29 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @{
+                                            int j = 0;
+                                        }
+                                          @foreach (var item in Model.productVms)
+                                            {
+                                                <tr class="cart_item">
+                                                    <td class="product-name">
+                                                        @item.ProductName <strong class="product-quantity"> × @item.CartQuantity</strong>
 
-                                        @foreach (var item in Model.productVms)
-                                        {
-                                            <tr class="cart_item">
-                                                <td class="product-name">
-                                                    @item.ProductName <strong class="product-quantity"> × @item.CartQuantity</strong>
-                                                </td>
-                                                <td class="product-total">
-                                                    <span class="amount">£@item.ProductTotal</span>
-                                                </td>
-                                            </tr>
+                                                        <input type="hidden" asp-for="@Model.productVms[j].ProductName"/>
+                                                    </td>
+                                                    <td class="product-total">
+                                                        <span class="amount">£@item.ProductTotal</span>
+                                                        <input type="hidden" asp-for="@Model.productVms[j].CartQuantity" />
+                                                        <input type="hidden" asp-for="@Model.productVms[j].SalePrice" />
+                                                        <input type="hidden" asp-for="@Model.productVms[j].ProductTotal" />
+                                                    </td>
+                                                </tr>
+                                            
+
                                         }
 
-
-
-                                    </tbody>
+                                        </tbody>
                                     <tfoot>
                                         <tr class="cart-subtotal">
                                             <th>Shipping Charge</th>
