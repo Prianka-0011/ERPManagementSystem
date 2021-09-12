@@ -77,9 +77,12 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                     vm.ProductSerial = "N/A";
 
                 }
-               
-                vm.ProductSerial = serialNo.ModuleName + "-000" + serialNo.SeialNo.ToString();
-              
+                else
+                {
+                    vm.ProductSerial = serialNo.ModuleName + "-000" + serialNo.SeialNo.ToString();
+                }
+
+
                 return View(vm);
             }
 

@@ -9,7 +9,7 @@ namespace ERPManagementSystem.ViewModels
     public class LoginModel
     {
         [Required]
-        [EmailAddress]
+       
         public string UserName { get; set; }
 
         [Required]

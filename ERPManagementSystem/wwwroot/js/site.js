@@ -1422,3 +1422,17 @@ jQueryAjaxPostSalaryModal = form => {
 }
 
 
+ShowInSalaryBillLargePopup = (url, title) => {
+    $.ajax({
+        type: 'GET',
+        url: url,
+        success: function (res) {
+
+            $('#large-modal .modal-body').html(res);
+            $('#large-modal .modal-title').html(title);
+            $('#large-modal').modal('show');
+
+        }
+    });
+
+}

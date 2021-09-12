@@ -1,10 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
+ 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>aspnet-ERPManagementSystem-98C805C5-07D0-4E6E-806D-6F768178F9EE</UserSecretsId>
+
+    <!--<RuntimeIdentifier>win-x64</RuntimeIdentifier>-->
   </PropertyGroup>
 
+
+    <!--<ItemGroup>
+        <None Include="web.config" CopyToPublishDirectory="Always" />
+    </ItemGroup>-->
   <ItemGroup>
     <Compile Remove="Areas\Admin\Views\TaxRates\**" />
     <Content Remove="Areas\Admin\Views\TaxRates\**" />

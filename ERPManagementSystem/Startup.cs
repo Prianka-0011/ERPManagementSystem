@@ -45,6 +45,16 @@ namespace ERPManagementSystem
             services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 4;
+                //  options.Lockout.AllowedForNewUsers = true;
+                //options.SignIn.RequireConfirmedEmail = false;
+            });
             services.AddRazorPages()
             .AddRazorRuntimeCompilation();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();

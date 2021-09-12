@@ -29,16 +29,18 @@
     <div class="container">
         <div class="section-title text-center">
             <h3>Featured Collections</h3>
-            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>
+            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>            
         </div>
         <div class="shop-style-all">
             <div class="row">
                 <div class="grid">
+                    
                     @if (Model.StockProducts != null)
                     {
                         foreach (var item in Model.StockProducts)
                         {
                             <div class="col-md-3 col-sm-6 col-xs-12 grid-item cat1">
+
                                 <div class="shop hover-style mb-30">
                                     <div class="shop-img">
                                         <div class="shop-single-img">

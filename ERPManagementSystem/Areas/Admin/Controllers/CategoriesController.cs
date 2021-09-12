@@ -39,7 +39,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
             {
                 category = _context.Categories.Where(c => c.CategoryStatus == "Enable" && c.Name.ToLower().Contains(searchString.ToLower()));
             }
-            const int pageSize = 10;
+            const int pageSize = 5;
             if (pg < 1)
             {
                 pg = 1;
@@ -108,7 +108,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 }
                 var categoryData = _context.Categories.Where(c => c.CategoryStatus == "Enable");
                 int pg=1;
-                const int pageSize = 10;
+                const int pageSize = 5;
                 if (pg < 1)
                 {
                     pg = 1;

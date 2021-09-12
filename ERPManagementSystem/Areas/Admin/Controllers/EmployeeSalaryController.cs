@@ -164,6 +164,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 entity.PaymentStatus = "NoPaid";
                 entity.Date = DateTime.Now;
                 entity.TotalSalaryBill = bill.TotalSalaryBill;
+                entity.ReferenceNo = bill.ReferenceNo;
                 _context.EmployeeSalaryBills.Add(entity);
                 foreach (var item in bill.EmployeeSalaryBillItems)
                 {
@@ -192,6 +193,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                         lineItem.SalaryAmount = item.SalaryAmount;
                         lineItem.BonusAmount = item.BonusAmount;
                         lineItem.TotalSalary = item.TotalSalary;
+                       
                         _context.EmployeeSalaryBillItems.Update(lineItem);
 
                     }
@@ -226,8 +228,9 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
             ViewBag.Pager = pager;
             return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllMonthlySalaryBill", data) });
         }
+        [NoDirectAccess]
         [HttpGet]
-        public IActionResult DraftSalaryBills(Guid id)
+        public async Task<IActionResult> DraftSalaryBills(Guid id)
         {
             if (id == null)
             {
@@ -247,6 +250,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
             foreach (var item in empSalaryItem)
             {
                 salaryItemVm = new DraftEmpSalaryBillsItemVm();
+                
                 salaryItemVm.EmployeeName = item.Employee.FirstName;
                 salaryItemVm.SalaryAmount = item.SalaryAmount;
                 salaryItemVm.TotalSalary = item.TotalSalary;
@@ -263,14 +267,10 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var serialNo = _context.AutoGenerateSerialNumbers.Where(c => c.ModuleName == "BILL").FirstOrDefault();
+                var serialNo = _context.AutoGenerateSerialNumbers.Where(c => c.ModuleName == "CA").FirstOrDefault();
 
                 Cash cash = new Cash();
-                if (serialNo == null)
-                {
-                    cash.TransitionNo = "N/A";
-
-                }
+              
 
                 cash.TransitioType = "Deduction";
                
@@ -281,11 +281,22 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 {
                     if (maxValue > cash.LastTransitionAmout)
                     {
-                        cash.TransitionNo = serialNo.ModuleName + "-000" + serialNo.SeialNo.ToString();
-                        serialNo.SeialNo = serialNo.SeialNo + 1;
+                        if (serialNo == null)
+                        {
+                            cash.TransitionNo = "N/A";
+
+                        }
+                        else
+                        {
+                            cash.TransitionNo = serialNo.ModuleName + "-000" + serialNo.SeialNo.ToString();
+                            serialNo.SeialNo = serialNo.SeialNo + 1;
+                            _context.AutoGenerateSerialNumbers.Update(serialNo);
+                        }
+                        
                         _context.AutoGenerateSerialNumbers.Update(serialNo);
                         cash.LastTransitionAmout = draftBillsVm.TotalSalaryBill;
                         cash.TotalBalance = maxValue - cash.LastTransitionAmout;
+                        cash.SourchDocNo = currentBill.ReferenceNo;
                         currentBill.SalaryBillStatus = "Complete";
                         currentBill.PaymentStatus = "Paid";
                         _context.Cashes.Add(cash);
@@ -310,7 +321,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
             ViewBag.Pager = pager;
             var data = employeeSalaryBills.Skip(resSkip).Take(pager.PageSize);
             //return RedirectToAction("InvoiceIndex", data);
-            return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllPurchaseOrders", data) });
+            return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllMonthlySalaryBill", data) });
 
         }
     

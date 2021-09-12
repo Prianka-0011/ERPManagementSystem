@@ -34,8 +34,9 @@
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col"><a asp-action="Index" asp-controller="EmployeeSalary" asp-route-sortOrder="@ViewBag.referen">Reference Name</a></th>
+                <th scope="col"><a asp-action="Index" asp-controller="EmployeeSalary" asp-route-sortOrder="@ViewBag.referen">Reference No</a></th>
                 <th scope="col">Date</th>
+                <th scope="col">Amount</th>
                 <th scope="col">Payment Status</th>
                 <th scope="col">Bill Status</th>
             </tr>
@@ -47,14 +48,15 @@
                 <td scope="row">@i</td>
                 <td>@item.ReferenceNo</td>
                 <td>@item.Date</td>
+                <td>@item.TotalSalaryBill</td>
                 <td>@item.PaymentStatus</td>
                 <td>@item.SalaryBillStatus</td>
                 <td>
-                    <a class="rowAction1" onclick="ShowInSalaryBillLargePopup('@Url.Action("AddOrEdit","EmployeeSalary",new { id=item.Id},Context.Request.Scheme)','Edit' )"><span>Create bills</span></a>
+                    <a class="rowAction1" onclick="ShowInSalaryBillLargePopup('@Url.Action("DraftSalaryBills","EmployeeSalary",new { id=item.Id},Context.Request.Scheme)','Post' )"><span>Post bills</span></a>
                 </td>
-                <td>
+                @*<td>
                     <a class="rowAction1" onclick="ShowInSalaryBillLargePopup('@Url.Action("DraftSalaryBills","EmployeeSalary",new { id=item.Id},Context.Request.Scheme)','Post Bill' )"><span>Post bills</span></a>
-                </td>
+                </td>*@
             </tr>
                 i++;
             }
