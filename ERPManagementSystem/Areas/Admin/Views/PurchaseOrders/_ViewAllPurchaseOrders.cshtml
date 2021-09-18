@@ -42,6 +42,8 @@
                 <th scope="col">Delivery Date</th>
                 <th scope="col">Total Amount</th>
                 <th scope="col">Status</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
                 
             </tr>
         </thead>
@@ -60,7 +62,7 @@
                 <td>@item.DeliveryDate</td>
                 <td>@item.TotalAmount</td>
                 <td>@item.PurchaseOrderStatus</td>
-                <td><a class="rowAction1" onclick="ShowInLargePopupOnEdit('@Url.Action("AddOrEdit","PurchaseOrders",new { id=item.Id},Context.Request.Scheme)','Update Purchase Order' )">Edit</a></td>
+                <td><a class="rowAction1" style="color:#000000" onclick="ShowInLargePopupOnEdit('@Url.Action("AddOrEdit","PurchaseOrders",new { id=item.Id},Context.Request.Scheme)','Update Purchase Order' )">Edit</a></td>
                 <td>
                     <a class="rowAction1" onclick="ShowInLargePopup('@Url.Action("DraftBills","PurchaseOrders",new { id=item.Id},Context.Request.Scheme)','Draft Vendor Bills' )"><span>Create bills</span></a>
                 </td>

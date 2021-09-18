@@ -29,13 +29,49 @@ namespace ERPManagementSystem.Areas.Shop.Controllers
 
             return View(shopVm);
         }
-        public async Task<IActionResult> Index(int pg)
+        //[HttpGet("/Home/Index")]
+        public async Task<IActionResult> Index(int page)
         {
             ShopVm shopVm = new ShopVm();
             shopVm.StockProducts = _context.StockProducts.Include(d => d.Product).ToList();
             shopVm.Banners = _context.Banners.Where(c => c.BannerStatus == "Enable").ToList();
-
+            const int pageSize = 2;
+            
+            if (page < 1)
+            {
+                page = 1;
+            }
+           // var resultProduct = _context.Products.Include(c => c.Category).Include(d => d.SubCategory).Include(e => e.Brand).Where(c => c.ProductStatus == "Enable").ToList();
+            var resCount = shopVm.StockProducts.Count();
+            ViewBag.TotalRecord = resCount;
+            var pager = new Pager(resCount, page, pageSize);
+            int resSkip = (page - 1) * pageSize;
+            ViewBag.Pager = pager;
+            var data = shopVm.StockProducts.Skip(resSkip).Take(pager.PageSize);
+            shopVm.StockProducts = data.ToList();
             return View( shopVm);
+        }
+        [HttpPost("/Home/loaddataonscrol")]
+        public async Task<IActionResult> loaddataonscrol(int page)
+        {
+            ShopVm shopVm = new ShopVm();
+            shopVm.StockProducts = _context.StockProducts.Include(d => d.Product).ToList();
+            shopVm.Banners = _context.Banners.Where(c => c.BannerStatus == "Enable").ToList();
+            const int pageSize = 2;
+           
+            if (page < 1)
+            {
+                page = 1;
+            }
+            var resCount = shopVm.StockProducts.Count();
+            ViewBag.TotalRecord = resCount;
+            var pager = new Pager(resCount, page, pageSize);
+            int resSkip = (page - 1) * pageSize;
+            ViewBag.Pager = pager;
+            var data = shopVm.StockProducts.Take(page);
+            shopVm.StockProducts = data.ToList();
+            return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_HomPartial", shopVm) });
+
         }
         [HttpGet]
         public async Task<IActionResult> ProductDetailInPopUp(Guid id)

@@ -129,6 +129,7 @@ namespace ERPManagementSystem.Areas.Admin.Controllers
                 entity.PurchaseOrderStatus = purchaseOrderVm.PurchaseOrderStatus;
                 entity.Discont = purchaseOrderVm.Discont;
                 entity.TotalAmount = purchaseOrderVm.TotalAmount;
+                entity.TotalAmount = purchaseOrderVm.TotalAmount;
                 entity.CurrencyId = purchaseOrderVm.CurrencyId;
                 entity.PurchaseOrderStatus = "Enable";
                 _context.PurchaseOrders.Add(entity);
