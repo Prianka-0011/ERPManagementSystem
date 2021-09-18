@@ -688,7 +688,14 @@ ShowInLargePopupOnEdit = (url, title) => {
                 var $tableBody = $('.datatable').find("tbody");
                 $trfirst = $tableBody.find("tr:last");
                 $trNew = $trfirst.clone();
-                $trNew.find("td").find(':input').val('');
+                $trNew.find("td").find('#price').val(0);
+                $trNew.find("td").find('#tax').val('');
+                $trNew.find("td").find('#product').val('');
+                $trNew.find("td").find('#taxRate').val(0);
+                $trNew.find("td").find('#discount').val(0);
+                $trNew.find("td").find('#quantity').val(0);
+                $trNew.find("td").find('#totalCost').val(0);
+                $trNew.find("td").find('#perProductCost').val(0);
                 //this part add 
                 var suffix = $trNew.find(':input:first').attr('name').match(/\d+/);
                 console.log(suffix);
@@ -764,7 +771,7 @@ ShowInLargePopupOnEdit = (url, title) => {
                 var price = curentrow.find('#price').val();
                 var discount = curentrow.find('#discount').val();
                 var discountAmount = (discount / 100) * price;
-                var taxRate = curentrow.find('#rate').val();
+                var taxRate = curentrow.find('#taxRate').val();
                 var quantity = curentrow.find('#quantity').val();
                 if (quantity == null) {
                     quantity = 0;
@@ -808,66 +815,25 @@ ShowInLargePopupOnEdit = (url, title) => {
                 $('#subtotalOfThisOrder').val(finalAmount.toFixed(2));
             });
 
-            //sub total count
-            //$('.datatable').on('keyup', '#tax', function () {
-            //    var curentrow = $(this).closest("tr");
-            //    var price = curentrow.find('#price').val();
-            //    var discount = curentrow.find('#discount').val();
-            //    var discountAmount = (discount / 100) * price;
-            //    var taxRate = curentrow.find('#rate').val();
-            //    var quantity = curentrow.find('#quantity').val();
-            //    var totalCost = curentrow.find('#totalCost');
-            //    var perProductCost = curentrow.find('#perProductCost');
-            //    var taxAmount = (taxRate / 100) * price;
-            //    var totalAmount = ((price - discountAmount) + taxAmount) * quantity;
-            //    var perProductCost1 = ((price - discountAmount) + taxAmount);
-            //    console.log("amount", totalAmount)
-            //    totalCost.val(totalAmount);
-            //    perProductCost.val(perProductCost1);
-            //    // final subtotal
-            //    var finalAmount = 0;
-            //    var productAmount = 0;
-            //    $(".datatable .define").each(function (row, tr) {
-            //        var amount = parseFloat($(this).closest('tr').find('#totalCost').val());
-            //        if (isNaN(amount)) {
-            //            amount = 0;
-            //        }
-            //        console.log("amount", amount);
-            //        productAmount = amount + productAmount;
-
-            //    });
-            //    console.log("productamount", productAmount);
-            //    var shippingCost = parseFloat($('.shippingcost').val());
-            //    var discount1 = parseFloat($('#discountOntotalOrder').val());
-            //    if (isNaN(discount)) {
-            //        discount = 0;
-
-
-            //    }
-            //    if (isNaN(shippingCost)) {
-            //        shippingCost = 0;
-            //    }
-            //    if (isNaN(productAmount)) {
-            //        productAmount = 0
-            //    }
-            //    finalAmount = productAmount + shippingCost;
-            //    var discountAmount = (discount1 / 100) * finalAmount;
-            //    finalAmount = finalAmount - discountAmount;
-            //    $('#subtotalOfThisOrder').val(finalAmount.toFixed(2));
-            //});
+ 
             $('.datatable').on('keyup', '#price', function () {
                 var curentrow = $(this).closest("tr");
+                
                 var price = curentrow.find('#price').val();
+                
                 var discount = curentrow.find('#discount').val();
+                
                 var discountAmount = (discount / 100) * price;
-                var taxRate = curentrow.find('#rate').val();
+                
+                var taxRate = curentrow.find('#taxRate').val();
+                
                 var quantity = curentrow.find('#quantity').val();
                 var totalCost = curentrow.find('#totalCost');
                 var perProductCost = curentrow.find('#perProductCost');
                 var taxAmount = (taxRate / 100) * price;
                 var totalAmount = ((price - discountAmount) + taxAmount) * quantity;
                 var perProductCost1 = ((price - discountAmount) + taxAmount);
-                console.log("amount", totalAmount)
+                //console.log("amount price", totalAmount, "equatation", ((price - discountAmount) + taxAmount) * quantity)
                 totalCost.val(totalAmount);
                 perProductCost.val(perProductCost1);
                 // final subtotal
@@ -912,7 +878,7 @@ ShowInLargePopupOnEdit = (url, title) => {
                 var price = curentrow.find('#price').val();
                 var discount = curentrow.find('#discount').val();
                 var discountAmount = (discount / 100) * price;
-                var taxRate = curentrow.find('#rate').val();
+                var taxRate = curentrow.find('#taxRate').val();
                 var quantity = curentrow.find('#quantity').val();
                 var totalCost = curentrow.find('#totalCost');
                 var perProductCost = curentrow.find('#perProductCost');
@@ -953,59 +919,60 @@ ShowInLargePopupOnEdit = (url, title) => {
                 finalAmount = finalAmount - discountAmount;
                 $('#subtotalOfThisOrder').val(finalAmount.toFixed(2));
             });
-            //$('.datatable').on('change', '#tax', function () {
-            //    var curentrow = $(this).closest("tr");
-            //    var price = curentrow.find('#price').val();
-            //    var discount = curentrow.find('#discount').val();
-            //    var discountAmount = (discount / 100) * price;
-            //    var taxRate = curentrow.find('#rate').val();
-            //    var quantity = curentrow.find('#quantity').val();
-            //    var totalCost = curentrow.find('#totalCost');
-            //    var perProductCost = curentrow.find('#perProductCost');
-            //    var taxAmount = (taxRate / 100) * price;
-            //    var totalAmount = ((price - discountAmount) + taxAmount) * quantity;
-            //    var perProductCost1 = ((price - discountAmount) + taxAmount);
-            //    console.log("amount", totalAmount)
-            //    totalCost.val(totalAmount);
-            //    perProductCost.val(perProductCost1);
-            //    // final subtotal
-            //    var finalAmount = 0;
-            //    var productAmount = 0;
-            //    $(".datatable .define").each(function (row, tr) {
-            //        var amount = parseFloat($(this).closest('tr').find('#totalCost').val());
-            //        if (isNaN(amount)) {
-            //            amount = 0;
-            //        }
-            //        console.log("amount", amount);
-            //        productAmount = amount + productAmount;
-
-            //    });
-            //    console.log("productamount", productAmount);
-            //    var shippingCost = parseFloat($('.shippingcost').val());
-            //    var discount1 = parseFloat($('#discountOntotalOrder').val());
-            //    if (isNaN(discount)) {
-            //        discount = 0;
-
-
-            //    }
-            //    if (isNaN(shippingCost)) {
-            //        shippingCost = 0;
-            //    }
-            //    if (isNaN(productAmount)) {
-            //        productAmount = 0
-            //    }
-            //    finalAmount = productAmount + shippingCost;
-            //    var discountAmount = (discount1 / 100) * finalAmount;
-            //    finalAmount = finalAmount - discountAmount;
-            //    $('#subtotalOfThisOrder').val(finalAmount.toFixed(2));
-            //});
-
+           
             $('.datatable').on('keyup', '#quantity', function () {
                 var curentrow = $(this).closest("tr");
                 var price = curentrow.find('#price').val();
                 var discount = curentrow.find('#discount').val();
                 var discountAmount = (discount / 100) * price;
-                var taxRate = curentrow.find('#rate').val();
+                var taxRate = curentrow.find('#taxRate').val();
+                var quantity = curentrow.find('#quantity').val();
+                var totalCost = curentrow.find('#totalCost');
+                var perProductCost = curentrow.find('#perProductCost');
+                var taxAmount = (taxRate / 100) * price;
+                var totalAmount = ((price - discountAmount) + taxAmount) * quantity;
+                var perProductCost1 = ((price - discountAmount) + taxAmount);
+                console.log("amount", totalAmount)
+                totalCost.val(totalAmount);
+                perProductCost.val(perProductCost1);
+
+                // final subtotal
+                var finalAmount = 0;
+                var productAmount = 0;
+                $(".datatable .define").each(function (row, tr) {
+                    var amount = parseFloat($(this).closest('tr').find('#totalCost').val());
+                    if (isNaN(amount)) {
+                        amount = 0;
+                    }
+                    console.log("amount", amount);
+                    productAmount = amount + productAmount;
+
+                });
+                console.log("productamount", productAmount);
+                var shippingCost = parseFloat($('.shippingcost').val());
+                var discount1 = parseFloat($('#discountOntotalOrder').val());
+                if (isNaN(discount)) {
+                    discount = 0;
+
+
+                }
+                if (isNaN(shippingCost)) {
+                    shippingCost = 0;
+                }
+                if (isNaN(productAmount)) {
+                    productAmount = 0
+                }
+                finalAmount = productAmount + shippingCost;
+                var discountAmount = (discount1 / 100) * finalAmount;
+                finalAmount = finalAmount - discountAmount;
+                $('#subtotalOfThisOrder').val(finalAmount.toFixed(2));
+            });
+            $('.datatable').on('change', '#quantity', function () {
+                var curentrow = $(this).closest("tr");
+                var price = curentrow.find('#price').val();
+                var discount = curentrow.find('#discount').val();
+                var discountAmount = (discount / 100) * price;
+                var taxRate = curentrow.find('#taxRate').val();
                 var quantity = curentrow.find('#quantity').val();
                 var totalCost = curentrow.find('#totalCost');
                 var perProductCost = curentrow.find('#perProductCost');

@@ -48,7 +48,7 @@ namespace ERPManagementSystem.Areas.Shop.Controllers
             int resSkip = (page - 1) * pageSize;
             ViewBag.Pager = pager;
             var data = shopVm.StockProducts.Skip(resSkip).Take(pager.PageSize);
-            shopVm.StockProducts = data.ToList();
+             shopVm.StockProducts = data.ToList();
             return View( shopVm);
         }
         [HttpPost("/Home/loaddataonscrol")]
