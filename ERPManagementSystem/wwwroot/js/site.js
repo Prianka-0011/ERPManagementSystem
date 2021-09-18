@@ -187,7 +187,14 @@ ShowInLargePopupPurchaQuotation = (url, title) => {
             var $tableBodyClear = $('.datatable').find("tbody");
 
             $trfirstclear = $tableBodyClear.find("tr:first");
-            $trfirstclear.find("td").find(':input').val('');
+            $trNew.find("td").find('#price').val(0);
+            $trNew.find("td").find('#tax').val('');
+            $trNew.find("td").find('#product').val('');
+            $trNew.find("td").find('#rate').val(0);
+            $trNew.find("td").find('#discount').val(0);
+            $trNew.find("td").find('#quantity').val(0);
+            $trNew.find("td").find('#totalCost').val(0);
+            $trNew.find("td").find('#perProductCost').val(0);
 
             //  dynamically add or remove feild start
             $("#addAnother").click(function (e) {
